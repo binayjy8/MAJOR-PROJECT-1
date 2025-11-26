@@ -6,10 +6,10 @@ export default function AllProducts(){
         <>
         <div className="card card-margin">
             <div className="item">
-            {/* <Link to="/men"> */}
+            <Link to="/men">
             <img src="/photo.jpg" alt="img"/>
             <p className="item-text">Men</p>
-            {/* </Link> */}
+            </Link>
             </div>
             <div className="item"><img src="/photo.jpg" alt="img"/>
             <p className="item-text">Women</p>
