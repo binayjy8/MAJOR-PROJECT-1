@@ -11,8 +11,8 @@ function App() {
         <Navbar />
 
         <Routes>
-        <AllProducts />
-        <Men />
+        <Route to="/" element={<AllProducts/>}/>
+        <Route to="/men" element={<Men />}/>
         </Routes>
       </div>
     </div>
