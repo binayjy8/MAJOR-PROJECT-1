@@ -1,4 +1,4 @@
-export default function AllProduct(){
+export default function Men(){
     return(
         <div className="product-page">
             <div className="filter">

@@ -1,7 +1,7 @@
 import "./style/style.css";
 import Navbar from "./components/Navbar";
 import AllProducts from "./components/FrontPage";
-import AllProduct from "./pages/AllProduct";
+import Men from "./pages/Men";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <div>
         <Navbar />
         <AllProducts />
-        <AllProduct />
+        <Men />
       </div>
     </div>
   );
