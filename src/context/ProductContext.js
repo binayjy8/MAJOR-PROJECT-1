@@ -27,3 +27,7 @@ export function ProductProvider({children}) {
         </ProductContext.Provider>
     )
 }
+
+export function useProduct(){
+    return useProduct(ProductContext);
+}
