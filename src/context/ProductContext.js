@@ -1,2 +1,15 @@
 import { createContext, useContext, useState } from "react";
-import { products } from "../data/product";
+import { products, products } from "../data/product";
+
+const ProductContext = createContext();
+
+export function ProductProvider({children}) {
+
+    const [products, setProducts] = useState(products);
+    const [filters, setFilters] = useState({
+        category: [],
+    rating: 0,
+    price: 5000,
+    sortBy: ""
+    });
+}
