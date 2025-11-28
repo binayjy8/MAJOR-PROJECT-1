@@ -16,7 +16,13 @@ export function ProductProvider({children}) {
     const [searchTerm, setSearchTerm] = useState("");
 
     return(
-        <ProductContext.Provider>
+        <ProductContext.Provider value={{
+              products,
+              filters,
+              setFilters,
+              searchTerm,
+              setSearchTerm
+        }}>
             {children}
         </ProductContext.Provider>
     )
