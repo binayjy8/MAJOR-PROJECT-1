@@ -14,4 +14,10 @@ export function ProductProvider({children}) {
     });
 
     const [searchTerm, setSearchTerm] = useState("");
+
+    return(
+        <ProductContext.Provider>
+            {children}
+        </ProductContext.Provider>
+    )
 }
