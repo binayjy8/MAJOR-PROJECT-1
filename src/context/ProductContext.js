@@ -8,8 +8,8 @@ export function ProductProvider({children}) {
     const [products, setProducts] = useState(products);
     const [filters, setFilters] = useState({
         category: [],
-    rating: 0,
-    price: 5000,
-    sortBy: ""
+        rating: 0,
+        price: 5000,
+        sortBy: ""
     });
 }
