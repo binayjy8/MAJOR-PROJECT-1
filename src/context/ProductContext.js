@@ -12,4 +12,6 @@ export function ProductProvider({children}) {
         price: 5000,
         sortBy: ""
     });
+
+    const [searchTerm, setSearchTerm] = useState("");
 }
