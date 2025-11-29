@@ -209,7 +209,7 @@
     color: #555;
     font-weight: normal;
     font-size: 14px;
-    padding: 8px; /* Slightly smaller padding */
+    padding: 8px; 
 }
 
 .secondary-action-btn:hover {
