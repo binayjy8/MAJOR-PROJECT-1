@@ -53,7 +53,6 @@ export default function ProductDetail() {
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <div className="price-range">
-             {/* Added spans for price range labels */}
              <span className="price-label">50</span>
              <input type="range" min="50" max="200" className="range-slider" />
              <span className="price-label">150</span>
