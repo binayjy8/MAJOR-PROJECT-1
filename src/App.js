@@ -2,6 +2,7 @@ import "./style/style.css";
 import Navbar from "./components/Navbar";
 import AllProducts from "./components/FrontPage";
 import Men from "./pages/Men";
+import ProductDetail from "./pages/ProductDetail";
 import { Routes, Route } from "react-router-dom";
 
 import { ProductProvider } from "./context/ProductContext";
