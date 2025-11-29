@@ -105,7 +105,7 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* PRODUCTS AREA */}
+      
       <div className="products-area">
         <h2 className="title">
           Showing All Products <span>(Showing 20 products)</span>
