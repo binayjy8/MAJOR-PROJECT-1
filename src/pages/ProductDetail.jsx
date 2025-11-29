@@ -1,8 +1,8 @@
 import "../style/productDetail.css";
-// import { Link } from "react-router-dom"; // Link is not used in the new structure
+import { Link } from "react-router-dom";
 
 export default function ProductDetail() {
-  // Array of 4 products to replicate the grid in the screenshot
+  
   const products = [
     {
       id: 1,
@@ -114,7 +114,6 @@ export default function ProductDetail() {
 
         <div className="product-grid">
           {products.map((product) => (
-            // The product card is now a div to replicate the exact layout/buttons
             <div className="product-card" key={product.id}>
               <div className="image-wrapper">
                 <img src="/photo.jpg" alt="product" />
