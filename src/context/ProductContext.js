@@ -1,33 +1,35 @@
 import { createContext, useContext, useState } from "react";
-import { products, products } from "../data/product";
+import { products as productData } from "../data/product";
 
 const ProductContext = createContext();
 
-export function ProductProvider({children}) {
+export function ProductProvider({ children }) {
+  const [products] = useState(productData);
 
-    const [products, setProducts] = useState(products);
-    const [filters, setFilters] = useState({
-        category: [],
-        rating: 0,
-        price: 5000,
-        sortBy: ""
-    });
+  const [filters, setFilters] = useState({
+    category: [],
+    rating: 0,
+    price: 5000,
+    sortBy: "",
+  });
 
-    const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-    return(
-        <ProductContext.Provider value={{
-              products,
-              filters,
-              setFilters,
-              searchTerm,
-              setSearchTerm
-        }}>
-            {children}
-        </ProductContext.Provider>
-    )
+  return (
+    <ProductContext.Provider
+      value={{
+        products,
+        filters,
+        setFilters,
+        searchTerm,
+        setSearchTerm
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
+  );
 }
 
-export function useProduct(){
-    return useProduct(ProductContext);
+export function useProduct() {
+  return useContext(ProductContext);
 }
