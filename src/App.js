@@ -4,19 +4,24 @@ import AllProducts from "./components/FrontPage";
 import Men from "./pages/Men";
 import { Routes, Route } from "react-router-dom";
 
+import { ProductProvider } from "./context/ProductContext";
+import { CartProvider } from "./context/CartContext";
+
 function App() {
   return (
-    <div className="app">
-      <div>
-        <Navbar />
-
-        <Routes>
-        <Route path="/" element={<AllProducts/>}/>
-        <Route path="/men" element={<Men />}/>
-        </Routes>
-      </div>
-    </div>
+    <ProductProvider>
+      <CartProvider>
+        <div className="app">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<AllProducts />} />
+            <Route path="/men" element={<Men />} />
+          </Routes>
+        </div>
+      </CartProvider>
+    </ProductProvider>
   );
 }
 
 export default App;
+
