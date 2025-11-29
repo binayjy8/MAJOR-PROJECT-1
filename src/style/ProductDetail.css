@@ -104,9 +104,9 @@
     padding-bottom: 20px;
 }
 
-/* Image block */
+
 .image-wrapper {
-    background: #f7f7f7; /* Lighter background for the image area */
+    background: #f7f7f7; 
     padding: 30px 20px;
     position: relative;
     width: 100%;
