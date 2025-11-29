@@ -42,17 +42,18 @@ export const products = [
     category: "Men",
   },
   {
-  id: 7,
-  name: "Comfort Running Track Pants",
-  price: 899,
-  image: "/photo.jpg",
-  category: "Men",
-},
-{
-  id: 8,
-  name: "Slim Fit Casual Jacket",
-  price: 1299,
-  image: "/photo.jpg",
-  category: "Men",
-}
+    id: 7,
+    name: "Comfort Running Track Pants",
+    price: 899,
+    image: "/photo.jpg",
+    category: "Men",
+  },
+  {
+    id: 8,
+    name: "Slim Fit Casual Jacket",
+    price: 1299,
+    image: "/photo.jpg",
+    category: "Men",
+  }
 ];
+
