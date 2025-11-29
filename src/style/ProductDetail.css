@@ -187,7 +187,7 @@
     cursor: pointer;
     border-radius: 4px;
     font-weight: 600;
-    margin-bottom: 8px; /* Spacing between the two buttons */
+    margin-bottom: 8px; 
     transition: background-color 0.2s;
 }
 
