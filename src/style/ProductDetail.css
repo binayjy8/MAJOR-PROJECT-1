@@ -95,8 +95,8 @@
 
 /* ==== PRODUCT CARD ==== */
 .product-card {
-    background: #fff; /* Changed from #e6e6e6 to white for a cleaner look like the screenshot */
-    border: 1px solid #eee; /* Added a subtle border */
+    background: #fff; 
+    border: 1px solid #eee; 
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 

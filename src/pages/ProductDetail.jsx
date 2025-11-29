@@ -1,7 +1,7 @@
 import "../style/productDetail.css";
 // import { Link } from "react-router-dom"; // Link is not used in the new structure
 
-export default function Men() {
+export default function ProductDetail() {
   // Array of 4 products to replicate the grid in the screenshot
   const products = [
     {
@@ -118,8 +118,6 @@ export default function Men() {
             <div className="product-card" key={product.id}>
               <div className="image-wrapper">
                 <img src="/photo.jpg" alt="product" />
-                {/* The heart icon in the screenshot looks like a cart/wishlist icon in the top right, not a heart on the image */}
-                {/* Keeping the heart for simplicity, but the screenshot might be using a different icon */}
                 <span className="wishlist">❤️</span>
               </div>
 
