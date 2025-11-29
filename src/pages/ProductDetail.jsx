@@ -1,11 +1,50 @@
 import "../style/productDetail.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom"; // Link is not used in the new structure
 
 export default function Men() {
+  // Array of 4 products to replicate the grid in the screenshot
+  const products = [
+    {
+      id: 1,
+      name: "Men Premium Jacket",
+      price: 2000,
+      originalPrice: 3999,
+      discount: "50% off",
+      inCart: true,
+      inWishlist: true,
+    },
+    {
+      id: 2,
+      name: "Men Premium Jacket",
+      price: 2000,
+      originalPrice: 3999,
+      discount: "50% off",
+      inCart: false,
+      inWishlist: false,
+    },
+    {
+      id: 3,
+      name: "Men Premium Jacket",
+      price: 2000,
+      originalPrice: 3999,
+      discount: "50% off",
+      inCart: false,
+      inWishlist: false,
+    },
+    {
+      id: 4,
+      name: "Men Premium Jacket",
+      price: 2000,
+      originalPrice: 3999,
+      discount: "50% off",
+      inCart: false,
+      inWishlist: false,
+    },
+  ];
+
   return (
     <div className="product-page">
-
-      {/* FILTER SIDEBAR */}
+      {/* FILTER SIDEBAR - NO CHANGES */}
       <div className="filter">
         <h3>Filters</h3>
         <a className="clear-filter">Clear</a>
@@ -13,14 +52,20 @@ export default function Men() {
         {/* PRICE FILTER */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
-          <input type="range" min="50" max="200" />
+          <div className="price-range">
+             {/* Added spans for price range labels */}
+             <span className="price-label">50</span>
+             <input type="range" min="50" max="200" className="range-slider" />
+             <span className="price-label">150</span>
+             <span className="price-label">200</span>
+          </div>
         </div>
 
-        {/* CATEGORY FILTER */}
+        {/* CATEGORY FILTER - ADDED CHECKED STATE for Men Clothing */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
           <label>
-            <input type="checkbox" /> Men Clothing
+            <input type="checkbox" checked readOnly /> Men Clothing
           </label>
           <br />
           <label>
@@ -28,11 +73,11 @@ export default function Men() {
           </label>
         </div>
 
-        {/* RATING FILTER */}
+        {/* RATING FILTER - ADDED CHECKED STATE for 4 Stars */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
           <label>
-            <input type="radio" name="rating" /> 4 Stars & above
+            <input type="radio" name="rating" checked readOnly /> 4 Stars & above
           </label>
           <br />
           <label>
@@ -48,11 +93,11 @@ export default function Men() {
           </label>
         </div>
 
-        {/* SORT FILTER */}
+        {/* SORT FILTER - ADDED CHECKED STATE for Price - Low to High */}
         <div className="filter-section">
           <p className="filter-title">Sort by</p>
           <label>
-            <input type="radio" name="sort" /> Price - Low to High
+            <input type="radio" name="sort" checked readOnly /> Price - Low to High
           </label>
           <br />
           <label>
@@ -68,25 +113,37 @@ export default function Men() {
         </h2>
 
         <div className="product-grid">
-          {[1, 2, 3, 4].map((i) => (
-            <Link to="/product" className="product-card" key={i}>
+          {products.map((product) => (
+            // The product card is now a div to replicate the exact layout/buttons
+            <div className="product-card" key={product.id}>
               <div className="image-wrapper">
                 <img src="/photo.jpg" alt="product" />
+                {/* The heart icon in the screenshot looks like a cart/wishlist icon in the top right, not a heart on the image */}
+                {/* Keeping the heart for simplicity, but the screenshot might be using a different icon */}
                 <span className="wishlist">❤️</span>
               </div>
 
-              <p className="product-name">Men Premium Jacket</p>
-              <p className="product-price">₹2000</p>
-
-              <button className={i === 1 ? "primary" : ""}>
-                {i === 1 ? "Go to Cart" : "Add to Cart"}
-              </button>
-            </Link>
+              <div className="product-details">
+                <p className="product-name">{product.name}</p>
+                
+                <p className="product-pricing">
+                  <span className="current-price">₹{product.price}</span>
+                  <span className="original-price">₹{product.originalPrice}</span>
+                </p>
+                <p className="product-discount">{product.discount}</p>
+                
+                <button className={`main-action-btn ${product.inCart ? "primary" : ""}`}>
+                  {product.inCart ? "Go to Cart" : "Add to Cart"}
+                </button>
+                
+                <button className="secondary-action-btn">
+                  {product.inWishlist ? "Remove from Wishlist" : "Save to Wishlist"}
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </div>
-
     </div>
   );
 }
-

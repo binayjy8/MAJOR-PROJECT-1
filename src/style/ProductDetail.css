@@ -11,7 +11,7 @@
     width: 250px;
 }
 
-.filters h3 {
+.filter h3 { /* Corrected selector from .filters h3 to .filter h3 */
     margin-bottom: 10px;
 }
 
@@ -30,6 +30,44 @@
     font-weight: 600;
     margin-bottom: 8px;
 }
+
+/* Price Range Slider Customization */
+.price-range {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Spacing between elements */
+    margin-top: 10px;
+}
+
+.price-range .range-slider {
+    flex-grow: 1;
+    /* You would need extensive vendor-prefix CSS to style the slider appearance itself, 
+       but we keep it simple here. */
+}
+
+.price-range .price-label:nth-child(1) { /* 50 */
+    font-size: 14px;
+    color: #555;
+    margin-right: 5px;
+}
+.price-range .price-label:nth-child(3) { /* 150 */
+    font-size: 14px;
+    color: #555;
+    margin-left: 5px;
+    margin-right: auto; /* Pushes 200 to the end */
+}
+.price-range .price-label:nth-child(4) { /* 200 */
+    font-size: 14px;
+    color: #555;
+}
+
+
+/* Styling checkboxes and radios for better appearance (optional) */
+.filter-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+
 
 /* ===== RIGHT PRODUCT AREA ===== */
 .products-area {
@@ -50,34 +88,36 @@
 /* ==== PRODUCT GRID ==== */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* Changed to 3 columns to match the screenshot layout */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 30px;
 }
 
 /* ==== PRODUCT CARD ==== */
 .product-card {
-    background: #e6e6e6;
+    background: #fff; /* Changed from #e6e6e6 to white for a cleaner look like the screenshot */
+    border: 1px solid #eee; /* Added a subtle border */
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 0 2px #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slightly more prominent shadow */
     text-align: center;
     padding-bottom: 20px;
 }
 
 /* Image block */
 .image-wrapper {
-    background: #d2d2d2;
+    background: #f7f7f7; /* Lighter background for the image area */
     padding: 30px 20px;
     position: relative;
     width: 100%;
-    height: 280px;   /* ✔ sets fixed height like your screenshot */
+    height: 280px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .image-wrapper img {
-    width: 70%;       /* ✔ adjust size to your liking */
+    width: 70%;
     height: auto;
     object-fit: contain;
 }
@@ -92,32 +132,86 @@
     background: white;
     border-radius: 50%;
     padding: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Product details container */
+.product-details {
+    padding: 0 15px; /* Added internal padding */
 }
 
 /* Product title */
 .product-name {
     margin-top: 15px;
     font-size: 16px;
+    font-weight: 600;
+    color: #333;
 }
 
 /* Price */
-.product-price {
+.product-pricing {
     font-size: 20px;
     font-weight: 700;
-    margin: 8px 0;
+    margin: 8px 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.product-pricing .current-price {
+    color: #000;
+}
+
+.product-pricing .original-price {
+    font-size: 16px;
+    font-weight: 400;
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Discount */
+.product-discount {
+    color: green;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
 /* Buttons */
-.product-card button {
+.main-action-btn,
+.secondary-action-btn {
     width: 90%;
     padding: 10px;
     border: none;
-    background: #b1b1b1;
     cursor: pointer;
     border-radius: 4px;
+    font-weight: 600;
+    margin-bottom: 8px; /* Spacing between the two buttons */
+    transition: background-color 0.2s;
 }
 
-.product-card button.primary {
+.main-action-btn {
+    background: #d8d8d8;
+    color: #333;
+}
+
+/* Primary Button (Go to Cart) */
+.main-action-btn.primary {
     background: #296bff;
     color: white;
+}
+
+/* Secondary Button (Wishlist) */
+.secondary-action-btn {
+    background: transparent;
+    border: 1px solid #ccc;
+    color: #555;
+    font-weight: normal;
+    font-size: 14px;
+    padding: 8px; /* Slightly smaller padding */
+}
+
+.secondary-action-btn:hover {
+    border-color: #555;
 }
