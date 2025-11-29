@@ -1,4 +1,5 @@
 import "../style/all.css";
+import { Link } from "react-router-dom";
 
 export default function Men() {
   return (
@@ -68,7 +69,7 @@ export default function Men() {
 
         <div className="product-grid">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <div className="product-card" key={i}>
+            <Link to="/product" className="product-card" key={i}>
               <div className="image-wrapper">
                 <img src="/photo.jpg" alt="product" />
                 <span className="wishlist">❤️</span>
@@ -80,11 +81,12 @@ export default function Men() {
               <button className={i === 1 ? "primary" : ""}>
                 {i === 1 ? "Go to Cart" : "Add to Cart"}
               </button>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
-      
+
     </div>
   );
 }
+
