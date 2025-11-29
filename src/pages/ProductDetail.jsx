@@ -1,30 +1,92 @@
-import "./ProductDetail.css";
+import "../style/productDetail.css";
+import { Link } from "react-router-dom";
 
-export default function ProductDetail() {
+export default function Men() {
   return (
-    <div className="detail-container">
+    <div className="product-page">
 
-      <div className="detail-left">
-        <img src="/photo.jpg" alt="product" className="detail-image" />
+      {/* FILTER SIDEBAR */}
+      <div className="filter">
+        <h3>Filters</h3>
+        <a className="clear-filter">Clear</a>
+
+        {/* PRICE FILTER */}
+        <div className="filter-section">
+          <p className="filter-title">Price</p>
+          <input type="range" min="50" max="200" />
+        </div>
+
+        {/* CATEGORY FILTER */}
+        <div className="filter-section">
+          <p className="filter-title">Category</p>
+          <label>
+            <input type="checkbox" /> Men Clothing
+          </label>
+          <br />
+          <label>
+            <input type="checkbox" /> Women Clothing
+          </label>
+        </div>
+
+        {/* RATING FILTER */}
+        <div className="filter-section">
+          <p className="filter-title">Rating</p>
+          <label>
+            <input type="radio" name="rating" /> 4 Stars & above
+          </label>
+          <br />
+          <label>
+            <input type="radio" name="rating" /> 3 Stars & above
+          </label>
+          <br />
+          <label>
+            <input type="radio" name="rating" /> 2 Stars & above
+          </label>
+          <br />
+          <label>
+            <input type="radio" name="rating" /> 1 Star & above
+          </label>
+        </div>
+
+        {/* SORT FILTER */}
+        <div className="filter-section">
+          <p className="filter-title">Sort by</p>
+          <label>
+            <input type="radio" name="sort" /> Price - Low to High
+          </label>
+          <br />
+          <label>
+            <input type="radio" name="sort" /> Price - High to Low
+          </label>
+        </div>
       </div>
 
-      <div className="detail-right">
-        <h2 className="detail-title">Men Premium Jacket</h2>
+      {/* PRODUCTS AREA */}
+      <div className="products-area">
+        <h2 className="title">
+          Showing All Products <span>(Showing 20 products)</span>
+        </h2>
 
-        <p className="detail-price">₹2000 <span className="old-price">₹3999</span></p>
-        <p className="offer">50% Off</p>
+        <div className="product-grid">
+          {[1, 2, 3, 4].map((i) => (
+            <Link to="/product" className="product-card" key={i}>
+              <div className="image-wrapper">
+                <img src="/photo.jpg" alt="product" />
+                <span className="wishlist">❤️</span>
+              </div>
 
-        <p className="detail-description">
-          This premium quality jacket is perfect for winter.
-          Made from high-grade material for comfort and style.
-        </p>
+              <p className="product-name">Men Premium Jacket</p>
+              <p className="product-price">₹2000</p>
 
-        <div className="detail-buttons">
-          <button className="btn add-cart-btn">Add to Cart</button>
-          <button className="btn wishlist-btn">❤️ Save to Wishlist</button>
+              <button className={i === 1 ? "primary" : ""}>
+                {i === 1 ? "Go to Cart" : "Add to Cart"}
+              </button>
+            </Link>
+          ))}
         </div>
       </div>
 
     </div>
   );
 }
+
