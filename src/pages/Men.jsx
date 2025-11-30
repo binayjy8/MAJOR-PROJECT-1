@@ -45,7 +45,6 @@ export default function Men() {
           </label>
         </div>
 
-        {/* SORT FILTER */}
         <div className="filter-section">
           <p className="filter-title">Sort by</p>
           <label>
