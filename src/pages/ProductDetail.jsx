@@ -49,7 +49,7 @@ export default function ProductDetail() {
         <h3>Filters</h3>
         <a className="clear-filter">Clear</a>
 
-        {/* PRICE-FILTER */}
+      
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <div className="price-range">
