@@ -10,7 +10,6 @@ export default function Men() {
         <h3>Filters</h3>
         <a className="clear-filter">Clear</a>
 
-        {/* PRICE FILTER */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <input type="range" min="50" max="200" />
