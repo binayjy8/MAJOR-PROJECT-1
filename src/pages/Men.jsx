@@ -15,7 +15,6 @@ export default function Men() {
           <input type="range" min="50" max="200" />
         </div>
 
-        {/* CATEGORY FILTER */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
           <label>
