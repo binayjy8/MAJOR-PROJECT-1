@@ -26,7 +26,6 @@ export default function Men() {
           </label>
         </div>
 
-        {/* RATING FILTER */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
           <label>
