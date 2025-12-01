@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../style/wishlist.css";
 
 export default function Wishlist() {
@@ -19,7 +20,10 @@ export default function Wishlist() {
             <p className="wishlist-price">₹2000</p>
           </div>
 
-          <button className="wishlist-btn">Move to Cart</button>
+          <Link to="/cart">
+            <button className="wishlist-btn">Move to Cart</button>
+          </Link>
+          
         </div>
 
       </div>

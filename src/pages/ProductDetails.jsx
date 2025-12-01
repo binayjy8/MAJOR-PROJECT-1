@@ -12,7 +12,7 @@ export default function ProductDetails() {
           <span className="wishlist-icon">🤍</span>
         </div>
 
-        <Link to="wishlist">
+        <Link to="/wishlist">
             <button className="buy-btn">Buy Now</button>
             <button className="cart-btn">Add to Cart</button>
         </Link>
