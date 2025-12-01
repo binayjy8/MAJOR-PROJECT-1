@@ -1,4 +1,5 @@
-import "../style/ProductDetails.css";
+import "../style/productDetails.css";
+import { Link, link } from "react-router-dom";
 
 export default function ProductDetails() {
   return (
@@ -11,8 +12,11 @@ export default function ProductDetails() {
           <span className="wishlist-icon">🤍</span>
         </div>
 
-        <button className="buy-btn">Buy Now</button>
-        <button className="cart-btn">Add to Cart</button>
+        <Link to="wishlist">
+            <button className="buy-btn">Buy Now</button>
+            <button className="cart-btn">Add to Cart</button>
+        </Link>
+        
       </div>
 
       {/* MIDDLE SECTION */}

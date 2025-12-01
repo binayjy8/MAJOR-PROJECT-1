@@ -128,9 +128,12 @@ export default function ProductDetail() {
                 </p>
                 <p className="product-discount">{product.discount}</p>
                 
-                <button className={`main-action-btn ${product.inCart ? "primary" : ""}`}>
+                <Link to="/detail">
+                  <button className={`main-action-btn ${product.inCart ? "primary" : ""}`}>
                   {product.inCart ? "Go to Cart" : "Add to Cart"}
-                </button>
+                  </button>
+                </Link>
+                
                 
                 <button className="secondary-action-btn">
                   {product.inWishlist ? "Remove from Wishlist" : "Save to Wishlist"}
