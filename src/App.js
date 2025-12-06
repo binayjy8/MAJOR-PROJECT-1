@@ -10,6 +10,7 @@ import { ProductProvider } from "./context/ProductContext";
 import { CartProvider } from "./context/CartContext";
 import Wishlist from "./pages/Wishlist";
 import CartPage from "./pages/CartPage";
+import useFetch from "./pages/useFetch";
 
 function App() {
   return (
