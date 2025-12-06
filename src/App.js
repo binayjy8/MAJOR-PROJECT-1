@@ -13,6 +13,7 @@ import CartPage from "./pages/CartPage";
 import useFetch from "./pages/useFetch";
 
 function App() {
+  const { data, loading, error, fetchData } = useFetch("https://project-backend-eta-pink.vercel.app/")
   return (
     <ProductProvider>
       <CartProvider>
