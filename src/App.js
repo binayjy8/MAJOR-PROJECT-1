@@ -2,7 +2,7 @@ import "./style/style.css";
 import Navbar from "./components/Navbar";
 import AllProducts from "./components/FrontPage";
 import Men from "./pages/Men";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./pages/ProductDe";
 import ProductDetails from "./pages/ProductDetails";
 import { Routes, Route } from "react-router-dom";
 
