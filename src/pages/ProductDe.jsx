@@ -4,11 +4,16 @@ import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 
 export default function ProductDetail() {
-  const { products, loading, error, filters, setFilters } = useProduct();
+  const { products, loading, error, filters, setFilters, searchTerm } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
 
   // Filter products based on selected filters
   const filteredProducts = products.filter(product => {
+    // Search filter
+    if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
+
     // Category filter
     if (filters.category.length > 0 && !filters.category.includes(product.category)) {
       return false;
@@ -223,4 +228,3 @@ export default function ProductDetail() {
     </div>
   );
 }
-
