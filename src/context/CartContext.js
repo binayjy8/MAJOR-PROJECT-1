@@ -1,21 +1,19 @@
+
 import { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
-  // ---------------- CART ---------------- //
-
+  // Use _id instead of id for MongoDB
   const addToCart = (product) => {
     setCart(prev => {
-      const exists = prev.find(item => item.id === product.id);
-
+      const exists = prev.find(item => item._id === product._id);
       return exists
         ? prev.map(item =>
-            item.id === product.id
+            item._id === product._id
               ? { ...item, qty: item.qty + 1 }
               : item
           )
@@ -24,13 +22,13 @@ export function CartProvider({ children }) {
   };
 
   const removeFromCart = (id) => {
-    setCart(prev => prev.filter(item => item.id !== id));
+    setCart(prev => prev.filter(item => item._id !== id));
   };
 
   const increaseQty = (id) => {
     setCart(prev =>
       prev.map(item =>
-        item.id === id ? { ...item, qty: item.qty + 1 } : item
+        item._id === id ? { ...item, qty: item.qty + 1 } : item
       )
     );
   };
@@ -38,25 +36,23 @@ export function CartProvider({ children }) {
   const decreaseQty = (id) => {
     setCart(prev =>
       prev.map(item =>
-        item.id === id && item.qty > 1
+        item._id === id && item.qty > 1
           ? { ...item, qty: item.qty - 1 }
           : item
       )
     );
   };
 
-  // ---------------- WISHLIST ---------------- //
-
   const addToWishlist = (product) => {
     setWishlist(prev =>
-      prev.find(item => item.id === product.id)
+      prev.find(item => item._id === product._id)
         ? prev
         : [...prev, product]
     );
   };
 
   const removeFromWishlist = (id) => {
-    setWishlist(prev => prev.filter(item => item.id !== id));
+    setWishlist(prev => prev.filter(item => item._id !== id));
   };
 
   return (
