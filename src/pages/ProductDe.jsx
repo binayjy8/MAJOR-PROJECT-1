@@ -1,142 +1,220 @@
+
 import "../style/productDe.css";
 import { Link } from "react-router-dom";
+import { useProduct } from "../context/ProductContext";
+import { useCart } from "../context/CartContext";
 
 export default function ProductDetail() {
-  
-  const products = [
-    {
-      id: 1,
-      name: "Men Premium Jacket",
-      price: 2000,
-      originalPrice: 3999,
-      discount: "50% off",
-      inCart: true,
-      inWishlist: true,
-    },
-    {
-      id: 2,
-      name: "Men Premium Jacket",
-      price: 2000,
-      originalPrice: 3999,
-      discount: "50% off",
-      inCart: false,
-      inWishlist: false,
-    },
-    {
-      id: 3,
-      name: "Men Premium Jacket",
-      price: 2000,
-      originalPrice: 3999,
-      discount: "50% off",
-      inCart: false,
-      inWishlist: false,
-    },
-    {
-      id: 4,
-      name: "Men Premium Jacket",
-      price: 2000,
-      originalPrice: 3999,
-      discount: "50% off",
-      inCart: false,
-      inWishlist: false,
-    },
-  ];
+  const { products, loading, error, filters, setFilters } = useProduct();
+  const { addToCart, addToWishlist, cart, wishlist } = useCart();
+
+  // Filter products based on selected filters
+  const filteredProducts = products.filter(product => {
+    // Category filter
+    if (filters.category.length > 0 && !filters.category.includes(product.category)) {
+      return false;
+    }
+    
+    // Rating filter
+    if (filters.rating > 0 && product.rating < filters.rating) {
+      return false;
+    }
+    
+    // Price filter
+    if (product.price > filters.price) {
+      return false;
+    }
+    
+    return true;
+  });
+
+  // Sort products
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (filters.sortBy === "lowToHigh") {
+      return a.price - b.price;
+    }
+    if (filters.sortBy === "highToLow") {
+      return b.price - a.price;
+    }
+    return 0;
+  });
+
+  const handleCategoryChange = (category) => {
+    setFilters(prev => ({
+      ...prev,
+      category: prev.category.includes(category)
+        ? prev.category.filter(c => c !== category)
+        : [...prev.category, category]
+    }));
+  };
+
+  const handleRatingChange = (rating) => {
+    setFilters(prev => ({ ...prev, rating }));
+  };
+
+  const handleSortChange = (sortBy) => {
+    setFilters(prev => ({ ...prev, sortBy }));
+  };
+
+  const handlePriceChange = (e) => {
+    setFilters(prev => ({ ...prev, price: Number(e.target.value) }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      category: [],
+      rating: 0,
+      price: 5000,
+      sortBy: "",
+    });
+  };
+
+  const isInCart = (id) => cart.some(item => item._id === id);
+  const isInWishlist = (id) => wishlist.some(item => item._id === id);
+
+  if (loading) {
+    return <div className="loading">Loading products...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error}</div>;
+  }
 
   return (
     <div className="product-page">
-      {/* FILTER SIDEBAR - NO CHANGES */}
+      {/* FILTER SIDEBAR */}
       <div className="filter">
         <h3>Filters</h3>
-        <a className="clear-filter">Clear</a>
+        <a className="clear-filter" onClick={clearFilters}>Clear</a>
 
-      
+        {/* PRICE FILTER */}
         <div className="filter-section">
-          <p className="filter-title">Price</p>
+          <p className="filter-title">Price: ₹{filters.price}</p>
           <div className="price-range">
-             <span className="price-label">50</span>
-             <input type="range" min="50" max="200" className="range-slider" />
-             <span className="price-label">150</span>
-             <span className="price-label">200</span>
+            <span className="price-label">50</span>
+            <input 
+              type="range" 
+              min="50" 
+              max="5000" 
+              value={filters.price}
+              onChange={handlePriceChange}
+              className="range-slider" 
+            />
+            <span className="price-label">5000</span>
           </div>
         </div>
 
-        {/* CATEGORY FILTER - ADDED CHECKED STATE for Men Clothing */}
+        {/* CATEGORY FILTER */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
           <label>
-            <input type="checkbox" checked readOnly /> Men Clothing
+            <input 
+              type="checkbox" 
+              checked={filters.category.includes("Men")}
+              onChange={() => handleCategoryChange("Men")}
+            /> Men Clothing
           </label>
           <br />
           <label>
-            <input type="checkbox" /> Women Clothing
+            <input 
+              type="checkbox"
+              checked={filters.category.includes("Women")}
+              onChange={() => handleCategoryChange("Women")}
+            /> Women Clothing
           </label>
         </div>
 
-        {/* RATING FILTER - ADDED CHECKED STATE for 4 Stars */}
+        {/* RATING FILTER */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
           <label>
-            <input type="radio" name="rating" checked readOnly /> 4 Stars & above
+            <input 
+              type="radio" 
+              name="rating" 
+              checked={filters.rating === 4}
+              onChange={() => handleRatingChange(4)}
+            /> 4 Stars & above
           </label>
           <br />
           <label>
-            <input type="radio" name="rating" /> 3 Stars & above
-          </label>
-          <br />
-          <label>
-            <input type="radio" name="rating" /> 2 Stars & above
-          </label>
-          <br />
-          <label>
-            <input type="radio" name="rating" /> 1 Star & above
+            <input 
+              type="radio" 
+              name="rating"
+              checked={filters.rating === 3}
+              onChange={() => handleRatingChange(3)}
+            /> 3 Stars & above
           </label>
         </div>
 
-        {/* SORT FILTER - ADDED CHECKED STATE for Price - Low to High */}
+        {/* SORT FILTER */}
         <div className="filter-section">
           <p className="filter-title">Sort by</p>
           <label>
-            <input type="radio" name="sort" checked readOnly /> Price - Low to High
+            <input 
+              type="radio" 
+              name="sort"
+              checked={filters.sortBy === "lowToHigh"}
+              onChange={() => handleSortChange("lowToHigh")}
+            /> Price - Low to High
           </label>
           <br />
           <label>
-            <input type="radio" name="sort" /> Price - High to Low
+            <input 
+              type="radio" 
+              name="sort"
+              checked={filters.sortBy === "highToLow"}
+              onChange={() => handleSortChange("highToLow")}
+            /> Price - High to Low
           </label>
         </div>
       </div>
 
-      
+      {/* PRODUCTS AREA */}
       <div className="products-area">
         <h2 className="title">
-          Showing All Products <span>(Showing 20 products)</span>
+          Showing All Products <span>(Showing {sortedProducts.length} products)</span>
         </h2>
 
         <div className="product-grid">
-          {products.map((product) => (
-            <div className="product-card" key={product.id}>
+          {sortedProducts.map((product) => (
+            <div className="product-card" key={product._id}>
               <div className="image-wrapper">
-                <img src="/photo.jpg" alt="product" />
-                <span className="wishlist">❤️</span>
+                <img src={product.imageUrl || "/photo.jpg"} alt={product.name} />
+                <span 
+                  className="wishlist"
+                  onClick={() => 
+                    isInWishlist(product._id) 
+                      ? alert("Already in wishlist") 
+                      : addToWishlist(product)
+                  }
+                >
+                  {isInWishlist(product._id) ? "❤️" : "🤍"}
+                </span>
               </div>
 
               <div className="product-details">
                 <p className="product-name">{product.name}</p>
+                <p className="product-rating">⭐ {product.rating || 0}</p>
                 
                 <p className="product-pricing">
                   <span className="current-price">₹{product.price}</span>
-                  <span className="original-price">₹{product.originalPrice}</span>
                 </p>
-                <p className="product-discount">{product.discount}</p>
                 
-                <Link to="/detail">
-                  <button className={`main-action-btn ${product.inCart ? "primary" : ""}`}>
-                  {product.inCart ? "Go to Cart" : "Add to Cart"}
+                <Link to={`/detail/${product._id}`}>
+                  <button className={`main-action-btn ${isInCart(product._id) ? "primary" : ""}`}>
+                    {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
                   </button>
                 </Link>
                 
-                
-                <button className="secondary-action-btn">
-                  {product.inWishlist ? "Remove from Wishlist" : "Save to Wishlist"}
+                <button 
+                  className="secondary-action-btn"
+                  onClick={() => 
+                    isInWishlist(product._id) 
+                      ? alert("Already in wishlist") 
+                      : addToWishlist(product)
+                  }
+                >
+                  {isInWishlist(product._id) ? "Remove from Wishlist" : "Save to Wishlist"}
                 </button>
               </div>
             </div>
@@ -146,3 +224,4 @@ export default function ProductDetail() {
     </div>
   );
 }
+
