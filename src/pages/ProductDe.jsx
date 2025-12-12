@@ -7,8 +7,11 @@ export default function ProductDetail() {
   const { products, loading, error, filters, setFilters, searchTerm } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
 
+  // ✅ ADD SAFETY CHECK - Ensure products is always an array
+  const safeProducts = Array.isArray(products) ? products : [];
+
   // Filter products based on selected filters
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = safeProducts.filter(product => {
     // Search filter
     if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
       return false;
@@ -82,6 +85,16 @@ export default function ProductDetail() {
 
   if (error) {
     return <div className="error">Error: {error}</div>;
+  }
+
+  // ✅ Check if no products after loading
+  if (!loading && safeProducts.length === 0) {
+    return (
+      <div className="error">
+        <h2>No products found</h2>
+        <p>Please check your backend connection</p>
+      </div>
+    );
   }
 
   return (
