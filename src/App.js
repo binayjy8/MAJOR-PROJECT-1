@@ -10,6 +10,10 @@ import { CartProvider } from "./context/CartContext";
 import Wishlist from "./pages/Wishlist";
 import CartPage from "./pages/CartPage";
 import { useEffect } from "react";
+import AddressPage from "./pages/AddressPage";
+import ProfilePage from "./pages/ProfilePage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
 
 function App() {
   return (
@@ -24,6 +28,10 @@ function App() {
             <Route path="/detail/:id" element={<ProductDetails />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/address" element={<AddressPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/order-success" element={<OrderSuccessPage />} />
           </Routes>
         </div>
       </CartProvider>

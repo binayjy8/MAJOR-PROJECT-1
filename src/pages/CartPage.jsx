@@ -1,12 +1,14 @@
 import "../style/cart.css";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
   const { cart, increaseQty, decreaseQty, removeFromCart, addToWishlist } = useCart();
 
   const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+  const navigate = useNavigate();
 
   const handleMoveToWishlist = (item) => {
     addToWishlist(item);
@@ -88,7 +90,12 @@ export default function CartPage() {
             <span>₹{totalPrice + 49}</span>
           </div>
 
-          <button className="place-order-btn">PLACE ORDER</button>
+          <button 
+             className="place-order-btn"
+              onClick={() => navigate("/checkout")}
+          >
+            PROCEED TO CHECKOUT
+          </button>
         </div>
       </div>
     </div>
