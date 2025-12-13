@@ -4,6 +4,7 @@ const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -18,6 +19,7 @@ export function ProductProvider({ children }) {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const fetchProducts = async () => {
@@ -34,7 +36,6 @@ export function ProductProvider({ children }) {
       const result = await response.json();
       console.log("📦 Response:", result);
       
-      // ✅ FIXED: Extract the products array from the nested structure
       if (result.data && result.data.products && Array.isArray(result.data.products)) {
         setProducts(result.data.products);
         console.log("✅ Products set:", result.data.products.length);
@@ -54,10 +55,26 @@ export function ProductProvider({ children }) {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      console.log("🔄 Fetching categories...");
+      const response = await fetch("https://project-backend-eta-pink.vercel.app/api/categories");
+      const result = await response.json();
+      
+      if (result.data && result.data.categories) {
+        setCategories(result.data.categories);
+        console.log("✅ Categories set:", result.data.categories.length);
+      }
+    } catch (err) {
+      console.error("❌ Error fetching categories:", err);
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
         products,
+        categories,
         loading,
         error,
         filters,

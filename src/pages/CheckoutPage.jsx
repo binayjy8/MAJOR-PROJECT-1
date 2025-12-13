@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../style/checkout.css";
 
 export default function CheckoutPage() {
-  const { cart } = useCart();
+  const { cart, setCart } = useCart();
   const navigate = useNavigate();
 
   const [addresses] = useState([
@@ -40,15 +40,58 @@ export default function CheckoutPage() {
   const deliveryCharges = 49;
   const finalTotal = totalPrice + deliveryCharges;
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!selectedAddress) {
       alert("Please select a delivery address");
       return;
     }
 
-    // Here you would normally make an API call to create the order
-    alert("Order placed successfully!");
-    navigate("/order-success");
+    try {
+      const selectedAddr = addresses.find(a => a.id === selectedAddress);
+      const orderId = "ORD" + Math.random().toString(36).substring(2, 9).toUpperCase();
+      
+      const orderData = {
+        orderId,
+        user: {
+          name: "John Doe",
+          email: "john.doe@example.com",
+          phone: "9876543210"
+        },
+        items: cart.map(item => ({
+          product: item._id,
+          name: item.name,
+          price: item.price,
+          qty: item.qty,
+          imageUrl: item.imageUrl
+        })),
+        address: selectedAddr,
+        paymentMethod,
+        totalAmount: finalTotal,
+        status: "Confirmed"
+      };
+
+      const response = await fetch("https://project-backend-eta-pink.vercel.app/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      if (response.ok) {
+        // Clear cart after successful order
+        if (typeof setCart === 'function') {
+          setCart([]);
+        }
+        alert("Order placed successfully!");
+        navigate("/order-success");
+      } else {
+        alert("Failed to place order. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("An error occurred while placing the order.");
+    }
   };
 
   if (cart.length === 0) {

@@ -4,7 +4,7 @@ import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 
 export default function ProductDetail() {
-  const { products, loading, error, filters, setFilters, searchTerm } = useProduct();
+  const { products, loading, error, filters, setFilters, searchTerm, categories } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
 
   // ✅ ADD SAFETY CHECK - Ensure products is always an array
@@ -17,9 +17,15 @@ export default function ProductDetail() {
       return false;
     }
 
-    // Category filter
-    if (filters.category.length > 0 && !filters.category.includes(product.category)) {
-      return false;
+    // Category filter - Handle both string and object
+    if (filters.category.length > 0) {
+      const productCategory = typeof product.category === 'object' 
+        ? product.category.name 
+        : product.category;
+      
+      if (!filters.category.includes(productCategory)) {
+        return false;
+      }
     }
     
     // Rating filter
@@ -121,24 +127,19 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* CATEGORY FILTER */}
+        {/* CATEGORY FILTER - Dynamic from Database */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
-          <label>
-            <input 
-              type="checkbox" 
-              checked={filters.category.includes("Men")}
-              onChange={() => handleCategoryChange("Men")}
-            /> Men Clothing
-          </label>
-          <br />
-          <label>
-            <input 
-              type="checkbox"
-              checked={filters.category.includes("Women")}
-              onChange={() => handleCategoryChange("Women")}
-            /> Women Clothing
-          </label>
+          {categories.map(cat => (
+            <label key={cat._id}>
+              <input 
+                type="checkbox" 
+                checked={filters.category.includes(cat.name)}
+                onChange={() => handleCategoryChange(cat.name)}
+              /> {cat.name}
+              <br />
+            </label>
+          ))}
         </div>
 
         {/* RATING FILTER */}
@@ -160,6 +161,24 @@ export default function ProductDetail() {
               checked={filters.rating === 3}
               onChange={() => handleRatingChange(3)}
             /> 3 Stars & above
+          </label>
+          <br />
+          <label>
+            <input 
+              type="radio" 
+              name="rating"
+              checked={filters.rating === 2}
+              onChange={() => handleRatingChange(2)}
+            /> 2 Stars & above
+          </label>
+          <br />
+          <label>
+            <input 
+              type="radio" 
+              name="rating"
+              checked={filters.rating === 0}
+              onChange={() => handleRatingChange(0)}
+            /> All
           </label>
         </div>
 
@@ -196,7 +215,9 @@ export default function ProductDetail() {
           {sortedProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <div className="image-wrapper">
-                <img src={product.imageUrl || "/photo.jpg"} alt={product.name} />
+                <Link to={`/detail/${product._id}`}>
+                  <img src={product.imageUrl || "/photo.jpg"} alt={product.name} />
+                </Link>
                 <span 
                   className="wishlist"
                   onClick={() => 
@@ -217,11 +238,19 @@ export default function ProductDetail() {
                   <span className="current-price">₹{product.price}</span>
                 </p>
                 
-                <Link to={`/detail/${product._id}`}>
-                  <button className={`main-action-btn ${isInCart(product._id) ? "primary" : ""}`}>
-                    {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
-                  </button>
-                </Link>
+                <button 
+                  className={`main-action-btn ${isInCart(product._id) ? "primary" : ""}`}
+                  onClick={() => {
+                    if (isInCart(product._id)) {
+                      window.location.href = "/cart";
+                    } else {
+                      addToCart(product);
+                      alert(`${product.name} added to cart!`);
+                    }
+                  }}
+                >
+                  {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
+                </button>
                 
                 <button 
                   className="secondary-action-btn"
