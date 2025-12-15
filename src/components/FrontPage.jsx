@@ -29,13 +29,11 @@ export default function AllProducts() {
 
   const handleCategoryClick = (categoryName) => {
     if (categoryName === "All") {
-      // When "All" is clicked, clear category filter to show ALL products
       setFilters(prev => ({
         ...prev,
-        category: [] // Empty array = show all products
+        category: []
       }));
     } else {
-      // Filter by specific category
       setFilters(prev => ({
         ...prev,
         category: [categoryName]
@@ -49,70 +47,43 @@ export default function AllProducts() {
 
   return (
     <div className="homepage-container">
-      {/* Category Cards Section */}
-      <div className="category-section">
-        {/* Add "All" category first to show all products */}
-        <Link 
-          to="/product" 
-          className="category-card"
-          onClick={() => handleCategoryClick("All")}
-        >
-          <div className="category-image">
-            <img src="/photo.jpg" alt="All Products" />
-          </div>
-          <p className="category-label">All</p>
-        </Link>
+      {/* Category Cards Section - Horizontal Scroll */}
+      <div className="category-section-wrapper">
+        <div className="category-section">
+          {/* All Category */}
+          <Link 
+            to="/product" 
+            className="category-card"
+            onClick={() => handleCategoryClick("All")}
+          >
+            <div className="category-image-round">
+              <img src="/photo.jpg" alt="All Products" />
+            </div>
+            <p className="category-name">All</p>
+          </Link>
 
-        {/* Display other categories from database */}
-        {categories
-          .filter(category => category.name !== "Home") // Filter out "Home" if it exists in DB
-          .map((category) => (
-            <Link 
-              key={category._id}
-              to="/product" 
-              className="category-card"
-              onClick={() => handleCategoryClick(category.name)}
-            >
-              <div className="category-image">
-                <img src="/photo.jpg" alt={category.name} />
-              </div>
-              <p className="category-label">{category.name}</p>
-            </Link>
-          ))}
+          {/* Dynamic Categories from Database */}
+          {categories
+            .filter(category => category.name !== "Home")
+            .map((category) => (
+              <Link 
+                key={category._id}
+                to="/product" 
+                className="category-card"
+                onClick={() => handleCategoryClick(category.name)}
+              >
+                <div className="category-image-round">
+                  <img src={category.imageUrl || "/photo.jpg"} alt={category.name} />
+                </div>
+                <p className="category-name">{category.name}</p>
+              </Link>
+            ))}
+        </div>
       </div>
 
       {/* Banner Section */}
-      <div className="banner-section">
-        <img src="/photo.jpg" alt="Main Banner" />
-      </div>
-
-      {/* Featured Collections Section */}
-      <div className="featured-section">
-        <div className="featured-card">
-          <div className="featured-image">
-            <img src="/photo.jpg" alt="Featured Product" />
-          </div>
-          <div className="featured-content">
-            <span className="arrival-tag">NEW ARRIVALS</span>
-            <h3 className="collection-title">Summer Collection</h3>
-            <p className="collection-desc">
-              Check out our best summer collection to stay cool in style this season
-            </p>
-          </div>
-        </div>
-
-        <div className="featured-card">
-          <div className="featured-image">
-            <img src="/photo.jpg" alt="Featured Product" />
-          </div>
-          <div className="featured-content">
-            <span className="arrival-tag">NEW ARRIVALS</span>
-            <h3 className="collection-title">Winter Collection</h3>
-            <p className="collection-desc">
-              Check out our best winter collection to stay warm in style this season
-            </p>
-          </div>
-        </div>
+      <div className="hero-banner">
+        <img src="/photo.jpg" alt="Hero Banner" />
       </div>
     </div>
   );
