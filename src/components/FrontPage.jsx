@@ -28,10 +28,19 @@ export default function AllProducts() {
   };
 
   const handleCategoryClick = (categoryName) => {
-    setFilters(prev => ({
-      ...prev,
-      category: [categoryName]
-    }));
+    if (categoryName === "All") {
+      // When "All" is clicked, clear category filter to show ALL products
+      setFilters(prev => ({
+        ...prev,
+        category: [] // Empty array = show all products
+      }));
+    } else {
+      // Filter by specific category
+      setFilters(prev => ({
+        ...prev,
+        category: [categoryName]
+      }));
+    }
   };
 
   if (loading) {
@@ -42,19 +51,34 @@ export default function AllProducts() {
     <div className="homepage-container">
       {/* Category Cards Section */}
       <div className="category-section">
-        {categories.map((category) => (
-          <Link 
-            key={category._id}
-            to="/product" 
-            className="category-card"
-            onClick={() => handleCategoryClick(category.name)}
-          >
-            <div className="category-image">
-              <img src="/photo.jpg" alt={category.name} />
-            </div>
-            <p className="category-label">{category.name}</p>
-          </Link>
-        ))}
+        {/* Add "All" category first to show all products */}
+        <Link 
+          to="/product" 
+          className="category-card"
+          onClick={() => handleCategoryClick("All")}
+        >
+          <div className="category-image">
+            <img src="/photo.jpg" alt="All Products" />
+          </div>
+          <p className="category-label">All</p>
+        </Link>
+
+        {/* Display other categories from database */}
+        {categories
+          .filter(category => category.name !== "Home") // Filter out "Home" if it exists in DB
+          .map((category) => (
+            <Link 
+              key={category._id}
+              to="/product" 
+              className="category-card"
+              onClick={() => handleCategoryClick(category.name)}
+            >
+              <div className="category-image">
+                <img src="/photo.jpg" alt={category.name} />
+              </div>
+              <p className="category-label">{category.name}</p>
+            </Link>
+          ))}
       </div>
 
       {/* Banner Section */}
