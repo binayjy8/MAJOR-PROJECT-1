@@ -46,44 +46,71 @@ export default function AllProducts() {
   }
 
   return (
-    <div className="homepage-container">
-      {/* Category Cards Section - Horizontal Scroll */}
-      <div className="category-section-wrapper">
-        <div className="category-section">
-          {/* All Category */}
-          <Link 
-            to="/product" 
-            className="category-card"
-            onClick={() => handleCategoryClick("All")}
-          >
-            <div className="category-image-round">
-              <img src="/photo.jpg" alt="All Products" />
-            </div>
-            <p className="category-name">All</p>
-          </Link>
+    <div className="home-page-container">
+      {/* Category Section - Horizontal Cards */}
+      <div className="categories-row">
+        {/* All Category */}
+        <Link 
+          to="/product" 
+          className="category-box"
+          onClick={() => handleCategoryClick("All")}
+        >
+          <div className="category-img">
+            <img src="/photo.jpg" alt="All" />
+          </div>
+          <p className="category-label">All</p>
+        </Link>
 
-          {/* Dynamic Categories from Database */}
-          {categories
-            .filter(category => category.name !== "Home")
-            .map((category) => (
-              <Link 
-                key={category._id}
-                to="/product" 
-                className="category-card"
-                onClick={() => handleCategoryClick(category.name)}
-              >
-                <div className="category-image-round">
-                  <img src={category.imageUrl || "/photo.jpg"} alt={category.name} />
-                </div>
-                <p className="category-name">{category.name}</p>
-              </Link>
-            ))}
-        </div>
+        {/* Dynamic Categories */}
+        {categories
+          .filter(category => category.name !== "Home")
+          .map((category) => (
+            <Link 
+              key={category._id}
+              to="/product" 
+              className="category-box"
+              onClick={() => handleCategoryClick(category.name)}
+            >
+              <div className="category-img">
+                <img src={category.imageUrl || "/photo.jpg"} alt={category.name} />
+              </div>
+              <p className="category-label">{category.name}</p>
+            </Link>
+          ))}
       </div>
 
-      {/* Banner Section */}
-      <div className="hero-banner">
-        <img src="/photo.jpg" alt="Hero Banner" />
+      {/* Large Banner Section */}
+      <div className="main-banner">
+        <img src="/photo.jpg" alt="Main Banner" />
+      </div>
+
+      {/* Featured Collections - Two Cards */}
+      <div className="featured-collections">
+        <div className="collection-card">
+          <div className="collection-image">
+            <img src="/photo.jpg" alt="Summer Collection" />
+          </div>
+          <div className="collection-info">
+            <span className="new-tag">NEW ARRIVALS</span>
+            <h2 className="collection-title">Summer Collection</h2>
+            <p className="collection-desc">
+              Check out our best winter collection to stay warm in style this season
+            </p>
+          </div>
+        </div>
+
+        <div className="collection-card">
+          <div className="collection-image">
+            <img src="/photo.jpg" alt="Summer Collection" />
+          </div>
+          <div className="collection-info">
+            <span className="new-tag">NEW ARRIVALS</span>
+            <h2 className="collection-title">Summer Collection</h2>
+            <p className="collection-desc">
+              Check out our best winter collection to stay warm in style this season
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
