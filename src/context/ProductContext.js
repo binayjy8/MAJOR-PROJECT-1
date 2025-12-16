@@ -38,10 +38,10 @@ export function ProductProvider({ children }) {
       const response = await fetch("https://project-backend-eta-pink.vercel.app/api/products");
       
       if (!response.ok) {
-  console.warn("Products API failed");
-  setProducts([]);
-  setError("Products service unavailable");
-  return;
+      console.warn("Products API failed");
+      setProducts([]);
+      setError("Products service unavailable");
+      return;
 }
 
       
