@@ -14,6 +14,8 @@ import AddressPage from "./pages/AddressPage";
 import ProfilePage from "./pages/ProfilePage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
       <CartProvider>
         <div className="app">
           <Navbar />
+          <ToastContainer />
           <Routes>
             <Route path="/" element={<AllProducts />} />
             <Route path="/men" element={<Men />} />
