@@ -6,7 +6,6 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
-  // Use _id instead of id for MongoDB
   const addToCart = (product) => {
     setCart(prev => {
       const exists = prev.find(item => item._id === product._id);
@@ -54,6 +53,10 @@ export function CartProvider({ children }) {
     setWishlist(prev => prev.filter(item => item._id !== id));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -66,7 +69,8 @@ export function CartProvider({ children }) {
         decreaseQty,
         removeFromCart,
         addToWishlist,
-        removeFromWishlist
+        removeFromWishlist,
+        clearCart
       }}
     >
       {children}

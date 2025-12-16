@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import "../style/checkout.css";
+import { toast } from "react-toastify";
 
 export default function CheckoutPage() {
   const { cart, setCart } = useCart();
@@ -42,7 +43,7 @@ export default function CheckoutPage() {
 
   const handlePlaceOrder = async () => {
     if (!selectedAddress) {
-      alert("Please select a delivery address");
+      toast.error("Please select a delivery address");
       return;
     }
 
@@ -79,18 +80,15 @@ export default function CheckoutPage() {
       });
 
       if (response.ok) {
-        // Clear cart after successful order
-        if (typeof setCart === 'function') {
-          setCart([]);
-        }
-        alert("Order placed successfully!");
+        setCart([]);
+        toast.success("Order placed successfully!");
         navigate("/order-success");
       } else {
-        alert("Failed to place order. Please try again.");
+        toast.error("Failed to place order. Please try again.");
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      alert("An error occurred while placing the order.");
+      toast.error("An error occurred while placing the order.");
     }
   };
 
@@ -104,9 +102,7 @@ export default function CheckoutPage() {
       <h1 className="checkout-title">Checkout</h1>
 
       <div className="checkout-content">
-        {/* Left Section - Address & Payment */}
         <div className="checkout-left">
-          {/* Delivery Address */}
           <div className="checkout-section">
             <h2>1. Select Delivery Address</h2>
             
@@ -141,7 +137,6 @@ export default function CheckoutPage() {
             </button>
           </div>
 
-          {/* Payment Method */}
           <div className="checkout-section">
             <h2>2. Select Payment Method</h2>
             
@@ -191,7 +186,6 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        {/* Right Section - Order Summary */}
         <div className="checkout-right">
           <div className="order-summary">
             <h2>Order Summary</h2>

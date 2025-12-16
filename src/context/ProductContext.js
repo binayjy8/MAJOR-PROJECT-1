@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRef } from "react";
 
-
 const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
@@ -10,7 +9,6 @@ export function ProductProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const fetchedRef = useRef(false);
-
 
   const [filters, setFilters] = useState({
     category: [],
@@ -22,44 +20,36 @@ export function ProductProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-  if (!fetchedRef.current) {
-    fetchProducts();
-    fetchCategories();
-    fetchedRef.current = true;
-  }
-}, []);
-
+    if (!fetchedRef.current) {
+      fetchProducts();
+      fetchCategories();
+      fetchedRef.current = true;
+    }
+  }, []);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      console.log("🔄 Fetching products...");
       
       const response = await fetch("https://project-backend-eta-pink.vercel.app/api/products");
       
       if (!response.ok) {
-      console.warn("Products API failed");
-      setProducts([]);
-      setError("Products service unavailable");
-      return;
-}
-
+        setProducts([]);
+        setError("Products service unavailable");
+        return;
+      }
       
       const result = await response.json();
-      console.log("📦 Response:", result);
       
       if (result.data && result.data.products && Array.isArray(result.data.products)) {
         setProducts(result.data.products);
-        console.log("✅ Products set:", result.data.products.length);
         setError(null);
       } else {
-        console.warn("⚠️ Invalid data structure");
         setProducts([]);
         setError("Invalid data structure");
       }
       
     } catch (err) {
-      console.error("❌ Error:", err);
       setError(err.message);
       setProducts([]);
     } finally {
@@ -69,16 +59,14 @@ export function ProductProvider({ children }) {
 
   const fetchCategories = async () => {
     try {
-      console.log("🔄 Fetching categories...");
       const response = await fetch("https://project-backend-eta-pink.vercel.app/api/categories");
       const result = await response.json();
       
       if (result.data && result.data.categories) {
         setCategories(result.data.categories);
-        console.log("✅ Categories set:", result.data.categories.length);
       }
     } catch (err) {
-      console.error("❌ Error fetching categories:", err);
+      console.error("Error fetching categories:", err);
     }
   };
 

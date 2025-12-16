@@ -1,4 +1,3 @@
-import "../style/style.css";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useProduct } from "../context/ProductContext";
@@ -13,7 +12,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
-          MyShoppingSite
+          ShopEasy
         </Link>
 
         <div className="navbar-search">
@@ -28,7 +27,9 @@ export default function Navbar() {
         </div>
 
         <div className="navbar-actions">
-          <button className="login-button">Login</button>
+          <Link to="/profile" className="profile-button">
+            Profile
+          </Link>
 
           <Link to="/wishlist" className="navbar-icon-link">
             <div className="icon-wrapper">

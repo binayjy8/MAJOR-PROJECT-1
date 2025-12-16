@@ -5,24 +5,30 @@ import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
-
 export default function ProductDetail() {
   const { products, loading, error, filters, setFilters, searchTerm, categories } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ ADD SAFETY CHECK - Ensure products is always an array
   const safeProducts = Array.isArray(products) ? products : [];
 
-  // Filter products based on selected filters
   const filteredProducts = safeProducts.filter(product => {
-    // Search filter
-    if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-      return false;
+    // Enhanced search: search in name, description, and category
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      const inName = product.name.toLowerCase().includes(searchLower);
+      const inDesc = product.description && 
+                     product.description.toLowerCase().includes(searchLower);
+      const inCategory = typeof product.category === 'object' 
+        ? product.category.name.toLowerCase().includes(searchLower)
+        : String(product.category).toLowerCase().includes(searchLower);
+      
+      if (!(inName || inDesc || inCategory)) {
+        return false;
+      }
     }
 
-    // Category filter - Handle both string and object
+    // Category filter
     if (filters.category.length > 0) {
       const productCategory = typeof product.category === 'object' 
         ? product.category.name 
@@ -46,7 +52,6 @@ export default function ProductDetail() {
     return true;
   });
 
-  // Sort products
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (filters.sortBy === "lowToHigh") {
       return a.price - b.price;
@@ -98,7 +103,6 @@ export default function ProductDetail() {
     return <div className="error">Error: {error}</div>;
   }
 
-  // ✅ Check if no products after loading
   if (!loading && safeProducts.length === 0) {
     return (
       <div className="error">
@@ -132,7 +136,7 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* CATEGORY FILTER - Dynamic from Database */}
+        {/* CATEGORY FILTER */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
           {Array.isArray(categories) && categories.map(cat => (
@@ -225,11 +229,14 @@ export default function ProductDetail() {
                 </Link>
                 <span 
                   className="wishlist"
-                  onClick={() => 
-                    isInWishlist(product._id) 
-                      ? alert("Already in wishlist") 
-                      : addToWishlist(product)
-                  }
+                  onClick={() => {
+                    if (isInWishlist(product._id)) {
+                      toast.info(`${product.name} already in wishlist`);
+                    } else {
+                      addToWishlist(product);
+                      toast.success(`${product.name} added to wishlist`);
+                    }
+                  }}
                 >
                   {isInWishlist(product._id) ? "❤️" : "🤍"}
                 </span>
@@ -247,7 +254,7 @@ export default function ProductDetail() {
                   className={`main-action-btn ${isInCart(product._id) ? "primary" : ""}`}
                   onClick={() => {
                     if (isInCart(product._id)) {      
-                    navigate("/cart");
+                      navigate("/cart");
                     } else {
                       addToCart(product);
                       toast.success(`${product.name} added to cart`);
@@ -259,11 +266,14 @@ export default function ProductDetail() {
                 
                 <button 
                   className="secondary-action-btn"
-                  onClick={() => 
-                    isInWishlist(product._id) 
-                      ? toast.success(`${product.name} added to wishlist`)
-                      : addToWishlist(product)
-                  }
+                  onClick={() => {
+                    if (isInWishlist(product._id)) {
+                      toast.info(`${product.name} already in wishlist`);
+                    } else {
+                      addToWishlist(product);
+                      toast.success(`${product.name} added to wishlist`);
+                    }
+                  }}
                 >
                   {isInWishlist(product._id) ? "Remove from Wishlist" : "Save to Wishlist"}
                 </button>
