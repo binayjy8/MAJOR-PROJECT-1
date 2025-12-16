@@ -250,7 +250,7 @@ export default function ProductDetail() {
                     navigate("/cart");
                     } else {
                       addToCart(product);
-                      alert(`${product.name} added to cart!`);
+                      toast.success(`${product.name} added to cart`);
                     }
                   }}
                 >
@@ -261,7 +261,7 @@ export default function ProductDetail() {
                   className="secondary-action-btn"
                   onClick={() => 
                     isInWishlist(product._id) 
-                      ? alert("Already in wishlist") 
+                      ? toast.info("Already in wishlist")
                       : addToWishlist(product)
                   }
                 >
