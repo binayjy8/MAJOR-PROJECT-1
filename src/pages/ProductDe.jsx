@@ -261,7 +261,7 @@ export default function ProductDetail() {
                   className="secondary-action-btn"
                   onClick={() => 
                     isInWishlist(product._id) 
-                      ? toast.info("Already in wishlist")
+                      ? toast.success(`${product.name} added to wishlist`)
                       : addToWishlist(product)
                   }
                 >
