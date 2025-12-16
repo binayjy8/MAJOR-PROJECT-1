@@ -42,7 +42,11 @@ export default function AllProducts() {
   };
 
   if (loading) {
-    return <div className="loading">Loading categories...</div>;
+    return (
+      <div className="home-page-container">
+        <div className="loading">Loading categories...</div>
+      </div>
+    );
   }
 
   return (
@@ -61,22 +65,52 @@ export default function AllProducts() {
           <p className="category-label">All</p>
         </Link>
 
-        {/* Dynamic Categories */}
-        {categories
-          .filter(category => category.name !== "Home")
-          .map((category) => (
-            <Link 
-              key={category._id}
-              to="/product" 
-              className="category-box"
-              onClick={() => handleCategoryClick(category.name)}
-            >
+        {/* Dynamic Categories - Show all if available, otherwise show placeholder */}
+        {categories.length > 0 ? (
+          categories
+            .filter(category => category.name !== "Home")
+            .map((category) => (
+              <Link 
+                key={category._id}
+                to="/product" 
+                className="category-box"
+                onClick={() => handleCategoryClick(category.name)}
+              >
+                <div className="category-img">
+                  <img src={category.imageUrl || "/photo.jpg"} alt={category.name} />
+                </div>
+                <p className="category-label">{category.name}</p>
+              </Link>
+            ))
+        ) : (
+          // Fallback categories if database doesn't load
+          <>
+            <Link to="/product" className="category-box" onClick={() => handleCategoryClick("Men")}>
               <div className="category-img">
-                <img src={category.imageUrl || "/photo.jpg"} alt={category.name} />
+                <img src="/photo.jpg" alt="Men" />
               </div>
-              <p className="category-label">{category.name}</p>
+              <p className="category-label">Men</p>
             </Link>
-          ))}
+            <Link to="/product" className="category-box" onClick={() => handleCategoryClick("Women")}>
+              <div className="category-img">
+                <img src="/photo.jpg" alt="Women" />
+              </div>
+              <p className="category-label">Women</p>
+            </Link>
+            <Link to="/product" className="category-box" onClick={() => handleCategoryClick("Kids")}>
+              <div className="category-img">
+                <img src="/photo.jpg" alt="Kids" />
+              </div>
+              <p className="category-label">Kids</p>
+            </Link>
+            <Link to="/product" className="category-box" onClick={() => handleCategoryClick("Electronics")}>
+              <div className="category-img">
+                <img src="/photo.jpg" alt="Electronics" />
+              </div>
+              <p className="category-label">Electronics</p>
+            </Link>
+          </>
+        )}
       </div>
 
       {/* Large Banner Section */}

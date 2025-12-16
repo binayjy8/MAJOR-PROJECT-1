@@ -13,6 +13,8 @@
   margin-bottom: 30px;
   overflow-x: auto;
   padding: 10px 0;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .categories-row::-webkit-scrollbar {
@@ -32,6 +34,7 @@
 /* Category Box */
 .category-box {
   flex: 0 0 auto;
+  min-width: 180px;
   width: 180px;
   text-decoration: none;
   display: flex;
@@ -182,6 +185,7 @@
 
   .category-box {
     width: 140px;
+    min-width: 140px;
   }
 
   .category-img {
@@ -223,6 +227,7 @@
 
   .category-box {
     width: 120px;
+    min-width: 120px;
   }
 
   .category-img {
