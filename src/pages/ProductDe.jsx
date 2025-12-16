@@ -133,7 +133,7 @@ export default function ProductDetail() {
         {/* CATEGORY FILTER - Dynamic from Database */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
-          {categories.map(cat => (
+          {Array.isArray(categories) && categories.map(cat => (
             <label key={cat._id}>
               <input 
                 type="checkbox" 

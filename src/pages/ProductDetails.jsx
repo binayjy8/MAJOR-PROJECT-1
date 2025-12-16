@@ -14,7 +14,8 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState("M");
 
   useEffect(() => {
-    if (products.length > 0 && id) {
+    if (Array.isArray(products) && products.length > 0 && id) {
+
       const foundProduct = products.find(p => p._id === id);
       setProduct(foundProduct);
     }
