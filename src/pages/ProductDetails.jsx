@@ -40,7 +40,7 @@ export default function ProductDetails() {
         toast.info("Already in wishlist");
       } else {
         addToWishlist(product);
-        alert(`${product.name} added to wishlist!`);
+       toast.success(`${product.name} added to wishlist`);
       }
     }
   };
