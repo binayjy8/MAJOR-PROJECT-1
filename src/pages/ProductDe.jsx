@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 
 export default function ProductDetail() {
