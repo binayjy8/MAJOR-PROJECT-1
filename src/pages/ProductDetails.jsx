@@ -37,7 +37,7 @@ export default function ProductDetails() {
   const handleToggleWishlist = () => {
     if (product) {
       if (isInWishlist) {
-        alert("Already in wishlist!");
+        toast.info("Already in wishlist");
       } else {
         addToWishlist(product);
         alert(`${product.name} added to wishlist!`);
