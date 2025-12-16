@@ -2,10 +2,13 @@ import "../style/productDe.css";
 import { Link } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
+
 
 export default function ProductDetail() {
   const { products, loading, error, filters, setFilters, searchTerm, categories } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
+  const navigate = useNavigate();
 
   // ✅ ADD SAFETY CHECK - Ensure products is always an array
   const safeProducts = Array.isArray(products) ? products : [];
@@ -241,8 +244,8 @@ export default function ProductDetail() {
                 <button 
                   className={`main-action-btn ${isInCart(product._id) ? "primary" : ""}`}
                   onClick={() => {
-                    if (isInCart(product._id)) {
-                      window.location.href = "/cart";
+                    if (isInCart(product._id)) {      
+                    navigate("/cart");
                     } else {
                       addToCart(product);
                       alert(`${product.name} added to cart!`);
