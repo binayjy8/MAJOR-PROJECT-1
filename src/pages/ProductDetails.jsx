@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+
 
 export default function ProductDetails() {
   const { id } = useParams();
