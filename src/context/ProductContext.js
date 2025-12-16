@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useRef } from "react";
+
 
 const ProductContext = createContext();
 
@@ -7,6 +9,8 @@ export function ProductProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const fetchedRef = useRef(false);
+
 
   const [filters, setFilters] = useState({
     category: [],
@@ -18,9 +22,13 @@ export function ProductProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+  if (!fetchedRef.current) {
     fetchProducts();
     fetchCategories();
-  }, []);
+    fetchedRef.current = true;
+  }
+}, []);
+
 
   const fetchProducts = async () => {
     try {
@@ -30,8 +38,12 @@ export function ProductProvider({ children }) {
       const response = await fetch("https://project-backend-eta-pink.vercel.app/api/products");
       
       if (!response.ok) {
-        throw new Error("Failed to fetch products");
-      }
+  console.warn("Products API failed");
+  setProducts([]);
+  setError("Products service unavailable");
+  return;
+}
+
       
       const result = await response.json();
       console.log("📦 Response:", result);

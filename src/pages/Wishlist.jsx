@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "../style/wishlist.css";
 import { useCart } from "../context/CartContext";
 
+
 export default function Wishlist() {
   const { wishlist, removeFromWishlist, addToCart } = useCart();
 
