@@ -30,7 +30,7 @@ export default function ProductDetails() {
       for (let i = 0; i < quantity; i++) {
         addToCart(product);
       }
-      alert(`${product.name} added to cart!`);
+      toast.success(`${product.name} added to cart`);
     }
   };
 
