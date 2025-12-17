@@ -297,3 +297,22 @@
     margin: 0 auto;
   }
 }
+
+.product-details-container {
+  max-width: 1400px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+}
+
+.image-box img {
+  object-fit: contain;
+}
+
+.buy-btn {
+  background: #fb641b;
+}
+
+.cart-btn {
+  background: #2874f0;
+}

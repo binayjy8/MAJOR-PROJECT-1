@@ -3,7 +3,7 @@ import "../style/orderSuccess.css";
 import { useCart } from "../context/CartContext";
 import { useEffect } from "react";
 
-export default function OrderSuccessPage() {
+export default function OrderSuccessPage() { 
   const { clearCart } = useCart();
   const orderId = "ORD" + Math.random().toString(36).substring(2, 9).toUpperCase();
   const estimatedDelivery = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', {
