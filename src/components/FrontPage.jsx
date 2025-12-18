@@ -47,7 +47,7 @@ export default function AllProducts() {
       const randomProduct = products[Math.floor(Math.random() * products.length)];
       return randomProduct.imageUrl;
     }
-    return "/photo.jpg"; // Fallback only i 
+    return "/photo.jpg"; // Fallback only 
   };
 
   if (loading) {
