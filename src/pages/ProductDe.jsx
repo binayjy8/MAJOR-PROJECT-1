@@ -225,7 +225,7 @@ export default function ProductDetail() {
             <div className="product-card" key={product._id}>
               <div className="image-wrapper">
                 <Link to={`/detail/${product._id}`}>
-                  <img src={product.imageUrl || "/photo.jpg"} alt={product.name} />
+                  <img src={product.imageUrl} alt={product.name} />
                 </Link>
                 <span 
                   className="wishlist"
