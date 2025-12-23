@@ -1,6 +1,7 @@
 import "../style/cart.css";
 import { useCart } from "../context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function CartPage() {
   const {
@@ -22,6 +23,23 @@ export default function CartPage() {
   const handleMoveToWishlist = (item) => {
     addToWishlist(item);
     removeFromCart(item._id);
+    toast.success(`${item.name} moved to wishlist!`);
+  };
+
+  const handleDecreaseQty = (item) => {
+    if (item.qty === 1) {
+      if (window.confirm(`Remove ${item.name} from cart?`)) {
+        removeFromCart(item._id);
+        toast.info(`${item.name} removed from cart`);
+      }
+    } else {
+      decreaseQty(item._id);
+    }
+  };
+
+  const handleRemove = (item) => {
+    removeFromCart(item._id);
+    toast.info(`${item.name} removed from cart`);
   };
 
   if (cart.length === 0) {
@@ -58,7 +76,7 @@ export default function CartPage() {
                 <div className="cart-qty-row">
                   <button
                     className="qty-btn"
-                    onClick={() => decreaseQty(item._id)}
+                    onClick={() => handleDecreaseQty(item)}
                   >
                     −
                   </button>
@@ -76,7 +94,7 @@ export default function CartPage() {
                 <div className="cart-actions">
                   <button
                     className="cart-remove-btn"
-                    onClick={() => removeFromCart(item._id)}
+                    onClick={() => handleRemove(item)}
                   >
                     REMOVE
                   </button>

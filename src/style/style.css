@@ -12,33 +12,17 @@
   color: #666;
 }
 
-/* Categories Row */
+/* Categories Row - FIXED: Equal size cards */
 .categories-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  overflow-x: auto;
   padding: 20px 0;
   margin-bottom: 40px;
-  scroll-behavior: smooth;
-}
-
-.categories-row::-webkit-scrollbar {
-  height: 8px;
-}
-
-.categories-row::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.categories-row::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
 }
 
 .category-box {
-  min-width: 200px;
-  flex-shrink: 0;
+  width: 100%;
   text-align: center;
   border-radius: 12px;
   overflow: hidden;
@@ -53,6 +37,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* FIXED: Equal height images */
 .category-img {
   width: 100%;
   height: 250px;
@@ -179,12 +164,9 @@
   }
 
   .categories-row {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
     padding: 15px 0;
-  }
-
-  .category-box {
-    min-width: 150px;
   }
 
   .category-img {
@@ -210,5 +192,21 @@
 
   .collection-desc {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categories-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .category-img {
+    height: 150px;
+  }
+
+  .category-label {
+    font-size: 14px;
+    padding: 10px;
   }
 }

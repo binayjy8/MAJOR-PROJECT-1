@@ -1,21 +1,12 @@
 import { useState } from "react";
 import "../style/address.css";
 import { Link } from "react-router-dom";
+import { useAddress } from "../context/AddressContext";
+import { toast } from "react-toastify";
 
 export default function AddressPage() {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      phone: "9876543210",
-      street: "123 Main Street, Apt 4B",
-      city: "Mumbai",
-      state: "Maharashtra",
-      pincode: "400001",
-      isDefault: true
-    }
-  ]);
-
+  const { addresses, addAddress, updateAddress, deleteAddress, setDefaultAddress } = useAddress();
+  
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
@@ -32,20 +23,13 @@ export default function AddressPage() {
     
     if (editingId) {
       // Update existing address
-      setAddresses(addresses.map(addr => 
-        addr.id === editingId ? { ...formData, id: editingId, isDefault: addr.isDefault } : addr
-      ));
-      alert("Address updated successfully!");
+      updateAddress(editingId, formData);
+      toast.success("Address updated successfully!");
       setEditingId(null);
     } else {
       // Add new address
-      const newAddress = {
-        ...formData,
-        id: Date.now(),
-        isDefault: addresses.length === 0
-      };
-      setAddresses([...addresses, newAddress]);
-      alert("Address added successfully!");
+      addAddress(formData);
+      toast.success("Address added successfully!");
     }
     
     setFormData({
@@ -72,19 +56,16 @@ export default function AddressPage() {
     setShowForm(true);
   };
 
-  const deleteAddress = (id) => {
+  const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this address?")) {
-      setAddresses(addresses.filter(addr => addr.id !== id));
-      alert("Address deleted successfully!");
+      deleteAddress(id);
+      toast.success("Address deleted successfully!");
     }
   };
 
-  const setDefaultAddress = (id) => {
-    setAddresses(addresses.map(addr => ({
-      ...addr,
-      isDefault: addr.id === id
-    })));
-    alert("Default address updated!");
+  const handleSetDefault = (id) => {
+    setDefaultAddress(id);
+    toast.success("Default address updated!");
   };
 
   return (
@@ -195,12 +176,12 @@ export default function AddressPage() {
                 </button>
                 
                 {!address.isDefault && (
-                  <button onClick={() => setDefaultAddress(address.id)} className="default-btn">
+                  <button onClick={() => handleSetDefault(address.id)} className="default-btn">
                     Set as Default
                   </button>
                 )}
                 
-                <button onClick={() => deleteAddress(address.id)} className="delete-btn">
+                <button onClick={() => handleDelete(address.id)} className="delete-btn">
                   Delete
                 </button>
               </div>

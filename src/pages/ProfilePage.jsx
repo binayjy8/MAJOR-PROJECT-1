@@ -49,7 +49,7 @@ export default function ProfilePage() {
       <div className="profile-section">
         <div className="section-header">
           <h2>Personal Information</h2>
-          <button className="edit-btn">Edit Profile</button>
+          {/* Edit button removed as it's non-functional */}
         </div>
         
         <div className="info-grid">

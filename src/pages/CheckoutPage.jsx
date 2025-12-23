@@ -1,35 +1,14 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
+import { useAddress } from "../context/AddressContext";
 import { useNavigate } from "react-router-dom";
 import "../style/checkout.css";
 import { toast } from "react-toastify";
 
 export default function CheckoutPage() {
   const { cart, setCart } = useCart();
+  const { addresses } = useAddress();
   const navigate = useNavigate();
-
-  const [addresses] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      phone: "9876543210",
-      street: "123 Main Street, Apt 4B",
-      city: "Mumbai",
-      state: "Maharashtra",
-      pincode: "400001",
-      isDefault: true
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      phone: "9876543210",
-      street: "456 Park Avenue",
-      city: "Delhi",
-      state: "Delhi",
-      pincode: "110001",
-      isDefault: false
-    }
-  ]);
 
   const [selectedAddress, setSelectedAddress] = useState(
     addresses.find(addr => addr.isDefault)?.id || addresses[0]?.id
@@ -54,9 +33,9 @@ export default function CheckoutPage() {
       const orderData = {
         orderId,
         user: {
-          name: "John Doe",
-          email: "john.doe@example.com",
-          phone: "9876543210"
+          name: selectedAddr.name,
+          email: "user@example.com",
+          phone: selectedAddr.phone
         },
         items: cart.map(item => ({
           product: item._id,
@@ -82,8 +61,10 @@ export default function CheckoutPage() {
       if (response.ok) {
         setCart([]);
         toast.success("Order placed successfully!");
-        navigate("/order-success");
+        navigate("/order-success", { state: { orderId } });
       } else {
+        const error = await response.text();
+        console.error("Order failed:", error);
         toast.error("Failed to place order. Please try again.");
       }
     } catch (error) {
@@ -196,7 +177,7 @@ export default function CheckoutPage() {
                   <img src={item.imageUrl || "/photo.jpg"} alt={item.name} />
                   <div className="summary-item-info">
                     <p className="item-name">{item.name}</p>
-                    <p className="item-qty">Qty: {item.qty}</p>
+                    <p className="item-qty">Qty: {item.qty} × ₹{item.price}</p>
                   </div>
                   <p className="item-price">₹{item.price * item.qty}</p>
                 </div>

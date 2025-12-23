@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function ProductDetail() {
+export default function ProductDe() {
   const { products, loading, error, filters, setFilters, searchTerm, categories } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
@@ -13,12 +13,11 @@ export default function ProductDetail() {
   const safeProducts = Array.isArray(products) ? products : [];
 
   const filteredProducts = safeProducts.filter(product => {
-    // Enhanced search: search in name, description, and category
+    // Enhanced search
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       const inName = product.name.toLowerCase().includes(searchLower);
-      const inDesc = product.description && 
-                     product.description.toLowerCase().includes(searchLower);
+      const inDesc = product.description && product.description.toLowerCase().includes(searchLower);
       const inCategory = typeof product.category === 'object' 
         ? product.category.name.toLowerCase().includes(searchLower)
         : String(product.category).toLowerCase().includes(searchLower);
@@ -116,8 +115,10 @@ export default function ProductDetail() {
     <div className="product-page">
       {/* FILTER SIDEBAR */}
       <div className="filter">
-        <h3>Filters</h3>
-        <a className="clear-filter" onClick={clearFilters}>Clear</a>
+        <div className="filter-header">
+          <h3>Filters</h3>
+          <a className="clear-filter" onClick={clearFilters}>Clear</a>
+        </div>
 
         {/* PRICE FILTER */}
         <div className="filter-section">
@@ -136,19 +137,21 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* CATEGORY FILTER */}
+        {/* CATEGORY FILTER - FIXED: Remove "Home" */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
-          {Array.isArray(categories) && categories.map(cat => (
-            <label key={cat._id}>
-              <input 
-                type="checkbox" 
-                checked={filters.category.includes(cat.name)}
-                onChange={() => handleCategoryChange(cat.name)}
-              /> {cat.name}
-              <br />
-            </label>
-          ))}
+          {Array.isArray(categories) && categories
+            .filter(cat => cat.name.toLowerCase() !== "home")
+            .map(cat => (
+              <label key={cat._id}>
+                <input 
+                  type="checkbox" 
+                  checked={filters.category.includes(cat.name)}
+                  onChange={() => handleCategoryChange(cat.name)}
+                /> {cat.name}
+                <br />
+              </label>
+            ))}
         </div>
 
         {/* RATING FILTER */}
@@ -275,7 +278,7 @@ export default function ProductDetail() {
                     }
                   }}
                 >
-                  {isInWishlist(product._id) ? "Remove from Wishlist" : "Save to Wishlist"}
+                  {isInWishlist(product._id) ? "In Wishlist" : "Save to Wishlist"}
                 </button>
               </div>
             </div>

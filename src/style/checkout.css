@@ -78,3 +78,33 @@
     position: static;
   }
 }
+
+.summary-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-item-row img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.summary-item-details {
+  flex: 1;
+}
+
+.item-qty-price {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+.item-total {
+  font-weight: 600;
+  color: #333;
+}

@@ -1,11 +1,13 @@
-import { Routes, Route } from "react-router-dom"; // Remove BrowserRouter/Router import
+import { Routes, Route } from "react-router-dom";
 import { ProductProvider } from "./context/ProductContext";
 import { CartProvider } from "./context/CartContext";
+import { AddressProvider } from "./context/AddressContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Import Components
 import Navbar from "./components/Navbar";
+import Footer from "./pages/Footer";
 
 // Import Pages
 import FrontPage from "./components/FrontPage";
@@ -25,48 +27,52 @@ function App() {
   return (
     <ProductProvider>
       <CartProvider>
-        <div className="App">
-          <Navbar />
-          <Routes>
-            {/* Home Page */}
-            <Route path="/" element={<FrontPage />} />
+        <AddressProvider>
+          <div className="App">
+            <Navbar />
+            <Routes>
+              {/* Home Page */}
+              <Route path="/" element={<FrontPage />} />
+              
+              {/* Product Pages */}
+              <Route path="/product" element={<ProductDe />} />
+              <Route path="/men" element={<Men />} />
+              <Route path="/women" element={<Women />} />
+              <Route path="/kids" element={<Kids />} />
+              
+              {/* Single Product Detail */}
+              <Route path="/detail/:id" element={<ProductDetails />} />
+              
+              {/* Cart & Wishlist */}
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              
+              {/* Checkout & Order */}
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/order-success" element={<OrderSuccessPage />} />
+              
+              {/* User Profile & Address */}
+              <Route path="/address" element={<AddressPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Routes>
             
-            {/* Product Pages */}
-            <Route path="/product" element={<ProductDe />} />
-            <Route path="/men" element={<Men />} />
-            <Route path="/women" element={<Women />} />
-            <Route path="/kids" element={<Kids />} />
+            <Footer />
             
-            {/* Single Product Detail */}
-            <Route path="/detail/:id" element={<ProductDetails />} />
-            
-            {/* Cart & Wishlist */}
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            
-            {/* Checkout & Order */}
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/order-success" element={<OrderSuccessPage />} />
-            
-            {/* User Profile & Address */}
-            <Route path="/address" element={<AddressPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Routes>
-          
-          {/* Toast Notifications */}
-          <ToastContainer 
-            position="top-right"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-        </div>
+            {/* Toast Notifications */}
+            <ToastContainer 
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </div>
+        </AddressProvider>
       </CartProvider>
     </ProductProvider>
   );

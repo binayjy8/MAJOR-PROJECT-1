@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../style/wishlist.css";
 import { useCart } from "../context/CartContext";
-
+import { toast } from "react-toastify";
 
 export default function Wishlist() {
   const { wishlist, removeFromWishlist, addToCart } = useCart();
@@ -9,7 +9,12 @@ export default function Wishlist() {
   const handleMoveToCart = (item) => {
     addToCart(item);
     removeFromWishlist(item._id);
-    alert(`${item.name} moved to cart!`);
+    toast.success(`${item.name} moved to cart!`);
+  };
+
+  const handleRemove = (item) => {
+    removeFromWishlist(item._id);
+    toast.success(`${item.name} removed from wishlist!`);
   };
 
   if (wishlist.length === 0) {
@@ -34,10 +39,7 @@ export default function Wishlist() {
               <img src={item.imageUrl || "/photo.jpg"} alt={item.name} />
               <span 
                 className="wishlist-heart"
-                onClick={() => {
-                  removeFromWishlist(item._id);
-                  alert(`${item.name} removed from wishlist!`);
-                }}
+                onClick={() => handleRemove(item)}
                 style={{ cursor: 'pointer' }}
               >
                 ❤️
