@@ -20,6 +20,10 @@ export default function CartPage() {
   );
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
+  const discount = Math.round(totalPrice * 0.1);
+  const deliveryCharges = 49;
+  const finalTotal = totalPrice - discount + deliveryCharges;
+
   const handleMoveToWishlist = (item) => {
     addToWishlist(item);
     removeFromCart(item._id);
@@ -35,11 +39,6 @@ export default function CartPage() {
     } else {
       decreaseQty(item._id);
     }
-  };
-
-  const handleRemove = (item) => {
-    removeFromCart(item._id);
-    toast.info(`${item.name} removed from cart`);
   };
 
   if (cart.length === 0) {
@@ -63,10 +62,7 @@ export default function CartPage() {
           {cart.map((item) => (
             <div className="cart-product-box" key={item._id}>
               <div className="cart-image-box">
-                <img
-                  src={item.imageUrl || "/photo.jpg"}
-                  alt={item.name}
-                />
+                <img src={item.imageUrl || "/photo.jpg"} alt={item.name} />
               </div>
 
               <div className="cart-product-info">
@@ -80,9 +76,7 @@ export default function CartPage() {
                   >
                     −
                   </button>
-
                   <span className="qty-number">{item.qty}</span>
-
                   <button
                     className="qty-btn"
                     onClick={() => increaseQty(item._id)}
@@ -94,7 +88,7 @@ export default function CartPage() {
                 <div className="cart-actions">
                   <button
                     className="cart-remove-btn"
-                    onClick={() => handleRemove(item)}
+                    onClick={() => removeFromCart(item._id)}
                   >
                     REMOVE
                   </button>
@@ -116,19 +110,28 @@ export default function CartPage() {
           <h3 className="price-head">PRICE DETAILS</h3>
 
           <div className="price-row">
-            <span>Price ({totalItems} items)</span>
+            <span>Price ({totalItems} item)</span>
             <span>₹{totalPrice}</span>
           </div>
 
           <div className="price-row">
+            <span>Discount</span>
+            <span className="green">-₹{discount}</span>
+          </div>
+
+          <div className="price-row">
             <span>Delivery Charges</span>
-            <span>₹49</span>
+            <span>₹{deliveryCharges}</span>
           </div>
 
           <div className="price-total">
-            <span>Total Amount</span>
-            <span>₹{totalPrice + 49}</span>
+            <span>TOTAL AMOUNT</span>
+            <span>₹{finalTotal}</span>
           </div>
+
+          <p className="savings-message">
+            You will save ₹{discount} on this order
+          </p>
 
           <button
             className="place-order-btn"

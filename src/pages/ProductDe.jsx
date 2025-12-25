@@ -1,290 +1,71 @@
 import "../style/productDe.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function ProductDe() {
-  const { products, loading, error, filters, setFilters, searchTerm, categories } = useProduct();
+  const { products, loading, error } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
-
-  const safeProducts = Array.isArray(products) ? products : [];
-
-  const filteredProducts = safeProducts.filter(product => {
-    // Enhanced search
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      const inName = product.name.toLowerCase().includes(searchLower);
-      const inDesc = product.description && product.description.toLowerCase().includes(searchLower);
-      const inCategory = typeof product.category === 'object' 
-        ? product.category.name.toLowerCase().includes(searchLower)
-        : String(product.category).toLowerCase().includes(searchLower);
-      
-      if (!(inName || inDesc || inCategory)) {
-        return false;
-      }
-    }
-
-    // Category filter
-    if (filters.category.length > 0) {
-      const productCategory = typeof product.category === 'object' 
-        ? product.category.name 
-        : product.category;
-      
-      if (!filters.category.includes(productCategory)) {
-        return false;
-      }
-    }
-    
-    // Rating filter
-    if (filters.rating > 0 && product.rating < filters.rating) {
-      return false;
-    }
-    
-    // Price filter
-    if (product.price > filters.price) {
-      return false;
-    }
-    
-    return true;
-  });
-
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (filters.sortBy === "lowToHigh") {
-      return a.price - b.price;
-    }
-    if (filters.sortBy === "highToLow") {
-      return b.price - a.price;
-    }
-    return 0;
-  });
-
-  const handleCategoryChange = (category) => {
-    setFilters(prev => ({
-      ...prev,
-      category: prev.category.includes(category)
-        ? prev.category.filter(c => c !== category)
-        : [...prev.category, category]
-    }));
-  };
-
-  const handleRatingChange = (rating) => {
-    setFilters(prev => ({ ...prev, rating }));
-  };
-
-  const handleSortChange = (sortBy) => {
-    setFilters(prev => ({ ...prev, sortBy }));
-  };
-
-  const handlePriceChange = (e) => {
-    setFilters(prev => ({ ...prev, price: Number(e.target.value) }));
-  };
-
-  const clearFilters = () => {
-    setFilters({
-      category: [],
-      rating: 0,
-      price: 5000,
-      sortBy: "",
-    });
-  };
 
   const isInCart = (id) => cart.some(item => item._id === id);
   const isInWishlist = (id) => wishlist.some(item => item._id === id);
 
-  if (loading) {
-    return <div className="loading">Loading products...</div>;
-  }
-
-  if (error) {
-    return <div className="error">Error: {error}</div>;
-  }
-
-  if (!loading && safeProducts.length === 0) {
-    return (
-      <div className="error">
-        <h2>No products found</h2>
-        <p>Please check your backend connection</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="loading">Loading products...</div>;
+  if (error) return <div className="error">Something went wrong</div>;
 
   return (
-    <div className="product-page">
-      {/* FILTER SIDEBAR */}
-      <div className="filter">
-        <div className="filter-header">
-          <h3>Filters</h3>
-          <a className="clear-filter" onClick={clearFilters}>Clear</a>
-        </div>
+    <div className="products-area">
+      <h2 className="title">
+        Showing All Products <span>(showing {products.length} products)</span>
+      </h2>
 
-        {/* PRICE FILTER */}
-        <div className="filter-section">
-          <p className="filter-title">Price: ₹{filters.price}</p>
-          <div className="price-range">
-            <span className="price-label">50</span>
-            <input 
-              type="range" 
-              min="50" 
-              max="5000" 
-              value={filters.price}
-              onChange={handlePriceChange}
-              className="range-slider" 
-            />
-            <span className="price-label">5000</span>
-          </div>
-        </div>
+      <div className="product-grid">
+        {products.map(product => (
+          <div className="product-card" key={product._id}>
+            
+            <div className="image-wrapper">
+              <img src={product.imageUrl} alt={product.name} />
 
-        {/* CATEGORY FILTER - FIXED: Remove "Home" */}
-        <div className="filter-section">
-          <p className="filter-title">Category</p>
-          {Array.isArray(categories) && categories
-            .filter(cat => cat.name.toLowerCase() !== "home")
-            .map(cat => (
-              <label key={cat._id}>
-                <input 
-                  type="checkbox" 
-                  checked={filters.category.includes(cat.name)}
-                  onChange={() => handleCategoryChange(cat.name)}
-                /> {cat.name}
-                <br />
-              </label>
-            ))}
-        </div>
-
-        {/* RATING FILTER */}
-        <div className="filter-section">
-          <p className="filter-title">Rating</p>
-          <label>
-            <input 
-              type="radio" 
-              name="rating" 
-              checked={filters.rating === 4}
-              onChange={() => handleRatingChange(4)}
-            /> 4 Stars & above
-          </label>
-          <br />
-          <label>
-            <input 
-              type="radio" 
-              name="rating"
-              checked={filters.rating === 3}
-              onChange={() => handleRatingChange(3)}
-            /> 3 Stars & above
-          </label>
-          <br />
-          <label>
-            <input 
-              type="radio" 
-              name="rating"
-              checked={filters.rating === 2}
-              onChange={() => handleRatingChange(2)}
-            /> 2 Stars & above
-          </label>
-          <br />
-          <label>
-            <input 
-              type="radio" 
-              name="rating"
-              checked={filters.rating === 0}
-              onChange={() => handleRatingChange(0)}
-            /> All
-          </label>
-        </div>
-
-        {/* SORT FILTER */}
-        <div className="filter-section">
-          <p className="filter-title">Sort by</p>
-          <label>
-            <input 
-              type="radio" 
-              name="sort"
-              checked={filters.sortBy === "lowToHigh"}
-              onChange={() => handleSortChange("lowToHigh")}
-            /> Price - Low to High
-          </label>
-          <br />
-          <label>
-            <input 
-              type="radio" 
-              name="sort"
-              checked={filters.sortBy === "highToLow"}
-              onChange={() => handleSortChange("highToLow")}
-            /> Price - High to Low
-          </label>
-        </div>
-      </div>
-
-      {/* PRODUCTS AREA */}
-      <div className="products-area">
-        <h2 className="title">
-          Showing All Products <span>(Showing {sortedProducts.length} products)</span>
-        </h2>
-
-        <div className="product-grid">
-          {sortedProducts.map((product) => (
-            <div className="product-card" key={product._id}>
-              <div className="image-wrapper">
-                <Link to={`/detail/${product._id}`}>
-                  <img src={product.imageUrl} alt={product.name} />
-                </Link>
-                <span 
-                  className="wishlist"
-                  onClick={() => {
-                    if (isInWishlist(product._id)) {
-                      toast.info(`${product.name} already in wishlist`);
-                    } else {
-                      addToWishlist(product);
-                      toast.success(`${product.name} added to wishlist`);
-                    }
-                  }}
-                >
-                  {isInWishlist(product._id) ? "❤️" : "🤍"}
-                </span>
-              </div>
-
-              <div className="product-details">
-                <p className="product-name">{product.name}</p>
-                <p className="product-rating">⭐ {product.rating || 0}</p>
-                
-                <p className="product-pricing">
-                  <span className="current-price">₹{product.price}</span>
-                </p>
-                
-                <button 
-                  className={`main-action-btn ${isInCart(product._id) ? "primary" : ""}`}
-                  onClick={() => {
-                    if (isInCart(product._id)) {      
-                      navigate("/cart");
-                    } else {
-                      addToCart(product);
-                      toast.success(`${product.name} added to cart`);
-                    }
-                  }}
-                >
-                  {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
-                </button>
-                
-                <button 
-                  className="secondary-action-btn"
-                  onClick={() => {
-                    if (isInWishlist(product._id)) {
-                      toast.info(`${product.name} already in wishlist`);
-                    } else {
-                      addToWishlist(product);
-                      toast.success(`${product.name} added to wishlist`);
-                    }
-                  }}
-                >
-                  {isInWishlist(product._id) ? "In Wishlist" : "Save to Wishlist"}
-                </button>
-              </div>
+              <span
+                className={`wishlist ${isInWishlist(product._id) ? "active" : ""}`}
+                onClick={() => {
+                  if (isInWishlist(product._id)) {
+                    toast.info("Already in wishlist");
+                  } else {
+                    addToWishlist(product);
+                    toast.success("Added to wishlist");
+                  }
+                }}
+              >
+                <i className="fa-solid fa-heart"></i>
+              </span>
             </div>
-          ))}
-        </div>
+
+            <div className="product-details">
+              <p className="product-name">{product.name}</p>
+              <p className="product-price">₹{product.price}</p>
+
+              <button
+                className={`cart-btn ${isInCart(product._id) ? "go" : ""}`}
+                onClick={() => {
+                  if (isInCart(product._id)) {
+                    navigate("/cart");
+                  } else {
+                    addToCart(product);
+                    toast.success("Added to cart");
+                  }
+                }}
+              >
+                {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
+              </button>
+            </div>
+
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
