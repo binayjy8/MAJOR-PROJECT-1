@@ -12,7 +12,7 @@ export default function Kids() {
 
   const safeProducts = Array.isArray(products) ? products : [];
 
-  // Filter for Kids' pro
+  // Filter for Kids' pr
   const kidsProducts = safeProducts.filter(product => {
     const productCategory = typeof product.category === 'object' 
       ? product.category.name 
