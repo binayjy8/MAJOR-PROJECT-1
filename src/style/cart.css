@@ -1,64 +1,125 @@
-.price-box {
-  width: 360px;
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  height: fit-content;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  display: block !important;
+.cart-container {
+  padding: 30px;
+  background: #f1f3f6;
 }
 
-.price-head {
-  color: #878787;
-  font-size: 15px;
-  font-weight: 600;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+.cart-title {
+  margin-bottom: 20px;
+}
+
+/* MAIN LAYOUT */
+.cart-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* LEFT */
+.cart-product-box {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  background: #fff;
   margin-bottom: 15px;
 }
 
-.price-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  font-size: 14px;
-  width: 100%;
+.cart-image-box {
+  background: #f2f2f2;
+  padding: 10px;
 }
 
+.cart-image-box img {
+  width: 120px;
+}
+
+.cart-product-info h3 {
+  margin: 0 0 6px 0;
+}
+
+.cart-price {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.cart-qty-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+}
+
+.cart-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cart-remove-btn,
+.cart-move-btn {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
+/* RIGHT PRICE BOX */
+.price-box {
+  background: #fff;
+  padding: 20px;
+  height: fit-content;
+}
+
+.price-head {
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.price-row,
 .price-total {
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
-  font-weight: 600;
-  border-top: 1px dashed #ccc;
-  padding-top: 12px;
-  margin-top: 16px;
+  margin-bottom: 10px;
 }
 
-.price-row span,
-.price-total span {
-  white-space: nowrap;
+.price-total {
+  font-weight: 700;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
 }
 
 .green {
-  color: #388e3c;
-}
-
-.savings-message {
-  color: #388e3c;
-  margin: 12px 0;
-  font-size: 14px;
+  color: green;
 }
 
 .place-order-btn {
   width: 100%;
-  background: #fb641b;
+  padding: 12px;
+  background: #2874f0;
   color: #fff;
   border: none;
-  padding: 14px;
-  font-size: 16px;
   font-weight: 600;
-  border-radius: 4px;
-  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-product-box {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cart-actions {
+    justify-content: center;
+  }
 }

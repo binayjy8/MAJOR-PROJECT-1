@@ -37,7 +37,7 @@ export default function Navbar() {
               {wishlist.length > 0 && (
                 <span className="icon-badge">{wishlist.length}</span>
               )}
-              <span className="icon">🤍</span>
+              <i className="fa-regular fa-heart"></i>
             </div>
           </Link>
 
@@ -46,7 +46,7 @@ export default function Navbar() {
               {totalCartItems > 0 && (
                 <span className="icon-badge cart-badge">{totalCartItems}</span>
               )}
-              <span className="icon">🛒</span>
+              <i className="fa-solid fa-cart-shopping"></i>
               <span className="cart-label">Cart</span>
             </div>
           </Link>

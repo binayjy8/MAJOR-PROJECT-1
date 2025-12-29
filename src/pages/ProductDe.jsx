@@ -18,8 +18,9 @@ export default function ProductDe() {
   return (
     <div className="products-area">
       <h2 className="title">
-        Showing All Products <span>(showing {products.length} products)</span>
+          Electronics <span>(showing {products.length} products)</span>
       </h2>
+
 
       <div className="product-grid">
         {products.map(product => (
@@ -30,7 +31,8 @@ export default function ProductDe() {
 
               <span
                 className={`wishlist ${isInWishlist(product._id) ? "active" : ""}`}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   if (isInWishlist(product._id)) {
                     toast.info("Already in wishlist");
                   } else {
@@ -38,6 +40,7 @@ export default function ProductDe() {
                     toast.success("Added to wishlist");
                   }
                 }}
+                title="Add to wishlist"
               >
                 <i className="fa-solid fa-heart"></i>
               </span>

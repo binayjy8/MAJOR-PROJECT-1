@@ -1,26 +1,23 @@
-/* PAGE */
 .products-area {
   padding: 20px;
 }
 
-/* TITLE */
 .title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .title span {
-  font-size: 13px;
+  font-size: 14px;
   color: #666;
   font-weight: 400;
 }
 
-/* GRID */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 22px;
+  gap: 20px;
 }
 
 /* CARD */
@@ -34,8 +31,7 @@
 /* IMAGE */
 .image-wrapper {
   position: relative;
-  background: #ededed;
-  padding: 18px;
+  background: #f2f2f2;
   height: 260px;
   display: flex;
   align-items: center;
@@ -53,8 +49,8 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   background: #fff;
   border-radius: 50%;
   display: flex;
@@ -64,12 +60,13 @@
 }
 
 .wishlist i {
-  font-size: 12px;
+  font-size: 13px;
   color: #bbb;
 }
 
-.wishlist.active i {
-  color: red;
+.wishlist.active i,
+.wishlist:hover i {
+  color: #e53935;
 }
 
 /* DETAILS */
@@ -85,7 +82,7 @@
 }
 
 .product-price {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   margin-bottom: 10px;
 }
@@ -93,10 +90,10 @@
 /* BUTTON */
 .cart-btn {
   width: 100%;
-  padding: 7px 0;
-  background: #bdbdbd;
+  padding: 8px 0;
   border: none;
   border-radius: 2px;
+  background: #bdbdbd;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -110,7 +107,63 @@
 .loading,
 .error {
   text-align: center;
-  padding: 50px;
+  padding: 60px;
   font-size: 18px;
 }
 
+@media (max-width: 768px) {
+  .products-area {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .image-wrapper {
+    height: 200px;
+  }
+
+  .product-name {
+    font-size: 13px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
+
+  .cart-btn {
+    padding: 7px 0;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .wishlist {
+    width: 24px;
+    height: 24px;
+  }
+
+  .wishlist i {
+    font-size: 11px;
+  }
+}
+
+.wishlist {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+}
+
+.wishlist:hover {
+  transform: scale(1.1);
+}

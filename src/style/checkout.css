@@ -1,110 +1,46 @@
 .checkout-container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 10px;
+  padding: 30px;
 }
 
-.checkout-content {
-  display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 15px;
-}
-
-.checkout-section {
-  background: #fff;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
-}
-
-.checkout-section h2 {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-/* ADDRESS CARD */
 .checkout-address-card {
-  display: flex;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
 .checkout-address-card.selected {
-  border: 2px solid #2874f0;
-  background: #f5faff;
+  border-color: #2a7cff;
+  background: #f5f9ff;
 }
 
-/* PAYMENT */
 .payment-option {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ddd;
   padding: 12px;
-  cursor: pointer;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .payment-option.selected {
-  border-color: #2874f0;
-  background: #f5faff;
-}
-
-RIGHT SUMMARY 
- .checkout-right {
-  position: sticky;
-  top: 80px;
-}
-
-.order-summary {
-  background: #fff;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
+  border-color: #2a7cff;
 }
 
 .place-order-btn {
-  background: #fb641b;
-  width: 100%;
-  padding: 14px;
-  color: #fff;
-  border: none;
-  font-size: 16px;
+  margin-top: 20px;
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
   .checkout-content {
-    grid-template-columns: 1fr;
+    display: block;
   }
 
+  .checkout-left,
   .checkout-right {
-    position: static;
+    width: 100%;
   }
-}
 
-.summary-item-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-}
-
-.summary-item-row img {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border-radius: 8px;
-}
-
-.summary-item-details {
-  flex: 1;
-}
-
-.item-qty-price {
-  font-size: 13px;
-  color: #666;
-  margin: 4px 0 0 0;
-}
-
-.item-total {
-  font-weight: 600;
-  color: #333;
+  .order-summary {
+    margin-top: 20px;
+  }
 }
