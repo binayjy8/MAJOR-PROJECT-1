@@ -1,4 +1,4 @@
-import "../style/all.css";
+import "../style/women.css";
 import { Link } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
