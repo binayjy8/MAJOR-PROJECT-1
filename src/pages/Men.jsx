@@ -12,7 +12,7 @@ export default function Men() {
 
   const safeProducts = Array.isArray(products) ? products : [];
 
-  // Filter for Men's products only
+  // Filter for Men's products onl
   const menProducts = safeProducts.filter(product => {
     const productCategory = typeof product.category === 'object' 
       ? product.category.name 
