@@ -1,204 +1,216 @@
-/* =============================
+/* =========================
    GLOBAL LAYOUT
-============================= */
+========================= */
 
 .product-page {
   display: flex;
-  min-height: 100vh;
+  gap: 16px;
+  padding: 16px;
   background-color: #f1f3f6;
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: Roboto, Arial, sans-serif;
 }
 
-/* =============================
+/* =========================
    FILTER SIDEBAR
-============================= */
+========================= */
 
 .filter {
   width: 260px;
   background-color: #ffffff;
   padding: 16px;
-  border-right: 1px solid #dddddd;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 16px;
+  height: fit-content;
 }
 
 .filter h3 {
+  margin: 0 0 12px 0;
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 10px;
 }
 
 .clear-filter {
   font-size: 13px;
   color: #2874f0;
   cursor: pointer;
-  display: inline-block;
-  margin-bottom: 15px;
+  float: right;
 }
 
 .filter-section {
-  margin-top: 18px;
+  margin-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 12px;
 }
 
 .filter-title {
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
+/* Price Range */
 .filter input[type="range"] {
   width: 100%;
+  cursor: pointer;
 }
 
+/* Radio Buttons */
 .filter label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 14px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   cursor: pointer;
 }
 
 .filter input[type="radio"] {
-  margin-right: 6px;
+  cursor: pointer;
 }
 
-/* =============================
+/* =========================
    PRODUCTS AREA
-============================= */
+========================= */
 
 .products-area {
   flex: 1;
-  padding: 16px;
 }
 
+/* Page Title */
 .title {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
 }
 
-/* =============================
+.title span {
+  font-size: 14px;
+  color: #878787;
+  font-weight: 400;
+}
+
+/* =========================
    PRODUCT GRID
-============================= */
+========================= */
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
 }
 
-/* =============================
+/* =========================
    PRODUCT CARD
-============================= */
+========================= */
 
 .product-card {
   background-color: #ffffff;
-  border-radius: 2px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  transition: box-shadow 0.2s ease-in-out;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .product-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* =============================
-   IMAGE SECTION
-============================= */
-
+/* Image Wrapper */
 .image-wrapper {
   position: relative;
-  padding: 16px;
-  cursor: pointer;
-  overflow: hidden; /* keep image clipped safely */
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .product-image {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: contain;
-  position: relative;
-  z-index: 1; /* image below icon */
 }
 
-/* =============================
-   WISHLIST ICON (FINAL FIX)
-============================= */
-
+/* Wishlist Icon */
 .wishlist {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 5; /* above image */
-  font-size: 20px;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
   cursor: pointer;
-  background-color: #ffffff;
-  border-radius: 50%;
-  padding: 6px 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  user-select: none;
 }
 
-/* =============================
+/* =========================
    PRODUCT DETAILS
-============================= */
+========================= */
 
 .product-details {
   padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  text-align: left;
 }
 
 .product-name {
   font-size: 14px;
-  color: #212121;
   font-weight: 500;
-  line-height: 1.3;
-  height: 36px;
+  color: #212121;
+  margin-bottom: 6px;
+  height: 38px;
   overflow: hidden;
 }
 
 .product-rating {
   font-size: 13px;
   color: #388e3c;
+  margin-bottom: 6px;
 }
 
 .current-price {
   font-size: 16px;
   font-weight: 600;
   color: #212121;
+  margin-bottom: 10px;
 }
 
-/* =============================
+/* =========================
    ACTION BUTTON
-============================= */
+========================= */
 
 .main-action-btn {
-  margin-top: 8px;
-  background-color: #ff9f00;
+  width: 100%;
+  padding: 10px;
+  background-color: #2874f0;
   border: none;
   color: #ffffff;
-  padding: 10px;
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
   border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .main-action-btn:hover {
-  background-color: #fb8c00;
+  background-color: #0b5ed7;
 }
 
-/* =============================
+/* =========================
    STATES
-============================= */
+========================= *
 
 .loading,
 .error {
-  font-size: 18px;
   padding: 40px;
   text-align: center;
+  font-size: 18px;
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 768px) {
   .product-page {
@@ -207,7 +219,6 @@
 
   .filter {
     width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #dddddd;
+    position: static;
   }
 }
