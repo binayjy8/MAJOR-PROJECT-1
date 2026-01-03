@@ -3,29 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function Women() {
-  const { products, loading, error, filters, setFilters } = useProduct();
+  const { filteredProducts, loading, error, setFilters } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  const womenProducts = (products || []).filter((p) =>
-    (typeof p.category === "object"
-      ? p.category.name
-      : p.category
-    )?.toLowerCase().includes("women")
-  );
+  // ✅ Apply Women category safely
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      category: "Women",
+    }));
+  }, [setFilters]);
 
-  const finalProducts = womenProducts
-    .filter((p) => p.price <= filters.price)
-    .filter((p) => (filters.rating ? p.rating >= filters.rating : true))
-    .sort((a, b) => {
-      if (filters.sortBy === "lowToHigh") return a.price - b.price;
-      if (filters.sortBy === "highToLow") return b.price - a.price;
-      return 0;
-    });
+  const isInCart = (id) => cart.some((item) => item._id === id);
+  const isInWishlist = (id) => wishlist.some((item) => item._id === id);
 
-  if (loading) return <div className="loading">Loading products...</div>;
+  if (loading) return <div className="loading">Loading women's products...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
@@ -37,7 +33,12 @@ export default function Women() {
           <span
             className="clear-filter"
             onClick={() =>
-              setFilters({ rating: 0, price: 5000, sortBy: "" })
+              setFilters({
+                category: "Women",
+                rating: 0,
+                price: 5000,
+                sortBy: "",
+              })
             }
           >
             Clear
@@ -50,15 +51,14 @@ export default function Women() {
             type="range"
             min="50"
             max="5000"
-            value={filters.price}
+            value={5000}
             onChange={(e) =>
-              setFilters({ ...filters, price: Number(e.target.value) })
+              setFilters((prev) => ({
+                ...prev,
+                price: Number(e.target.value),
+              }))
             }
           />
-          <div className="price-range-text">
-            <span>₹50</span>
-            <span>₹5000</span>
-          </div>
         </div>
 
         <div className="filter-block">
@@ -67,8 +67,12 @@ export default function Women() {
             <label key={r} className="filter-option">
               <input
                 type="radio"
-                checked={filters.rating === r}
-                onChange={() => setFilters({ ...filters, rating: r })}
+                onChange={() =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    rating: r,
+                  }))
+                }
               />
               {r === 0 ? "All" : `${r}★ & above`}
             </label>
@@ -80,9 +84,11 @@ export default function Women() {
           <label className="filter-option">
             <input
               type="radio"
-              checked={filters.sortBy === "lowToHigh"}
               onChange={() =>
-                setFilters({ ...filters, sortBy: "lowToHigh" })
+                setFilters((prev) => ({
+                  ...prev,
+                  sortBy: "lowToHigh",
+                }))
               }
             />
             Price — Low to High
@@ -90,9 +96,11 @@ export default function Women() {
           <label className="filter-option">
             <input
               type="radio"
-              checked={filters.sortBy === "highToLow"}
               onChange={() =>
-                setFilters({ ...filters, sortBy: "highToLow" })
+                setFilters((prev) => ({
+                  ...prev,
+                  sortBy: "highToLow",
+                }))
               }
             />
             Price — High to Low
@@ -103,50 +111,52 @@ export default function Women() {
       {/* PRODUCTS */}
       <section className="products-area">
         <h2 className="page-title">
-          Women's Products <span>({finalProducts.length})</span>
+          Women's Products <span>({filteredProducts.length})</span>
         </h2>
 
         <div className="product-grid">
-          {finalProducts.map((p) => {
-            const inCart = cart.some((c) => c._id === p._id);
-            const inWishlist = wishlist.some((w) => w._id === p._id);
+          {filteredProducts.map((product) => (
+            <div className="product-card" key={product._id}>
+              <div
+                className="image-box"
+                onClick={() => navigate(`/detail/${product._id}`)}
+              >
+                <img src={product.imageUrl} alt={product.name} />
 
-            return (
-              <div className="product-card" key={p._id}>
-                <div className="image-box">
-                  <img src={p.imageUrl} alt={p.name} />
-
-                  <button
-                    className={`wishlist-btn ${inWishlist ? "active" : ""}`}
-                    onClick={() => {
-                      if (!inWishlist) {
-                        addToWishlist(p);
-                        toast.success("Added to wishlist");
-                      }
-                    }}
-                    aria-label="Add to wishlist"
-                  >
-                    <span className="heart-icon">❤</span>
-                  </button>
-                </div>
-
-                <div className="product-info">
-                  <p className="name">{p.name}</p>
-                  <p className="rating">★ {p.rating}</p>
-                  <p className="price">₹{p.price}</p>
-
-                  <button
-                    className="cart-btn"
-                    onClick={() =>
-                      inCart ? navigate("/cart") : addToCart(p)
+                <button
+                  className={`wishlist-btn ${
+                    isInWishlist(product._id) ? "active" : ""
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!isInWishlist(product._id)) {
+                      addToWishlist(product);
+                      toast.success("Added to wishlist");
                     }
-                  >
-                    {inCart ? "GO TO CART" : "ADD TO CART"}
-                  </button>
-                </div>
+                  }}
+                >
+                  ❤
+                </button>
               </div>
-            );
-          })}
+
+              <div className="product-info">
+                <p className="name">{product.name}</p>
+                <p className="rating">★ {product.rating}</p>
+                <p className="price">₹{product.price}</p>
+
+                <button
+                  className="cart-btn"
+                  onClick={() =>
+                    isInCart(product._id)
+                      ? navigate("/cart")
+                      : addToCart(product)
+                  }
+                >
+                  {isInCart(product._id) ? "GO TO CART" : "ADD TO CART"}
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>

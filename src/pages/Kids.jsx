@@ -1,40 +1,27 @@
 import "../style/kids.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function Kids() {
-  const { products, loading, error, filters, setFilters } = useProduct();
+  const { filteredProducts, loading, error, setFilters } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  const safeProducts = Array.isArray(products) ? products : [];
-
-  const kidsProducts = safeProducts.filter((product) => {
-    const category =
-      typeof product.category === "object"
-        ? product.category.name
-        : product.category;
-    return category?.toLowerCase().includes("kid");
-  });
-
-  const filteredProducts = kidsProducts.filter((product) => {
-    if (filters.rating > 0 && product.rating < filters.rating) return false;
-    if (product.price > filters.price) return false;
-    return true;
-  });
-
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (filters.sortBy === "lowToHigh") return a.price - b.price;
-    if (filters.sortBy === "highToLow") return b.price - a.price;
-    return 0;
-  });
+  // ✅ Apply Kids category safely
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      category: "Kids",
+    }));
+  }, [setFilters]);
 
   const isInCart = (id) => cart.some((item) => item._id === id);
   const isInWishlist = (id) => wishlist.some((item) => item._id === id);
 
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading) return <div className="loading">Loading kids products...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
@@ -45,42 +32,68 @@ export default function Kids() {
         <span
           className="clear-filter"
           onClick={() =>
-            setFilters({ category: [], rating: 0, price: 5000, sortBy: "" })
+            setFilters({
+              category: "Kids",
+              rating: 0,
+              price: 5000,
+              sortBy: "",
+            })
           }
         >
           Clear
         </span>
 
         <div className="filter-section">
-          <p className="filter-title">Price: ₹{filters.price}</p>
+          <p className="filter-title">Price</p>
           <input
             type="range"
             min="50"
             max="5000"
-            value={filters.price}
+            value={5000}
             onChange={(e) =>
-              setFilters((p) => ({ ...p, price: Number(e.target.value) }))
+              setFilters((prev) => ({
+                ...prev,
+                price: Number(e.target.value),
+              }))
             }
           />
+        </div>
+
+        <div className="filter-section">
+          <p className="filter-title">Rating</p>
+          {[4, 3, 2, 0].map((r) => (
+            <label key={r}>
+              <input
+                type="radio"
+                onChange={() =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    rating: r,
+                  }))
+                }
+              />
+              {r === 0 ? "All" : `${r} Stars & above`}
+            </label>
+          ))}
         </div>
       </div>
 
       {/* PRODUCTS */}
       <div className="products-area">
-        <div className="product-grid">
-          {sortedProducts.map((product) => (
-            <div className="product-card" key={product._id}>
-              {/* IMAGE */}
-              <div className="image-wrapper">
-                <Link to={`/detail/${product._id}`}>
-                  <img src={product.imageUrl} alt={product.name} />
-                </Link>
-              </div>
+        <h2 className="title">
+          Kids Products <span>({filteredProducts.length})</span>
+        </h2>
 
-              {/* WISHLIST — OUTSIDE IMAGE */}
+        <div className="product-grid">
+          {filteredProducts.map((product) => (
+            <div className="product-card" key={product._id}>
+              {/* Moved wishlist outside image-wrapper to prevent clipping */}
               <span
-                className="wishlist"
-                onClick={() => {
+                className={`wishlist ${
+                  isInWishlist(product._id) ? "active" : ""
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
                   if (isInWishlist(product._id)) {
                     toast.info("Already in wishlist");
                   } else {
@@ -89,10 +102,16 @@ export default function Kids() {
                   }
                 }}
               >
-                {isInWishlist(product._id) ? "❤️" : "🤍"}
+                ❤
               </span>
 
-              {/* DETAILS */}
+              <div
+                className="image-wrapper"
+                onClick={() => navigate(`/detail/${product._id}`)}
+              >
+                <img src={product.imageUrl} alt={product.name} />
+              </div>
+
               <div className="product-details">
                 <p className="product-name">{product.name}</p>
                 <p className="product-rating">⭐ {product.rating}</p>

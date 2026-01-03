@@ -1,20 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../style/orderSuccess.css";
 import { useCart } from "../context/CartContext";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export default function OrderSuccessPage() { 
+export default function OrderSuccessPage() {
   const { clearCart } = useCart();
-  const orderId = "ORD" + Math.random().toString(36).substring(2, 9).toUpperCase();
-  const estimatedDelivery = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
+  const location = useLocation();
+  const navigate = useNavigate();
+  const clearedRef = useRef(false);
+
+  // 🔹 Get real orderId from checkout page
+  const orderId = location.state?.orderId;
+
+  // 🔹 Redirect if accessed directly
+  useEffect(() => {
+    if (!orderId) {
+      navigate("/product");
+    }
+  }, [orderId, navigate]);
+
+  // 🔹 Clear cart only once
+  useEffect(() => {
+    if (!clearedRef.current) {
+      clearCart();
+      clearedRef.current = true;
+    }
+  }, [clearCart]);
+
+  const estimatedDelivery = new Date(
+    Date.now() + 5 * 24 * 60 * 60 * 1000
+  ).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   });
 
-  useEffect(() => {
-    clearCart();
-  }, [clearCart]);
+  if (!orderId) return null;
 
   return (
     <div className="success-container">
@@ -22,7 +43,7 @@ export default function OrderSuccessPage() {
         <div className="success-icon">✓</div>
         <h1>Order Placed Successfully!</h1>
         <p className="order-id">Order ID: {orderId}</p>
-        
+
         <div className="success-info">
           <p>Thank you for your purchase! Your order has been confirmed.</p>
           <p className="delivery-estimate">

@@ -6,6 +6,7 @@ import { useProduct } from "../context/ProductContext";
 export default function FrontPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const { setFilters, products } = useProduct();
   const navigate = useNavigate();
 
@@ -15,10 +16,12 @@ export default function FrontPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("https://project-backend-eta-pink.vercel.app/api/categories");
+      const response = await fetch(
+        "https://project-backend-eta-pink.vercel.app/api/categories"
+      );
       const result = await response.json();
-      
-      if (result.data && result.data.categories) {
+
+      if (result?.data?.categories) {
         setCategories(result.data.categories);
       }
     } catch (error) {
@@ -28,48 +31,67 @@ export default function FrontPage() {
     }
   };
 
+  /* =========================
+     CATEGORY CLICK HANDLER
+     ========================= */
   const handleCategoryClick = (categoryName) => {
     const lowerName = categoryName.toLowerCase();
-    
+
     if (categoryName === "All") {
-      setFilters(prev => ({
+      // ✅ IMPORTANT: category MUST be string
+      setFilters((prev) => ({
         ...prev,
-        category: []
+        category: "All",
+        rating: 0,
+        price: 5000,
+        sortBy: "",
       }));
       navigate("/product");
-    } else if (lowerName.includes("men") && !lowerName.includes("women")) {
-      navigate("/men");
-    } else if (lowerName.includes("women")) {
-      navigate("/women");
-    } else if (lowerName.includes("kids") || lowerName.includes("children")) {
-      navigate("/kids");
-    } else {
-      setFilters(prev => ({
-        ...prev,
-        category: [categoryName]
-      }));
-      navigate("/product");
+      return;
     }
+
+    if (lowerName.includes("men") && !lowerName.includes("women")) {
+      navigate("/men");
+      return;
+    }
+
+    if (lowerName.includes("women")) {
+      navigate("/women");
+      return;
+    }
+
+    if (lowerName.includes("kids") || lowerName.includes("children")) {
+      navigate("/kids");
+      return;
+    }
+
+    // Fallback category
+    setFilters((prev) => ({
+      ...prev,
+      category: categoryName,
+    }));
+    navigate("/product");
   };
 
+  /* =========================
+     IMAGE HELPERS
+     ========================= */
   const getAllCategoryImage = () => {
-    if (products && products.length > 0) {
-      const randomProduct = products[Math.floor(Math.random() * products.length)];
-      return randomProduct.imageUrl;
+    if (products?.length > 0) {
+      return products[Math.floor(Math.random() * products.length)].imageUrl;
     }
     return "https://via.placeholder.com/300x400?text=All+Products";
   };
 
   const getCategoryImage = (categoryName) => {
-    if (products && products.length > 0) {
-      const categoryProducts = products.filter(p => {
-        const pCat = typeof p.category === 'object' ? p.category.name : p.category;
-        return pCat?.toLowerCase().includes(categoryName.toLowerCase());
+    if (products?.length > 0) {
+      const match = products.find((p) => {
+        const cat =
+          typeof p.category === "object" ? p.category.name : p.category;
+        return cat?.toLowerCase().includes(categoryName.toLowerCase());
       });
-      
-      if (categoryProducts.length > 0) {
-        return categoryProducts[0].imageUrl;
-      }
+
+      if (match) return match.imageUrl;
     }
     return `https://via.placeholder.com/300x400?text=${categoryName}`;
   };
@@ -84,11 +106,15 @@ export default function FrontPage() {
 
   return (
     <div className="home-page-container">
+      {/* =========================
+          CATEGORIES
+         ========================= */}
       <div className="categories-row">
-        <div 
+        {/* ALL */}
+        <div
           className="category-box"
           onClick={() => handleCategoryClick("All")}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
         >
           <div className="category-img">
             <img src={getAllCategoryImage()} alt="All" />
@@ -96,19 +122,20 @@ export default function FrontPage() {
           <p className="category-label">All</p>
         </div>
 
+        {/* DYNAMIC CATEGORIES */}
         {categories.length > 0 ? (
           categories
-            .filter(category => category.name !== "Home")
+            .filter((cat) => cat.name !== "Home")
             .map((category) => (
-              <div 
+              <div
                 key={category._id}
                 className="category-box"
                 onClick={() => handleCategoryClick(category.name)}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
                 <div className="category-img">
-                  <img 
-                    src={category.imageUrl || getCategoryImage(category.name)} 
+                  <img
+                    src={category.imageUrl || getCategoryImage(category.name)}
                     alt={category.name}
                     onError={(e) => {
                       e.target.src = getCategoryImage(category.name);
@@ -120,47 +147,65 @@ export default function FrontPage() {
             ))
         ) : (
           <div className="no-categories">
-            <p>No categories available. Please check your database connection.</p>
+            <p>No categories available</p>
           </div>
         )}
       </div>
 
+      {/* =========================
+          MAIN BANNER
+         ========================= */}
       <div className="main-banner">
-        <img 
-          src={products && products.length > 0 ? products[0].imageUrl : "https://via.placeholder.com/1200x400?text=Welcome+to+Our+Store"} 
-          alt="Main Banner" 
+        <img
+          src={
+            products?.length > 0
+              ? products[0].imageUrl
+              : "https://via.placeholder.com/1200x400"
+          }
+          alt="Main Banner"
         />
       </div>
 
+      {/* =========================
+          FEATURED COLLECTIONS
+         ========================= */}
       <div className="featured-collections">
         <div className="collection-card">
           <div className="collection-image">
-            <img 
-              src={products && products.length > 1 ? products[1].imageUrl : "https://via.placeholder.com/600x400?text=Summer+Collection"} 
-              alt="Summer Collection" 
+            <img
+              src={
+                products?.length > 1
+                  ? products[1].imageUrl
+                  : "https://via.placeholder.com/600x400"
+              }
+              alt="Summer Collection"
             />
           </div>
           <div className="collection-info">
             <span className="new-tag">NEW ARRIVALS</span>
             <h2 className="collection-title">Summer Collection</h2>
             <p className="collection-desc">
-              Check out our best summer collection to stay stylish this season
+              Check out our best summer collection
             </p>
           </div>
         </div>
 
         <div className="collection-card">
           <div className="collection-image">
-            <img 
-              src={products && products.length > 2 ? products[2].imageUrl : "https://via.placeholder.com/600x400?text=Winter+Collection"} 
-              alt="Winter Collection" 
+            <img
+              src={
+                products?.length > 2
+                  ? products[2].imageUrl
+                  : "https://via.placeholder.com/600x400"
+              }
+              alt="Winter Collection"
             />
           </div>
           <div className="collection-info">
             <span className="new-tag">NEW ARRIVALS</span>
             <h2 className="collection-title">Winter Collection</h2>
             <p className="collection-desc">
-              Check out our best winter collection to stay warm in style this season
+              Stay warm with our winter collection
             </p>
           </div>
         </div>

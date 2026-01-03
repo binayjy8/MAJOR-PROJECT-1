@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../style/wishlist.css";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
 
 export default function Wishlist() {
-  const { wishlist, removeFromWishlist, addToCart } = useCart();
+  const {
+    wishlist,
+    removeFromWishlist,
+    addToCart,
+    cart,
+  } = useCart();
+
+  const navigate = useNavigate();
+
+  const isInCart = (id) => cart.some((item) => item._id === id);
 
   if (wishlist.length === 0) {
     return (
@@ -22,14 +31,18 @@ export default function Wishlist() {
       <h2>My Wishlist ({wishlist.length})</h2>
 
       <div className="wishlist-grid">
-        {wishlist.map(item => (
+        {wishlist.map((item) => (
           <div className="wishlist-card" key={item._id}>
-            <div className="wishlist-img-box">
+            <div
+              className="wishlist-img-box"
+              onClick={() => navigate(`/detail/${item._id}`)}
+            >
               <img src={item.imageUrl} alt={item.name} />
 
               <span
                 className="wishlist-heart"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   removeFromWishlist(item._id);
                   toast.info("Removed from wishlist");
                 }}
@@ -38,18 +51,22 @@ export default function Wishlist() {
               </span>
             </div>
 
-            <p>{item.name}</p>
+            <p className="wishlist-name">{item.name}</p>
             <p className="wishlist-price">₹{item.price}</p>
 
             <button
               className="wishlist-btn"
               onClick={() => {
-                addToCart(item);
-                removeFromWishlist(item._id);
-                toast.success("Moved to cart");
+                if (isInCart(item._id)) {
+                  navigate("/cart");
+                } else {
+                  addToCart(item);
+                  removeFromWishlist(item._id);
+                  toast.success("Moved to cart");
+                }
               }}
             >
-              Move to Cart
+              {isInCart(item._id) ? "Go to Cart" : "Move to Cart"}
             </button>
           </div>
         ))}

@@ -3,34 +3,46 @@ import { useNavigate } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function ProductDe() {
-  const { products, loading, error } = useProduct();
+  const { filteredProducts, loading, error, setFilters } = useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  const isInCart = (id) => cart.some(item => item._id === id);
-  const isInWishlist = (id) => wishlist.some(item => item._id === id);
+  // ✅ Ensure Electronics category is applied
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      category: "Electronics",
+    }));
+  }, [setFilters]);
 
-  if (loading) return <div className="loading">Loading products...</div>;
-  if (error) return <div className="error">Something went wrong</div>;
+  const isInCart = (id) => cart.some((item) => item._id === id);
+  const isInWishlist = (id) => wishlist.some((item) => item._id === id);
+
+  if (loading) return <div className="loading">Loading electronics...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="products-area">
       <h2 className="title">
-          Electronics <span>(showing {products.length} products)</span>
+        Electronics <span>({filteredProducts.length})</span>
       </h2>
 
-
       <div className="product-grid">
-        {products.map(product => (
+        {filteredProducts.map((product) => (
           <div className="product-card" key={product._id}>
-            
-            <div className="image-wrapper">
+            <div
+              className="image-wrapper"
+              onClick={() => navigate(`/detail/${product._id}`)}
+            >
               <img src={product.imageUrl} alt={product.name} />
 
               <span
-                className={`wishlist ${isInWishlist(product._id) ? "active" : ""}`}
+                className={`wishlist ${
+                  isInWishlist(product._id) ? "active" : ""
+                }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   if (isInWishlist(product._id)) {
@@ -40,7 +52,6 @@ export default function ProductDe() {
                     toast.success("Added to wishlist");
                   }
                 }}
-                title="Add to wishlist"
               >
                 <i className="fa-solid fa-heart"></i>
               </span>
@@ -52,23 +63,18 @@ export default function ProductDe() {
 
               <button
                 className={`cart-btn ${isInCart(product._id) ? "go" : ""}`}
-                onClick={() => {
-                  if (isInCart(product._id)) {
-                    navigate("/cart");
-                  } else {
-                    addToCart(product);
-                    toast.success("Added to cart");
-                  }
-                }}
+                onClick={() =>
+                  isInCart(product._id)
+                    ? navigate("/cart")
+                    : addToCart(product)
+                }
               >
                 {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
               </button>
             </div>
-
           </div>
         ))}
       </div>
     </div>
   );
 }
-
