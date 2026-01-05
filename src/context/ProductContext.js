@@ -10,16 +10,15 @@ export function ProductProvider({ children }) {
   const fetchedRef = useRef(false);
 
   /* =========================
-     FILTER STATE
+     FILTER STATE (SINGLE SOURCE OF TRUTH)
      ========================= */
   const [filters, setFilters] = useState({
-    category: "All",   // ✅ ALWAYS STRING
+    category: "All",
     rating: 0,
     price: 5000,
     sortBy: "",
+    search: "",
   });
-
-  const [searchTerm, setSearchTerm] = useState("");
 
   /* =========================
      FETCH DATA (ONCE)
@@ -65,11 +64,11 @@ export function ProductProvider({ children }) {
   };
 
   /* =========================
-     FILTERED PRODUCTS (CORE FIX)
+     FILTERED PRODUCTS (FINAL LOGIC)
      ========================= */
   const filteredProducts = products
     .filter((product) => {
-      /* 🔹 CATEGORY FILTER */
+      /* 🔹 CATEGORY */
       if (filters.category === "All") return true;
 
       const productCategory =
@@ -91,8 +90,8 @@ export function ProductProvider({ children }) {
 
       /* 🔹 SEARCH */
       if (
-        searchTerm &&
-        !product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        filters.search &&
+        !product.name.toLowerCase().includes(filters.search.toLowerCase())
       ) {
         return false;
       }
@@ -109,14 +108,12 @@ export function ProductProvider({ children }) {
     <ProductContext.Provider
       value={{
         products,
-        filteredProducts, // ✅ USE THIS FOR ALL PAGES
+        filteredProducts, // ✅ USE THIS EVERYWHER
         categories,
         loading,
         error,
         filters,
         setFilters,
-        searchTerm,
-        setSearchTerm,
         fetchProducts,
       }}
     >

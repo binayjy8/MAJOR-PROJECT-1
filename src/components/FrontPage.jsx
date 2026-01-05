@@ -32,44 +32,52 @@ export default function FrontPage() {
   };
 
   /* =========================
-     CATEGORY CLICK HANDLER
+     CATEGORY CLICK HANDLER (FIXED)
      ========================= */
   const handleCategoryClick = (categoryName) => {
     const lowerName = categoryName.toLowerCase();
 
+    // ✅ ALL PRODUCTS (CRITICAL FIX)
     if (categoryName === "All") {
-      // ✅ IMPORTANT: category MUST be string
-      setFilters((prev) => ({
-        ...prev,
+      setFilters({
         category: "All",
         rating: 0,
         price: 5000,
         sortBy: "",
-      }));
+        search: "",
+      });
+
       navigate("/product");
       return;
     }
 
+    // MEN
     if (lowerName.includes("men") && !lowerName.includes("women")) {
       navigate("/men");
       return;
     }
 
+    // WOMEN
     if (lowerName.includes("women")) {
       navigate("/women");
       return;
     }
 
+    // KIDS
     if (lowerName.includes("kids") || lowerName.includes("children")) {
       navigate("/kids");
       return;
     }
 
-    // Fallback category
-    setFilters((prev) => ({
-      ...prev,
+    // FALLBACK CATEGORY (SAFE)
+    setFilters({
       category: categoryName,
-    }));
+      rating: 0,
+      price: 5000,
+      sortBy: "",
+      search: "",
+    });
+
     navigate("/product");
   };
 
@@ -114,7 +122,6 @@ export default function FrontPage() {
         <div
           className="category-box"
           onClick={() => handleCategoryClick("All")}
-          style={{ cursor: "pointer" }}
         >
           <div className="category-img">
             <img src={getAllCategoryImage()} alt="All" />
@@ -131,7 +138,6 @@ export default function FrontPage() {
                 key={category._id}
                 className="category-box"
                 onClick={() => handleCategoryClick(category.name)}
-                style={{ cursor: "pointer" }}
               >
                 <div className="category-img">
                   <img

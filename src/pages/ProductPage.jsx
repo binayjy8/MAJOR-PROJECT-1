@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
-export default function Men() {
+export default function ProductPage() {
   const {
     filteredProducts,
     loading,
@@ -17,10 +17,10 @@ export default function Men() {
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // Reset & force Men category
+  // ✅ RESET FILTERS FOR ALL PRODUCTS
   useEffect(() => {
     setFilters({
-      category: "Men",
+      category: "All",
       rating: 0,
       price: 5000,
       sortBy: "",
@@ -31,20 +31,20 @@ export default function Men() {
   const isInCart = (id) => cart.some((item) => item._id === id);
   const isInWishlist = (id) => wishlist.some((item) => item._id === id);
 
-  if (loading) return <div className="loading">Loading men's products...</div>;
+  if (loading) return <div className="loading">Loading products...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="product-page">
       {/* ================= FILTER ================= */}
-      <div className="filter">
+      <aside className="filter">
         <div className="filter-header">
           <h3>Filters</h3>
           <span
             className="clear-filter"
             onClick={() =>
               setFilters({
-                category: "Men",
+                category: "All",
                 rating: 0,
                 price: 5000,
                 sortBy: "",
@@ -78,41 +78,16 @@ export default function Men() {
         <div className="filter-section">
           <p className="filter-title">Rating</p>
 
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 4}
-              onChange={() => setFilters((p) => ({ ...p, rating: 4 }))}
-            />
-            4★ & above
-          </label>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 3}
-              onChange={() => setFilters((p) => ({ ...p, rating: 3 }))}
-            />
-            3★ & above
-          </label>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 2}
-              onChange={() => setFilters((p) => ({ ...p, rating: 2 }))}
-            />
-            2★ & above
-          </label>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 0}
-              onChange={() => setFilters((p) => ({ ...p, rating: 0 }))}
-            />
-            All
-          </label>
+          {[4, 3, 2, 0].map((r) => (
+            <label key={r} className="filter-option">
+              <input
+                type="radio"
+                checked={filters.rating === r}
+                onChange={() => setFilters((p) => ({ ...p, rating: r }))}
+              />
+              {r === 0 ? "All" : `${r}★ & above`}
+            </label>
+          ))}
         </div>
 
         {/* SORT */}
@@ -141,12 +116,12 @@ export default function Men() {
             Price — High to Low
           </label>
         </div>
-      </div>
+      </aside>
 
       {/* ================= PRODUCTS ================= */}
-      <div className="products-area">
+      <section className="products-area">
         <h2 className="title">
-          Men&apos;s Products <span>({filteredProducts.length})</span>
+          All Products <span>({filteredProducts.length})</span>
         </h2>
 
         <div className="product-grid">
@@ -182,7 +157,6 @@ export default function Men() {
 
               <div className="product-details">
                 <p className="product-name">{product.name}</p>
-                <p className="product-rating">⭐ {product.rating}</p>
                 <p className="current-price">₹{product.price}</p>
 
                 <button
@@ -199,7 +173,7 @@ export default function Men() {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -5,10 +5,9 @@
 .product-page {
   display: flex;
   gap: 16px;
-  padding: 16px;
+  padding: 12px;
   background-color: #f1f3f6;
   min-height: 100vh;
-  box-sizing: border-box;
   font-family: Roboto, Arial, sans-serif;
 }
 
@@ -18,57 +17,60 @@
 
 .filter {
   width: 260px;
-  background-color: #ffffff;
+  background: #ffffff;
   padding: 16px;
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  position: sticky;
-  top: 16px;
-  height: fit-content;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .filter h3 {
-  margin: 0 0 12px 0;
   font-size: 18px;
-  font-weight: 600;
+  margin: 0;
 }
 
 .clear-filter {
   font-size: 13px;
   color: #2874f0;
   cursor: pointer;
-  float: right;
 }
 
 .filter-section {
   margin-top: 20px;
   border-top: 1px solid #e0e0e0;
-  padding-top: 12px;
+  padding-top: 14px;
 }
 
 .filter-title {
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-/* Price Range */
-.filter input[type="range"] {
-  width: 100%;
-  cursor: pointer;
+.price-value {
+  font-size: 14px;
+  margin-top: 8px;
 }
 
-/* Radio Buttons */
-.filter label {
+/* FIXED FILTER OPTIONS */
+
+.filter-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 14px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-.filter input[type="radio"] {
+.filter-option input[type="radio"] {
+  margin: 0;
   cursor: pointer;
 }
 
@@ -80,7 +82,6 @@
   flex: 1;
 }
 
-/* Page Title */
 .title {
   font-size: 20px;
   font-weight: 600;
@@ -89,8 +90,7 @@
 
 .title span {
   font-size: 14px;
-  color: #878787;
-  font-weight: 400;
+  color: #777;
 }
 
 /* =========================
@@ -108,25 +108,24 @@
 ========================= */
 
 .product-card {
-  background-color: #ffffff;
-  border-radius: 4px;
+  background: #ffffff;
+  border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Image Wrapper */
+/* IMAGE */
+
 .image-wrapper {
   position: relative;
-  padding: 12px;
+  height: 220px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .product-image {
@@ -135,30 +134,33 @@
   object-fit: contain;
 }
 
-/* Wishlist Icon */
+/* WISHLIST */
+
 .wishlist {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 18px;
+  top: 8px;
+  right: 8px;
+  font-size: 20px;
+  background: #fff;
+  padding: 4px;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  user-select: none;
 }
 
-/* =========================
-   PRODUCT DETAILS
-========================= */
+.wishlist.active {
+  color: red;
+}
+
+/* DETAILS */
 
 .product-details {
   padding: 12px;
-  text-align: left;
 }
 
 .product-name {
   font-size: 14px;
   font-weight: 500;
-  color: #212121;
-  margin-bottom: 6px;
   height: 38px;
   overflow: hidden;
 }
@@ -166,37 +168,33 @@
 .product-rating {
   font-size: 13px;
   color: #388e3c;
-  margin-bottom: 6px;
 }
 
 .current-price {
   font-size: 16px;
   font-weight: 600;
-  color: #212121;
-  margin-bottom: 10px;
+  margin: 6px 0 10px;
 }
 
-/* =========================
-   ACTION BUTTON
-========================= */
+/* BUTTON */
 
 .main-action-btn {
   width: 100%;
   padding: 10px;
-  background-color: #2874f0;
-  border: none;
+  background: #2874f0;
   color: #ffffff;
-  font-size: 14px;
+  border: none;
   font-weight: 600;
-  border-radius: 2px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 .main-action-btn:hover {
-  background-color: #0b5ed7;
+  background: #0b5ed7;
 }
 
+/* =========================
+   STATES
+========================= */
 
 .loading,
 .error {
@@ -216,6 +214,5 @@
 
   .filter {
     width: 100%;
-    position: static;
   }
 }

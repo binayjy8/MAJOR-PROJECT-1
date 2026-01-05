@@ -6,16 +6,26 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function Women() {
-  const { filteredProducts, loading, error, setFilters } = useProduct();
+  const {
+    filteredProducts,
+    loading,
+    error,
+    setFilters,
+    filters,
+  } = useProduct();
+
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ Apply Women category safely
+  // Force Women category + reset filters
   useEffect(() => {
-    setFilters((prev) => ({
-      ...prev,
+    setFilters({
       category: "Women",
-    }));
+      rating: 0,
+      price: 5000,
+      sortBy: "",
+      search: "",
+    });
   }, [setFilters]);
 
   const isInCart = (id) => cart.some((item) => item._id === id);
@@ -26,7 +36,7 @@ export default function Women() {
 
   return (
     <div className="product-page">
-      {/* FILTER */}
+      {/* ================= FILTER ================= */}
       <aside className="filter">
         <div className="filter-header">
           <h3>Filters</h3>
@@ -38,6 +48,7 @@ export default function Women() {
                 rating: 0,
                 price: 5000,
                 sortBy: "",
+                search: "",
               })
             }
           >
@@ -45,62 +56,61 @@ export default function Women() {
           </span>
         </div>
 
-        <div className="filter-block">
-          <p className="filter-title">PRICE</p>
+        {/* PRICE */}
+        <div className="filter-section">
+          <p className="filter-title">Price</p>
           <input
             type="range"
             min="50"
             max="5000"
-            value={5000}
+            value={filters.price}
             onChange={(e) =>
-              setFilters((prev) => ({
-                ...prev,
+              setFilters((p) => ({
+                ...p,
                 price: Number(e.target.value),
               }))
             }
           />
+          <p className="price-value">₹{filters.price}</p>
         </div>
 
-        <div className="filter-block">
-          <p className="filter-title">RATING</p>
+        {/* RATING */}
+        <div className="filter-section">
+          <p className="filter-title">Rating</p>
+
           {[4, 3, 2, 0].map((r) => (
             <label key={r} className="filter-option">
               <input
                 type="radio"
-                onChange={() =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    rating: r,
-                  }))
-                }
+                checked={filters.rating === r}
+                onChange={() => setFilters((p) => ({ ...p, rating: r }))}
               />
               {r === 0 ? "All" : `${r}★ & above`}
             </label>
           ))}
         </div>
 
-        <div className="filter-block">
-          <p className="filter-title">SORT BY</p>
+        {/* SORT */}
+        <div className="filter-section">
+          <p className="filter-title">Sort By</p>
+
           <label className="filter-option">
             <input
               type="radio"
+              checked={filters.sortBy === "lowToHigh"}
               onChange={() =>
-                setFilters((prev) => ({
-                  ...prev,
-                  sortBy: "lowToHigh",
-                }))
+                setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))
               }
             />
             Price — Low to High
           </label>
+
           <label className="filter-option">
             <input
               type="radio"
+              checked={filters.sortBy === "highToLow"}
               onChange={() =>
-                setFilters((prev) => ({
-                  ...prev,
-                  sortBy: "highToLow",
-                }))
+                setFilters((p) => ({ ...p, sortBy: "highToLow" }))
               }
             />
             Price — High to Low
@@ -108,51 +118,58 @@ export default function Women() {
         </div>
       </aside>
 
-      {/* PRODUCTS */}
+      {/* ================= PRODUCTS ================= */}
       <section className="products-area">
         <h2 className="page-title">
-          Women's Products <span>({filteredProducts.length})</span>
+          Women&apos;s Products <span>({filteredProducts.length})</span>
         </h2>
 
         <div className="product-grid">
           {filteredProducts.map((product) => (
             <div className="product-card" key={product._id}>
               <div
-                className="image-box"
+                className="image-wrapper"
                 onClick={() => navigate(`/detail/${product._id}`)}
               >
-                <img src={product.imageUrl} alt={product.name} />
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  className="product-image"
+                />
 
-                <button
-                  className={`wishlist-btn ${
+                {/* SAME WISHLIST AS MEN */}
+                <span
+                  className={`wishlist ${
                     isInWishlist(product._id) ? "active" : ""
                   }`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (!isInWishlist(product._id)) {
+                    if (isInWishlist(product._id)) {
+                      toast.info("Already in wishlist");
+                    } else {
                       addToWishlist(product);
                       toast.success("Added to wishlist");
                     }
                   }}
                 >
                   ❤
-                </button>
+                </span>
               </div>
 
-              <div className="product-info">
-                <p className="name">{product.name}</p>
-                <p className="rating">★ {product.rating}</p>
-                <p className="price">₹{product.price}</p>
+              <div className="product-details">
+                <p className="product-name">{product.name}</p>
+                <p className="product-rating">⭐ {product.rating}</p>
+                <p className="current-price">₹{product.price}</p>
 
                 <button
-                  className="cart-btn"
+                  className="main-action-btn"
                   onClick={() =>
                     isInCart(product._id)
                       ? navigate("/cart")
                       : addToCart(product)
                   }
                 >
-                  {isInCart(product._id) ? "GO TO CART" : "ADD TO CART"}
+                  {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
                 </button>
               </div>
             </div>

@@ -5,13 +5,13 @@ import { AddressProvider } from "./context/AddressContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Import Components
+// Components
 import Navbar from "./components/Navbar";
 import Footer from "./pages/Footer";
 
-// Import Pages
+// Pages
 import FrontPage from "./components/FrontPage";
-import ProductDe from "./pages/ProductDe";
+import ProductPage from "./pages/ProductPage";
 import ProductDetails from "./pages/ProductDetails";
 import Men from "./pages/Men";
 import Women from "./pages/Women";
@@ -22,6 +22,8 @@ import CheckoutPage from "./pages/CheckoutPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import AddressPage from "./pages/AddressPage";
 import ProfilePage from "./pages/ProfilePage";
+import Electronics from "./pages/Electronics";
+
 
 function App() {
   return (
@@ -30,47 +32,37 @@ function App() {
         <AddressProvider>
           <div className="App">
             <Navbar />
+
             <Routes>
-              {/* Home Page */}
+              {/* Home */}
               <Route path="/" element={<FrontPage />} />
-              
-              {/* Product Pages */}
-              <Route path="/product" element={<ProductDe />} />
+
+              {/* Product Listings */}
+              <Route path="/product" element={<ProductPage />} />
               <Route path="/men" element={<Men />} />
               <Route path="/women" element={<Women />} />
               <Route path="/kids" element={<Kids />} />
-              
-              {/* Single Product Detail */}
+              <Route path="/electronics" element={<Electronics />} />
+
+              {/* Product Detail */}
               <Route path="/detail/:id" element={<ProductDetails />} />
-              
+
               {/* Cart & Wishlist */}
               <Route path="/cart" element={<CartPage />} />
               <Route path="/wishlist" element={<Wishlist />} />
-              
-              {/* Checkout & Order */}
+
+              {/* Checkout */}
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/order-success" element={<OrderSuccessPage />} />
-              
-              {/* User Profile & Address */}
+
+              {/* Profile */}
               <Route path="/address" element={<AddressPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Routes>
-            
+
             <Footer />
-            
-            {/* Toast Notifications */}
-            <ToastContainer 
-              position="top-right"
-              autoClose={2000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
+
+            <ToastContainer position="top-right" autoClose={2000} />
           </div>
         </AddressProvider>
       </CartProvider>
