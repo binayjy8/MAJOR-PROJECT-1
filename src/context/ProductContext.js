@@ -108,7 +108,7 @@ export function ProductProvider({ children }) {
     <ProductContext.Provider
       value={{
         products,
-        filteredProducts, // ✅ USE THIS EVERY
+        filteredProducts, // ✅ USE THIS EVER
         categories,
         loading,
         error,
