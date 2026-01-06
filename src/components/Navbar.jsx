@@ -5,28 +5,36 @@ import "../style/navbar.css";
 
 export default function Navbar() {
   const { cart, wishlist } = useCart();
-  const { searchTerm, setSearchTerm } = useProduct();
+  const { filters, setFilters } = useProduct();
 
   const totalCartItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
+        {/* LOGO */}
         <Link to="/" className="navbar-logo">
           ShopEasy
         </Link>
 
+        {/* SEARCH */}
         <div className="navbar-search">
           <span className="search-icon">🔍</span>
-          <input 
-            type="text" 
-            placeholder="Search products..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={filters.search}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                search: e.target.value,
+              }))
+            }
             className="search-input"
           />
         </div>
 
+        {/* ACTIONS */}
         <div className="navbar-actions">
           <Link to="/profile" className="profile-button">
             Profile
@@ -44,7 +52,9 @@ export default function Navbar() {
           <Link to="/cart" className="navbar-icon-link">
             <div className="icon-wrapper">
               {totalCartItems > 0 && (
-                <span className="icon-badge cart-badge">{totalCartItems}</span>
+                <span className="icon-badge cart-badge">
+                  {totalCartItems}
+                </span>
               )}
               <i className="fa-solid fa-cart-shopping"></i>
               <span className="cart-label">Cart</span>

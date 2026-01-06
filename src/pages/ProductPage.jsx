@@ -12,19 +12,19 @@ export default function ProductPage() {
     error,
     setFilters,
     filters,
+    categories, // ✅ REQUIRED FOR CATEGORY FILTER
   } = useProduct();
 
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ RESET FILTERS FOR ALL PRODUCTS
+  // ✅ RESET FILTERS ON PAGE LOAD (SAFE)
   useEffect(() => {
     setFilters({
       category: "All",
       rating: 0,
       price: 5000,
       sortBy: "",
-      search: "",
     });
   }, [setFilters]);
 
@@ -48,12 +48,40 @@ export default function ProductPage() {
                 rating: 0,
                 price: 5000,
                 sortBy: "",
-                search: "",
               })
             }
           >
             Clear
           </span>
+        </div>
+
+        {/* ✅ CATEGORY FILTER (MENTOR REQUIREMENT) */}
+        <div className="filter-section">
+          <p className="filter-title">Category</p>
+
+          <label className="filter-option">
+            <input
+              type="radio"
+              checked={filters.category === "All"}
+              onChange={() =>
+                setFilters((p) => ({ ...p, category: "All" }))
+              }
+            />
+            All
+          </label>
+
+          {categories?.map((cat) => (
+            <label key={cat._id} className="filter-option">
+              <input
+                type="radio"
+                checked={filters.category === cat.name}
+                onChange={() =>
+                  setFilters((p) => ({ ...p, category: cat.name }))
+                }
+              />
+              {cat.name}
+            </label>
+          ))}
         </div>
 
         {/* PRICE */}
@@ -77,7 +105,6 @@ export default function ProductPage() {
         {/* RATING */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
-
           {[4, 3, 2, 0].map((r) => (
             <label key={r} className="filter-option">
               <input
@@ -121,7 +148,8 @@ export default function ProductPage() {
       {/* ================= PRODUCTS ================= */}
       <section className="products-area">
         <h2 className="title">
-          All Products <span>({filteredProducts.length})</span>
+          {filters.category === "All" ? "All Products" : filters.category}{" "}
+          <span>({filteredProducts.length})</span>
         </h2>
 
         <div className="product-grid">
@@ -157,6 +185,7 @@ export default function ProductPage() {
 
               <div className="product-details">
                 <p className="product-name">{product.name}</p>
+                <p className="product-rating">⭐ {product.rating}</p>
                 <p className="current-price">₹{product.price}</p>
 
                 <button

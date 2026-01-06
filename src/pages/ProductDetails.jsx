@@ -34,6 +34,11 @@ export default function ProductDetails() {
     toast.success("Added to cart");
   };
 
+  const handleBuyNow = () => {
+    addToCart({ ...product, qty: quantity, size: selectedSize });
+    navigate("/checkout");
+  };
+
   return (
     <div className="product-details-container">
       {/* LEFT */}
@@ -56,7 +61,7 @@ export default function ProductDetails() {
           </span>
         </div>
 
-        <button className="buy-btn" onClick={handleAddToCart}>
+        <button className="buy-btn" onClick={handleBuyNow}>
           Buy Now
         </button>
 
@@ -70,7 +75,7 @@ export default function ProductDetails() {
         </button>
       </div>
 
-      {/* MIDDLE */}
+      {/* RIGHT (MAIN CONTENT) */}
       <div className="middle-section">
         <h2>{product.name}</h2>
 
@@ -105,20 +110,21 @@ export default function ProductDetails() {
           ))}
         </div>
 
+        {/* FEATURES */}
         <div className="features">
           <p>✔ 10 Days Return</p>
           <p>✔ Pay on Delivery</p>
           <p>✔ Secure Payment</p>
         </div>
-      </div>
 
-      {/* RIGHT */}
-      <div className="right-section">
-        <h3>Description</h3>
-        <p>
-          {product.description ||
-            "Premium quality product with great comfort."}
-        </p>
+        {/* ✅ DESCRIPTION (MOVED BELOW FEATURES) */}
+        <div className="description-section">
+          <h3>Description</h3>
+          <p>
+            {product.description ||
+              "Premium quality product with great comfort."}
+          </p>
+        </div>
       </div>
     </div>
   );
