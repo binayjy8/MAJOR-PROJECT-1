@@ -25,14 +25,11 @@ export default function ProfilePage() {
         "https://project-backend-eta-pink.vercel.app/api/orders"
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch orders");
-      }
+      if (!response.ok) throw new Error("Failed to fetch orders");
 
       const result = await response.json();
 
       if (result?.data?.orders) {
-        // Sort latest orders first
         const sorted = [...result.data.orders].reverse();
         setOrders(sorted);
       } else {
@@ -57,9 +54,7 @@ export default function ProfilePage() {
 
       {/* PERSONAL INFO */}
       <div className="profile-section">
-        <div className="section-header">
-          <h2>Personal Information</h2>
-        </div>
+        <h2>Personal Information</h2>
 
         <div className="info-grid">
           <div className="info-item">
@@ -80,6 +75,7 @@ export default function ProfilePage() {
       {/* QUICK ACTIONS */}
       <div className="profile-section">
         <h2>Quick Actions</h2>
+
         <div className="action-grid">
           <Link to="/address" className="action-card">
             <span className="action-icon">📍</span>
@@ -109,9 +105,7 @@ export default function ProfilePage() {
 
       {/* ORDERS */}
       <div className="profile-section">
-        <div className="section-header">
-          <h2>Recent Orders</h2>
-        </div>
+        <h2>Recent Orders</h2>
 
         {loading ? (
           <p className="loading-text">Loading orders...</p>
@@ -138,29 +132,23 @@ export default function ProfilePage() {
                       {new Date(order.createdAt).toLocaleDateString("en-IN")}
                     </span>
                   </div>
-                  <span className={`order-status status-${order.status.toLowerCase()}`}>
+
+                  <span
+                    className={`order-status status-${order.status.toLowerCase()}`}
+                  >
                     {order.status}
                   </span>
                 </div>
 
                 <div className="order-details">
-                  <div className="order-items">
-                    <p>
-                      <strong>Items:</strong>{" "}
-                      {order.items.reduce((sum, i) => sum + i.qty, 0)}
-                    </p>
-                  </div>
-                  <div className="order-total-section">
-                    <p className="order-total">
-                      <strong>Total:</strong> ₹{order.totalAmount}
-                    </p>
-                  </div>
-                </div>
+                  <p>
+                    <strong>Items:</strong>{" "}
+                    {order.items.reduce((sum, i) => sum + i.qty, 0)}
+                  </p>
 
-                <div className="order-actions">
-                  <button className="view-details-btn">
-                    View Details
-                  </button>
+                  <p className="order-total">
+                    <strong>Total:</strong> ₹{order.totalAmount}
+                  </p>
                 </div>
               </div>
             ))}

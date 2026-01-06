@@ -32,12 +32,12 @@ export default function FrontPage() {
   };
 
   /* =========================
-     CATEGORY CLICK HANDLER (FIXED)
+     CATEGORY CLICK HANDLER
      ========================= */
   const handleCategoryClick = (categoryName) => {
     const lowerName = categoryName.toLowerCase();
 
-    // ✅ ALL PRODUCTS (CRITICAL FIX)
+    // ✅ ALL PRODUCTS
     if (categoryName === "All") {
       setFilters({
         category: "All",
@@ -46,30 +46,35 @@ export default function FrontPage() {
         sortBy: "",
         search: "",
       });
-
       navigate("/product");
       return;
     }
 
-    // MEN
+    // ✅ MEN
     if (lowerName.includes("men") && !lowerName.includes("women")) {
       navigate("/men");
       return;
     }
 
-    // WOMEN
+    // ✅ WOMEN
     if (lowerName.includes("women")) {
       navigate("/women");
       return;
     }
 
-    // KIDS
+    // ✅ KIDS
     if (lowerName.includes("kids") || lowerName.includes("children")) {
       navigate("/kids");
       return;
     }
 
-    // FALLBACK CATEGORY (SAFE)
+    // ✅ ELECTRONICS (🔥 MAIN FIX)
+    if (lowerName.includes("electronics")) {
+      navigate("/electronics");
+      return;
+    }
+
+    // ✅ FALLBACK (SAFE)
     setFilters({
       category: categoryName,
       rating: 0,
@@ -77,7 +82,6 @@ export default function FrontPage() {
       sortBy: "",
       search: "",
     });
-
     navigate("/product");
   };
 
@@ -98,7 +102,6 @@ export default function FrontPage() {
           typeof p.category === "object" ? p.category.name : p.category;
         return cat?.toLowerCase().includes(categoryName.toLowerCase());
       });
-
       if (match) return match.imageUrl;
     }
     return `https://via.placeholder.com/300x400?text=${categoryName}`;
@@ -130,32 +133,26 @@ export default function FrontPage() {
         </div>
 
         {/* DYNAMIC CATEGORIES */}
-        {categories.length > 0 ? (
-          categories
-            .filter((cat) => cat.name !== "Home")
-            .map((category) => (
-              <div
-                key={category._id}
-                className="category-box"
-                onClick={() => handleCategoryClick(category.name)}
-              >
-                <div className="category-img">
-                  <img
-                    src={category.imageUrl || getCategoryImage(category.name)}
-                    alt={category.name}
-                    onError={(e) => {
-                      e.target.src = getCategoryImage(category.name);
-                    }}
-                  />
-                </div>
-                <p className="category-label">{category.name}</p>
+        {categories
+          .filter((cat) => cat.name !== "Home")
+          .map((category) => (
+            <div
+              key={category._id}
+              className="category-box"
+              onClick={() => handleCategoryClick(category.name)}
+            >
+              <div className="category-img">
+                <img
+                  src={category.imageUrl || getCategoryImage(category.name)}
+                  alt={category.name}
+                  onError={(e) => {
+                    e.target.src = getCategoryImage(category.name);
+                  }}
+                />
               </div>
-            ))
-        ) : (
-          <div className="no-categories">
-            <p>No categories available</p>
-          </div>
-        )}
+              <p className="category-label">{category.name}</p>
+            </div>
+          ))}
       </div>
 
       {/* =========================

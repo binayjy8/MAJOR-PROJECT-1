@@ -1,4 +1,6 @@
-/* Navbar Styles */
+/* =========================
+   NAVBAR BASE
+========================= */
 .navbar {
   background: #2c3e50;
   color: white;
@@ -16,10 +18,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
 }
 
-/* Logo */
+/* =========================
+   LOGO
+========================= */
 .navbar-logo {
   font-size: 26px;
   font-weight: 700;
@@ -32,7 +36,9 @@
   color: #4aa3ff;
 }
 
-/* Search */
+/* =========================
+   SEARCH
+========================= */
 .navbar-search {
   flex: 1;
   max-width: 600px;
@@ -58,20 +64,18 @@
   outline: none;
 }
 
-.search-input::placeholder {
-  color: #9aa4af;
-}
-
-/* Actions */
+/* =========================
+   ACTIONS
+========================= */
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 /* Profile */
 .profile-button {
-  padding: 8px 16px;
+  padding: 8px 14px;
   background: #3498db;
   color: #fff;
   border-radius: 6px;
@@ -80,11 +84,7 @@
   text-decoration: none;
 }
 
-.profile-button:hover {
-  background: #2874f0;
-}
-
-/* Icon Buttons */
+/* Icons */
 .navbar-icon-link {
   text-decoration: none;
 }
@@ -94,26 +94,19 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 12px;
+  padding: 8px 10px;
   background: rgba(255, 255, 255, 0.12);
   border-radius: 6px;
 }
 
-.icon-wrapper:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* ✅ FIXED ICON COLOR */
 .icon-wrapper i {
   font-size: 18px;
-  color: #ffffff; /* important */
+  color: #ffffff;
 }
 
-/* Cart text */
 .cart-label {
   font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
 }
 
 /* Badge */
@@ -138,30 +131,60 @@
   background: #27ae60;
 }
 
-/* Responsive */
+/* =========================
+   ✅ MOBILE FIX
+========================= */
 @media (max-width: 768px) {
   .navbar-container {
     flex-wrap: wrap;
-    gap: 12px;
+    padding: 10px 14px;
   }
 
+  /* Top Row */
+  .navbar-logo {
+    font-size: 22px;
+  }
+
+  .navbar-actions {
+    gap: 8px;
+  }
+
+  .profile-button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .cart-label {
+    display: none; /* 🔥 KEY FIX */
+  }
+
+  /* Search full width */
   .navbar-search {
     order: 3;
     width: 100%;
     max-width: 100%;
+    margin-top: 8px;
   }
 
-  .cart-label {
-    display: none;
+  .search-input {
+    font-size: 13px;
+    padding: 10px 12px 10px 38px;
   }
 }
 
+/* =========================
+   EXTRA SMALL SCREENS
+========================= */
 @media (max-width: 480px) {
-  .navbar-container {
-    padding: 10px 14px;
-  }
-
   .navbar-logo {
     font-size: 20px;
+  }
+
+  .icon-wrapper {
+    padding: 6px 8px;
+  }
+
+  .icon-wrapper i {
+    font-size: 16px;
   }
 }

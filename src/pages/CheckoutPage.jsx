@@ -11,12 +11,14 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
 
   const [selectedAddress, setSelectedAddress] = useState(
-    addresses.find(addr => addr.isDefault)?.id || addresses[0]?.id
+    addresses.find((a) => a.isDefault)?.id || addresses[0]?.id
   );
-
   const [paymentMethod, setPaymentMethod] = useState("cod");
 
-  const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.qty,
+    0
+  );
   const deliveryCharges = 49;
   const finalTotal = totalPrice + deliveryCharges;
 
@@ -27,53 +29,41 @@ export default function CheckoutPage() {
     }
 
     try {
-      const selectedAddr = addresses.find(a => a.id === selectedAddress);
-      const orderId = "ORD" + Math.random().toString(36).substring(2, 9).toUpperCase();
-      
+      const selectedAddr = addresses.find((a) => a.id === selectedAddress);
+      const orderId =
+        "ORD" + Math.random().toString(36).substring(2, 9).toUpperCase();
+
       const orderData = {
         orderId,
-        user: {
-          name: selectedAddr.name,
-          email: "user@example.com",
-          phone: selectedAddr.phone
-        },
-        items: cart.map(item => ({
-          product: item._id,
-          name: item.name,
-          price: item.price,
-          qty: item.qty,
-          imageUrl: item.imageUrl
-        })),
         address: selectedAddr,
+        items: cart,
         paymentMethod,
         totalAmount: finalTotal,
-        status: "Confirmed"
+        status: "Confirmed",
       };
 
-      const response = await fetch("https://project-backend-eta-pink.vercel.app/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(orderData)
-      });
+      const response = await fetch(
+        "https://project-backend-eta-pink.vercel.app/api/orders",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData),
+        }
+      );
 
       if (response.ok) {
         setCart([]);
         toast.success("Order placed successfully!");
         navigate("/order-success", { state: { orderId } });
       } else {
-        const error = await response.text();
-        console.error("Order failed:", error);
-        toast.error("Failed to place order. Please try again.");
+        toast.error("Failed to place order");
       }
-    } catch (error) {
-      console.error("Error placing order:", error);
-      toast.error("An error occurred while placing the order.");
+    } catch {
+      toast.error("Something went wrong");
     }
   };
 
-  if (cart.length === 0) {
+  if (!cart.length) {
     navigate("/cart");
     return null;
   }
@@ -82,132 +72,112 @@ export default function CheckoutPage() {
     <div className="checkout-container">
       <h1 className="checkout-title">Checkout</h1>
 
-      <div className="checkout-content">
+      <div className="checkout-grid">
+        {/* LEFT */}
         <div className="checkout-left">
-          <div className="checkout-section">
-            <h2>1. Select Delivery Address</h2>
-            
-            <div className="address-selection">
-              {addresses.map(address => (
-                <div 
-                  key={address.id} 
-                  className={`checkout-address-card ${selectedAddress === address.id ? 'selected' : ''}`}
-                  onClick={() => setSelectedAddress(address.id)}
-                >
-                  <input
-                    type="radio"
-                    name="address"
-                    checked={selectedAddress === address.id}
-                    onChange={() => setSelectedAddress(address.id)}
-                  />
-                  <div className="address-info">
-                    <h3>{address.name}</h3>
-                    <p>{address.phone}</p>
-                    <p>{address.street}</p>
-                    <p>{address.city}, {address.state} - {address.pincode}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* ADDRESS */}
+          <div className="checkout-card">
+            <h2>Delivery Address</h2>
 
-            <button 
-              className="add-new-address-btn"
+            {addresses.map((address) => (
+              <label
+                key={address.id}
+                className={`address-card ${
+                  selectedAddress === address.id ? "active" : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="address"
+                  checked={selectedAddress === address.id}
+                  onChange={() => setSelectedAddress(address.id)}
+                />
+                <div>
+                  <strong>{address.name}</strong>
+                  <p>{address.phone}</p>
+                  <p>
+                    {address.street}, {address.city}, {address.state} -{" "}
+                    {address.pincode}
+                  </p>
+                </div>
+              </label>
+            ))}
+
+            <button
+              className="secondary-btn"
               onClick={() => navigate("/address")}
             >
               + Add New Address
             </button>
           </div>
 
-          <div className="checkout-section">
-            <h2>2. Select Payment Method</h2>
-            
-            <div className="payment-options">
-              <label className={`payment-option ${paymentMethod === 'cod' ? 'selected' : ''}`}>
-                <input
-                  type="radio"
-                  name="payment"
-                  value="cod"
-                  checked={paymentMethod === "cod"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                />
-                <div>
-                  <strong>Cash on Delivery</strong>
-                  <p>Pay when you receive the product</p>
-                </div>
-              </label>
+          {/* PAYMENT */}
+          <div className="checkout-card">
+            <h2>Payment Method</h2>
 
-              <label className={`payment-option ${paymentMethod === 'upi' ? 'selected' : ''}`}>
+            {[
+              { id: "cod", label: "Cash on Delivery" },
+              { id: "upi", label: "UPI" },
+              { id: "card", label: "Credit / Debit Card" },
+            ].map((method) => (
+              <label
+                key={method.id}
+                className={`payment-card ${
+                  paymentMethod === method.id ? "active" : ""
+                }`}
+              >
                 <input
                   type="radio"
                   name="payment"
-                  value="upi"
-                  checked={paymentMethod === "upi"}
+                  value={method.id}
+                  checked={paymentMethod === method.id}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 />
-                <div>
-                  <strong>UPI</strong>
-                  <p>Pay using UPI apps</p>
-                </div>
+                {method.label}
               </label>
-
-              <label className={`payment-option ${paymentMethod === 'card' ? 'selected' : ''}`}>
-                <input
-                  type="radio"
-                  name="payment"
-                  value="card"
-                  checked={paymentMethod === "card"}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                />
-                <div>
-                  <strong>Credit/Debit Card</strong>
-                  <p>Pay securely with your card</p>
-                </div>
-              </label>
-            </div>
+            ))}
           </div>
         </div>
 
+        {/* RIGHT */}
         <div className="checkout-right">
           <div className="order-summary">
             <h2>Order Summary</h2>
 
-            <div className="summary-items">
-              {cart.map(item => (
-                <div key={item._id} className="summary-item">
-                  <img src={item.imageUrl || "/photo.jpg"} alt={item.name} />
-                  <div className="summary-item-info">
-                    <p className="item-name">{item.name}</p>
-                    <p className="item-qty">Qty: {item.qty} × ₹{item.price}</p>
-                  </div>
-                  <p className="item-price">₹{item.price * item.qty}</p>
+            {cart.map((item) => (
+              <div key={item._id} className="summary-item">
+                <img src={item.imageUrl} alt={item.name} />
+                <div>
+                  <p className="item-name">{item.name}</p>
+                  <p className="item-qty">
+                    {item.qty} × ₹{item.price}
+                  </p>
                 </div>
-              ))}
-            </div>
+                <strong>₹{item.qty * item.price}</strong>
+              </div>
+            ))}
 
-            <div className="summary-pricing">
-              <div className="price-row">
-                <span>Price ({cart.reduce((sum, item) => sum + item.qty, 0)} items)</span>
+            <div className="price-breakup">
+              <div>
+                <span>Items Total</span>
                 <span>₹{totalPrice}</span>
               </div>
-              <div className="price-row">
-                <span>Delivery Charges</span>
+              <div>
+                <span>Delivery</span>
                 <span>₹{deliveryCharges}</span>
               </div>
-              <div className="price-row total">
-                <span>Total Amount</span>
+              <div className="total">
+                <span>Total</span>
                 <span>₹{finalTotal}</span>
               </div>
             </div>
 
-            <button 
-              className="place-order-btn"
-              onClick={handlePlaceOrder}
-            >
+            <button className="place-order-btn" onClick={handlePlaceOrder}>
               Place Order
             </button>
 
-            <p className="secure-notice">
-              🔒 Your transaction is secured with SSL encryption
+            <p className="secure-text">
+              🔒 Secure payments · Easy returns
             </p>
           </div>
         </div>
