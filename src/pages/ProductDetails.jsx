@@ -117,7 +117,7 @@ export default function ProductDetails() {
           <p>✔ Secure Payment</p>
         </div>
 
-        {/* ✅ DESCRIPTION (MOVE  */}
+        {/* ✅ DESCRIPTION (MOV  */}
         <div className="description-section">
           <h3>Description</h3>
           <p>
