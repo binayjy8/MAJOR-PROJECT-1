@@ -1,190 +1,119 @@
 /* =========================
-   NAVBAR BASE
+   BASE
 ========================= */
 .navbar {
-  background: #2c3e50;
-  color: white;
+  background: #2874f0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  width: 100%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-container {
   max-width: 1400px;
-  margin: 0 auto;
-  padding: 12px 20px;
+  margin: auto;
+  padding: 10px 14px;
+}
+
+/* =========================
+   TOP ROW
+========================= */
+.navbar-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
 }
 
-/* =========================
-   LOGO
-========================= */
+/* Logo */
 .navbar-logo {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
-  white-space: nowrap;
 }
 
-.navbar-logo:hover {
-  color: #4aa3ff;
-}
-
-/* =========================
-   SEARCH
-========================= */
-.navbar-search {
-  flex: 1;
-  max-width: 600px;
-  position: relative;
-}
-
-.search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #9aa4af;
-  pointer-events: none;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 14px 10px 42px;
-  border-radius: 24px;
-  border: none;
-  font-size: 14px;
-  outline: none;
-}
-
-/* =========================
-   ACTIONS
-========================= */
-.navbar-actions {
+/* Right Icons */
+.navbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
-/* Profile */
-.profile-button {
-  padding: 8px 14px;
-  background: #3498db;
-  color: #fff;
-  border-radius: 6px;
+/* Profile Button */
+.login-btn {
+  background: #fff;
+  color: #2874f0;
+  border: none;
+  padding: 6px 12px;
   font-weight: 600;
-  font-size: 14px;
-  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
 /* Icons */
-.navbar-icon-link {
+.nav-icon {
+  position: relative;
+  font-size: 20px;
+  color: #fff;
   text-decoration: none;
 }
 
-.icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 6px;
-}
-
-.icon-wrapper i {
-  font-size: 18px;
-  color: #ffffff;
-}
-
-.cart-label {
-  font-size: 14px;
-  font-weight: 600;
-}
-
 /* Badge */
-.icon-badge {
+.badge {
   position: absolute;
   top: -6px;
-  right: -6px;
-  background: #e74c3c;
+  right: -8px;
+  background: red;
   color: #fff;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
   font-size: 10px;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #2c3e50;
+  border-radius: 50%;
+  padding: 2px 5px;
 }
 
 .cart-badge {
-  background: #27ae60;
+  background: #2ecc71;
 }
 
 /* =========================
-   ✅ MOBILE FIX
+   SEARCH ROW
 ========================= */
-@media (max-width: 768px) {
-  .navbar-container {
-    flex-wrap: wrap;
-    padding: 10px 14px;
-  }
+.navbar-search {
+  margin-top: 10px;
+  display: flex;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
 
-  /* Top Row */
-  .navbar-logo {
-    font-size: 22px;
-  }
+.navbar-search input {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
 
-  .navbar-actions {
-    gap: 8px;
-  }
-
-  .profile-button {
-    padding: 6px 10px;
-    font-size: 13px;
-  }
-
-  .cart-label {
-    display: none; /* 🔥 KEY FIX */
-  }
-
-  /* Search full width */
-  .navbar-search {
-    order: 3;
-    width: 100%;
-    max-width: 100%;
-    margin-top: 8px;
-  }
-
-  .search-input {
-    font-size: 13px;
-    padding: 10px 12px 10px 38px;
-  }
+.search-btn {
+  width: 44px;
+  border: none;
+  background: #ffe11b;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 /* =========================
-   EXTRA SMALL SCREENS
+   MOBILE POLISH
 ========================= */
 @media (max-width: 480px) {
   .navbar-logo {
     font-size: 20px;
   }
 
-  .icon-wrapper {
-    padding: 6px 8px;
+  .nav-icon {
+    font-size: 18px;
   }
 
-  .icon-wrapper i {
-    font-size: 16px;
+  .login-btn {
+    display: none; /* Flipkart style */
   }
 }

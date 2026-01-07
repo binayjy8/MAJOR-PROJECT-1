@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useProduct } from "../context/ProductContext";
 import "../style/navbar.css";
@@ -6,23 +6,50 @@ import "../style/navbar.css";
 export default function Navbar() {
   const { cart, wishlist } = useCart();
   const { filters, setFilters } = useProduct();
+  const navigate = useNavigate();
 
   const totalCartItems = cart.reduce((sum, item) => sum + item.qty, 0);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* LOGO */}
-        <Link to="/" className="navbar-logo">
-          ShopEasy
-        </Link>
+        {/* TOP ROW */}
+        <div className="navbar-top">
+          <Link to="/" className="navbar-logo">
+            ShopEasy
+          </Link>
 
-        {/* SEARCH */}
+          <div className="navbar-right">
+            <button
+              className="login-btn"
+              onClick={() => navigate("/profile")}
+            >
+              Profile
+            </button>
+
+            <Link to="/wishlist" className="nav-icon">
+              ❤
+              {wishlist.length > 0 && (
+                <span className="badge">{wishlist.length}</span>
+              )}
+            </Link>
+
+            <Link to="/cart" className="nav-icon">
+              🛒
+              {totalCartItems > 0 && (
+                <span className="badge cart-badge">
+                  {totalCartItems}
+                </span>
+              )}
+            </Link>
+          </div>
+        </div>
+
+        {/* SEARCH ROW */}
         <div className="navbar-search">
-          <span className="search-icon">🔍</span>
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder="Search for products, brands and more"
             value={filters.search}
             onChange={(e) =>
               setFilters((prev) => ({
@@ -30,38 +57,11 @@ export default function Navbar() {
                 search: e.target.value,
               }))
             }
-            className="search-input"
           />
-        </div>
-
-        {/* ACTIONS */}
-        <div className="navbar-actions">
-          <Link to="/profile" className="profile-button">
-            Profile
-          </Link>
-
-          <Link to="/wishlist" className="navbar-icon-link">
-            <div className="icon-wrapper">
-              {wishlist.length > 0 && (
-                <span className="icon-badge">{wishlist.length}</span>
-              )}
-              <i className="fa-regular fa-heart"></i>
-            </div>
-          </Link>
-
-          <Link to="/cart" className="navbar-icon-link">
-            <div className="icon-wrapper">
-              {totalCartItems > 0 && (
-                <span className="icon-badge cart-badge">
-                  {totalCartItems}
-                </span>
-              )}
-              <i className="fa-solid fa-cart-shopping"></i>
-              <span className="cart-label">Cart</span>
-            </div>
-          </Link>
+          <button className="search-btn">🔍</button>
         </div>
       </div>
     </nav>
   );
 }
+
