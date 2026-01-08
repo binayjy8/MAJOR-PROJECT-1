@@ -1,139 +1,79 @@
 import "../style/style.css";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProduct } from "../context/ProductContext";
 
 export default function FrontPage() {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const { products, setFilters } = useProduct();
+  const { setFilters } = useProduct();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchCategories();
+    fetch("https://project-backend-eta-pink.vercel.app/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data?.data?.categories || []));
   }, []);
 
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch(
-        "https://project-backend-eta-pink.vercel.app/api/categories"
-      );
-      const result = await response.json();
-
-      if (result?.data?.categories) {
-        setCategories(result.data.categories);
-      }
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /* =========================
-     CATEGORY CLICK (ROUTE BASED)
-     ========================= */
-  const handleCategoryClick = (categoryName) => {
-    const name = categoryName.toLowerCase();
-
-    if (name === "all") {
-      setFilters((prev) => ({ ...prev, category: "All" }));
-      navigate("/product");
-      return;
-    }
-
-    if (name === "men") {
-      navigate("/men");
-      return;
-    }
-
-    if (name === "women") {
-      navigate("/women");
-      return;
-    }
-
-    if (name === "kids") {
-      navigate("/kids");
-      return;
-    }
-
-    if (name === "electronics") {
-      navigate("/electronics");
-      return;
-    }
-
-    // fallback for any future category
-    setFilters((prev) => ({ ...prev, category: categoryName }));
+  const handleAllProducts = () => {
+    setFilters({
+      category: "All",
+      rating: 0,
+      price: 5000,
+      sortBy: "",
+      search: "",
+    });
     navigate("/product");
   };
 
-  /* =========================
-     IMAGE HELPERS
-     ========================= */
-  const getAllCategoryImage = () => {
-    if (products.length > 0) {
-      return products[Math.floor(Math.random() * products.length)].imageUrl;
-    }
-    return "https://via.placeholder.com/300x400?text=All+Products";
-  };
+  const handleCategoryClick = (name) => {
+    const key = name.toLowerCase();
 
-  const getCategoryImage = (categoryName) => {
-    if (products.length > 0) {
-      const match = products.find((p) => {
-        const cat =
-          typeof p.category === "object" ? p.category.name : p.category;
-        return cat?.toLowerCase() === categoryName.toLowerCase();
-      });
-      if (match) return match.imageUrl;
+    if (key === "men") navigate("/men");
+    else if (key === "women") navigate("/women");
+    else if (key === "kids") navigate("/kids");
+    else if (key === "electronics") navigate("/electronics");
+    else {
+      setFilters((p) => ({ ...p, category: name }));
+      navigate("/product");
     }
-    return `https://via.placeholder.com/300x400?text=${categoryName}`;
   };
-
-  if (loading) {
-    return (
-      <div className="home-page-container">
-        <div className="loading">Loading categories...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="home-page-container">
-      {/* =========================
-          CATEGORIES
-         ========================= */}
-      <div className="categories-row">
-        {/* ALL */}
-        <div
-          className="category-box"
-          onClick={() => handleCategoryClick("All")}
-        >
-          <div className="category-img">
-            <img src={getAllCategoryImage()} alt="All Products" />
-          </div>
-          <p className="category-label">All</p>
+      {/* CATEGORY STRIP */}
+      <div className="category-strip">
+        {/* ALL PRODUCTS CARD */}
+        <div className="category-tile all-tile" onClick={handleAllProducts}>
+          <span>All Products</span>
         </div>
 
-        {/* DYNAMIC CATEGORIES */}
-        {categories.map((category) => (
+        {/* OTHER CATEGORIES */}
+        {categories.map((cat) => (
           <div
-            key={category._id}
-            className="category-box"
-            onClick={() => handleCategoryClick(category.name)}
+            key={cat._id}
+            className="category-tile"
+            onClick={() => handleCategoryClick(cat.name)}
           >
-            <div className="category-img">
-              <img
-                src={category.imageUrl || getCategoryImage(category.name)}
-                alt={category.name}
-                onError={(e) => {
-                  e.target.src = getCategoryImage(category.name);
-                }}
-              />
-            </div>
-            <p className="category-label">{category.name}</p>
+            <img src={cat.imageUrl} alt={cat.name} />
+            <span>{cat.name}</span>
           </div>
         ))}
+      </div>
+
+      {/* HERO BANNE */}
+      <div className="hero-banner"></div>
+
+      {/* COLLECTIONS */}
+      <div className="collection-row">
+        <div className="collection-card">
+          <span className="tag">NEW ARRIVALS</span>
+          <h2>Summer Collection</h2>
+        </div>
+
+        <div className="collection-card">
+          <span className="tag">NEW ARRIVALS</span>
+          <h2>Summer Collection</h2>
+        </div>
       </div>
     </div>
   );

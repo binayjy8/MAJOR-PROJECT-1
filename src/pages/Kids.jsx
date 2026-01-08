@@ -6,12 +6,18 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function Kids() {
-  const { filteredProducts, loading, error, setFilters, filters } =
-    useProduct();
+  const {
+    filteredProducts,
+    loading,
+    error,
+    setFilters,
+    filters,
+    categories,
+  } = useProduct();
+
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ SET ONLY CATEGORY (DO NOT RESET FILTERS)
   useEffect(() => {
     setFilters((prev) => ({ ...prev, category: "Kids" }));
   }, [setFilters]);
@@ -35,11 +41,28 @@ export default function Kids() {
                 rating: 0,
                 price: 5000,
                 sortBy: "",
+                search: "",
               }))
             }
           >
             Clear
           </span>
+        </div>
+
+        <div className="filter-section">
+          <p className="filter-title">Category</p>
+          {categories.map((cat) => (
+            <label key={cat._id} className="filter-option">
+              <input
+                type="radio"
+                checked={filters.category === cat.name}
+                onChange={() =>
+                  setFilters((p) => ({ ...p, category: cat.name }))
+                }
+              />
+              {cat.name}
+            </label>
+          ))}
         </div>
 
         <div className="filter-section">
@@ -53,13 +76,13 @@ export default function Kids() {
               setFilters((p) => ({ ...p, price: Number(e.target.value) }))
             }
           />
-          <p>₹{filters.price}</p>
+          <p className="price-value">₹{filters.price}</p>
         </div>
 
         <div className="filter-section">
           <p className="filter-title">Rating</p>
           {[4, 3, 2, 0].map((r) => (
-            <label key={r}>
+            <label key={r} className="filter-option">
               <input
                 type="radio"
                 checked={filters.rating === r}
@@ -69,16 +92,45 @@ export default function Kids() {
             </label>
           ))}
         </div>
+
+        <div className="filter-section">
+          <p className="filter-title">Sort By</p>
+          <label className="filter-option">
+            <input
+              type="radio"
+              checked={filters.sortBy === "lowToHigh"}
+              onChange={() =>
+                setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))
+              }
+            />
+            Price — Low to High
+          </label>
+          <label className="filter-option">
+            <input
+              type="radio"
+              checked={filters.sortBy === "highToLow"}
+              onChange={() =>
+                setFilters((p) => ({ ...p, sortBy: "highToLow" }))
+              }
+            />
+            Price — High to Low
+          </label>
+        </div>
       </aside>
 
       <section className="products-area">
-        <h2>Kids Products ({filteredProducts.length})</h2>
+        <h2 className="title">
+          Kids Products <span>({filteredProducts.length})</span>
+        </h2>
 
         <div className="product-grid">
           {filteredProducts.map((p) => (
             <div key={p._id} className="product-card">
-              <div onClick={() => navigate(`/detail/${p._id}`)}>
-                <img src={p.imageUrl} alt={p.name} />
+              <div
+                className="image-wrapper"
+                onClick={() => navigate(`/detail/${p._id}`)}
+              >
+                <img src={p.imageUrl} alt={p.name} className="product-image" />
                 <span
                   className={`wishlist ${
                     isInWishlist(p._id) ? "active" : ""
@@ -94,16 +146,22 @@ export default function Kids() {
                 </span>
               </div>
 
-              <p>{p.name}</p>
-              <p>₹{p.price}</p>
+              <div className="product-details">
+                <p className="product-name">{p.name}</p>
+                <p className="product-rating">⭐ {p.rating}</p>
+                <p className="current-price">₹{p.price}</p>
 
-              <button
-                onClick={() =>
-                  isInCart(p._id) ? navigate("/cart") : addToCart(p)
-                }
-              >
-                {isInCart(p._id) ? "Go to Cart" : "Add to Cart"}
-              </button>
+                <button
+                  className="main-action-btn"
+                  onClick={() =>
+                    isInCart(p._id)
+                      ? navigate("/cart")
+                      : addToCart(p)
+                  }
+                >
+                  {isInCart(p._id) ? "Go to Cart" : "Add to Cart"}
+                </button>
+              </div>
             </div>
           ))}
         </div>
