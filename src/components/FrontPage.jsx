@@ -61,7 +61,7 @@ export default function FrontPage() {
       </div>
       <div className="hero-banner"></div>
 
-      {/* COLLECTIO */}
+      {/* COLLECTI */}
       <div className="collection-row">
         <div className="collection-card">
           <span className="tag">NEW ARRIVALS</span>
