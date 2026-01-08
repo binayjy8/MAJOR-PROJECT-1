@@ -32,56 +32,17 @@ export default function FrontPage() {
   };
 
   /* =========================
-     CATEGORY CLICK HANDLER
+     CATEGORY CLICK (FIXED)
      ========================= */
   const handleCategoryClick = (categoryName) => {
-    const lowerName = categoryName.toLowerCase();
-
-    // ✅ ALL PRODUCTS
-    if (categoryName === "All") {
-      setFilters({
-        category: "All",
-        rating: 0,
-        price: 5000,
-        sortBy: "",
-        search: "",
-      });
-      navigate("/product");
-      return;
-    }
-
-    // ✅ MEN
-    if (lowerName.includes("men") && !lowerName.includes("women")) {
-      navigate("/men");
-      return;
-    }
-
-    // ✅ WOMEN
-    if (lowerName.includes("women")) {
-      navigate("/women");
-      return;
-    }
-
-    // ✅ KIDS
-    if (lowerName.includes("kids") || lowerName.includes("children")) {
-      navigate("/kids");
-      return;
-    }
-
-    // ✅ ELECTRONICS (🔥 MAIN FIX)
-    if (lowerName.includes("electronics")) {
-      navigate("/electronics");
-      return;
-    }
-
-    // ✅ FALLBACK (SAFE)
-    setFilters({
+    setFilters((prev) => ({
+      ...prev,
       category: categoryName,
       rating: 0,
-      price: 5000,
       sortBy: "",
       search: "",
-    });
+    }));
+
     navigate("/product");
   };
 
@@ -100,7 +61,7 @@ export default function FrontPage() {
       const match = products.find((p) => {
         const cat =
           typeof p.category === "object" ? p.category.name : p.category;
-        return cat?.toLowerCase().includes(categoryName.toLowerCase());
+        return cat?.toLowerCase() === categoryName.toLowerCase();
       });
       if (match) return match.imageUrl;
     }
@@ -133,85 +94,24 @@ export default function FrontPage() {
         </div>
 
         {/* DYNAMIC CATEGORIES */}
-        {categories
-          .filter((cat) => cat.name !== "Home")
-          .map((category) => (
-            <div
-              key={category._id}
-              className="category-box"
-              onClick={() => handleCategoryClick(category.name)}
-            >
-              <div className="category-img">
-                <img
-                  src={category.imageUrl || getCategoryImage(category.name)}
-                  alt={category.name}
-                  onError={(e) => {
-                    e.target.src = getCategoryImage(category.name);
-                  }}
-                />
-              </div>
-              <p className="category-label">{category.name}</p>
+        {categories.map((category) => (
+          <div
+            key={category._id}
+            className="category-box"
+            onClick={() => handleCategoryClick(category.name)}
+          >
+            <div className="category-img">
+              <img
+                src={category.imageUrl || getCategoryImage(category.name)}
+                alt={category.name}
+                onError={(e) => {
+                  e.target.src = getCategoryImage(category.name);
+                }}
+              />
             </div>
-          ))}
-      </div>
-
-      {/* =========================
-          MAIN BANNER
-         ========================= */}
-      <div className="main-banner">
-        <img
-          src={
-            products?.length > 0
-              ? products[0].imageUrl
-              : "https://via.placeholder.com/1200x400"
-          }
-          alt="Main Banner"
-        />
-      </div>
-
-      {/* =========================
-          FEATURED COLLECTIONS
-         ========================= */}
-      <div className="featured-collections">
-        <div className="collection-card">
-          <div className="collection-image">
-            <img
-              src={
-                products?.length > 1
-                  ? products[1].imageUrl
-                  : "https://via.placeholder.com/600x400"
-              }
-              alt="Summer Collection"
-            />
+            <p className="category-label">{category.name}</p>
           </div>
-          <div className="collection-info">
-            <span className="new-tag">NEW ARRIVALS</span>
-            <h2 className="collection-title">Summer Collection</h2>
-            <p className="collection-desc">
-              Check out our best summer collection
-            </p>
-          </div>
-        </div>
-
-        <div className="collection-card">
-          <div className="collection-image">
-            <img
-              src={
-                products?.length > 2
-                  ? products[2].imageUrl
-                  : "https://via.placeholder.com/600x400"
-              }
-              alt="Winter Collection"
-            />
-          </div>
-          <div className="collection-info">
-            <span className="new-tag">NEW ARRIVALS</span>
-            <h2 className="collection-title">Winter Collection</h2>
-            <p className="collection-desc">
-              Stay warm with our winter collection
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

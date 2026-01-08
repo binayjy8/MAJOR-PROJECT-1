@@ -21,21 +21,30 @@ export default function ProfilePage() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
+      setError(null);
+
       const response = await fetch(
         "https://project-backend-eta-pink.vercel.app/api/orders"
       );
 
-      if (!response.ok) throw new Error("Failed to fetch orders");
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders");
+      }
 
       const result = await response.json();
 
       if (result?.data?.orders) {
-        const sorted = [...result.data.orders].reverse();
-        setOrders(sorted);
+        // ✅ ALWAYS show latest order first
+        const sortedOrders = [...result.data.orders].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        setOrders(sortedOrders);
       } else {
         setOrders([]);
       }
     } catch (err) {
+      console.error("Order fetch error:", err);
       setError("Unable to load orders");
       setOrders([]);
     } finally {
@@ -47,12 +56,13 @@ export default function ProfilePage() {
     <div className="profile-container">
       <h1 className="profile-main-title">My Account</h1>
 
+      {/* ================= WELCOME ================= */}
       <div className="welcome-section">
         <h2>Welcome back, {user.name}!</h2>
         <p>Member since {user.joinDate}</p>
       </div>
 
-      {/* PERSONAL INFO */}
+      {/* ================= PERSONAL INFO ================= */}
       <div className="profile-section">
         <h2>Personal Information</h2>
 
@@ -61,10 +71,12 @@ export default function ProfilePage() {
             <label>Full Name</label>
             <p>{user.name}</p>
           </div>
+
           <div className="info-item">
             <label>Email Address</label>
             <p>{user.email}</p>
           </div>
+
           <div className="info-item">
             <label>Phone Number</label>
             <p>{user.phone}</p>
@@ -72,7 +84,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* QUICK ACTIONS */}
+      {/* ================= QUICK ACTIONS ================= */}
       <div className="profile-section">
         <h2>Quick Actions</h2>
 
@@ -103,7 +115,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ORDERS */}
+      {/* ================= ORDERS ================= */}
       <div className="profile-section">
         <h2>Recent Orders</h2>
 
