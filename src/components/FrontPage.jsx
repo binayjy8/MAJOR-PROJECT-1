@@ -59,8 +59,6 @@ export default function FrontPage() {
           </div>
         ))}
       </div>
-
-      {/*  */}
       <div className="hero-banner"></div>
 
       {/* COLLECTIONS */}
