@@ -60,7 +60,7 @@ export default function FrontPage() {
         ))}
       </div>
 
-      {/* HERO BAN */}
+      {/* HERO BA */}
       <div className="hero-banner"></div>
 
       {/* COLLECTIONS */}
