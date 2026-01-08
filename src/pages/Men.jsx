@@ -6,200 +6,76 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function Men() {
-  const {
-    filteredProducts,
-    loading,
-    error,
-    setFilters,
-    filters,
-  } = useProduct();
-
+  const { filteredProducts, loading, error, setFilters, filters } =
+    useProduct();
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // Reset & force Men category
   useEffect(() => {
-    setFilters({
-      category: "Men",
-      rating: 0,
-      price: 5000,
-      sortBy: "",
-      search: "",
-    });
+    setFilters((prev) => ({ ...prev, category: "Men" }));
   }, [setFilters]);
 
-  const isInCart = (id) => cart.some((item) => item._id === id);
-  const isInWishlist = (id) => wishlist.some((item) => item._id === id);
+  const isInCart = (id) => cart.some((i) => i._id === id);
+  const isInWishlist = (id) => wishlist.some((i) => i._id === id);
 
-  if (loading) return <div className="loading">Loading men's products...</div>;
+  if (loading) return <div className="loading">Loading men products...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="product-page">
-      {/* ================= FILTER ================= */}
-      <div className="filter">
-        <div className="filter-header">
-          <h3>Filters</h3>
-          <span
-            className="clear-filter"
-            onClick={() =>
-              setFilters({
-                category: "Men",
-                rating: 0,
-                price: 5000,
-                sortBy: "",
-                search: "",
-              })
-            }
-          >
-            Clear
-          </span>
-        </div>
+      <aside className="filter">
+        <span
+          className="clear-filter"
+          onClick={() =>
+            setFilters((p) => ({
+              ...p,
+              rating: 0,
+              price: 5000,
+              sortBy: "",
+            }))
+          }
+        >
+          Clear
+        </span>
+      </aside>
 
-        {/* PRICE */}
-        <div className="filter-section">
-          <p className="filter-title">Price</p>
-          <input
-            type="range"
-            min="50"
-            max="5000"
-            value={filters.price}
-            onChange={(e) =>
-              setFilters((p) => ({
-                ...p,
-                price: Number(e.target.value),
-              }))
-            }
-          />
-          <p className="price-value">₹{filters.price}</p>
-        </div>
-
-        {/* RATING */}
-        <div className="filter-section">
-          <p className="filter-title">Rating</p>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 4}
-              onChange={() => setFilters((p) => ({ ...p, rating: 4 }))}
-            />
-            4★ & above
-          </label>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 3}
-              onChange={() => setFilters((p) => ({ ...p, rating: 3 }))}
-            />
-            3★ & above
-          </label>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 2}
-              onChange={() => setFilters((p) => ({ ...p, rating: 2 }))}
-            />
-            2★ & above
-          </label>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.rating === 0}
-              onChange={() => setFilters((p) => ({ ...p, rating: 0 }))}
-            />
-            All
-          </label>
-        </div>
-
-        {/* SORT */}
-        <div className="filter-section">
-          <p className="filter-title">Sort By</p>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.sortBy === "lowToHigh"}
-              onChange={() =>
-                setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))
-              }
-            />
-            Price — Low to High
-          </label>
-
-          <label className="filter-option">
-            <input
-              type="radio"
-              checked={filters.sortBy === "highToLow"}
-              onChange={() =>
-                setFilters((p) => ({ ...p, sortBy: "highToLow" }))
-              }
-            />
-            Price — High to Low
-          </label>
-        </div>
-      </div>
-
-      {/* ================= PRODUCTS ================= */}
-      <div className="products-area">
-        <h2 className="title">
-          Men&apos;s Products <span>({filteredProducts.length})</span>
-        </h2>
+      <section className="products-area">
+        <h2>Men Products ({filteredProducts.length})</h2>
 
         <div className="product-grid">
-          {filteredProducts.map((product) => (
-            <div className="product-card" key={product._id}>
-              <div
-                className="image-wrapper"
-                onClick={() => navigate(`/detail/${product._id}`)}
-              >
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="product-image"
-                />
-
+          {filteredProducts.map((p) => (
+            <div key={p._id} className="product-card">
+              <div onClick={() => navigate(`/detail/${p._id}`)}>
+                <img src={p.imageUrl} alt={p.name} />
                 <span
                   className={`wishlist ${
-                    isInWishlist(product._id) ? "active" : ""
+                    isInWishlist(p._id) ? "active" : ""
                   }`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (isInWishlist(product._id)) {
-                      toast.info("Already in wishlist");
-                    } else {
-                      addToWishlist(product);
-                      toast.success("Added to wishlist");
-                    }
+                    isInWishlist(p._id)
+                      ? toast.info("Already in wishlist")
+                      : addToWishlist(p);
                   }}
                 >
                   ❤
                 </span>
               </div>
 
-              <div className="product-details">
-                <p className="product-name">{product.name}</p>
-                <p className="product-rating">⭐ {product.rating}</p>
-                <p className="current-price">₹{product.price}</p>
+              <p>{p.name}</p>
+              <p>₹{p.price}</p>
 
-                <button
-                  className="main-action-btn"
-                  onClick={() =>
-                    isInCart(product._id)
-                      ? navigate("/cart")
-                      : addToCart(product)
-                  }
-                >
-                  {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
-                </button>
-              </div>
+              <button
+                onClick={() =>
+                  isInCart(p._id) ? navigate("/cart") : addToCart(p)
+                }
+              >
+                {isInCart(p._id) ? "Go to Cart" : "Add to Cart"}
+              </button>
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }

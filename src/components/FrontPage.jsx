@@ -7,7 +7,7 @@ export default function FrontPage() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { setFilters, products } = useProduct();
+  const { products, setFilters } = useProduct();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,17 +32,39 @@ export default function FrontPage() {
   };
 
   /* =========================
-     CATEGORY CLICK (FIXED)
+     CATEGORY CLICK (ROUTE BASED)
      ========================= */
   const handleCategoryClick = (categoryName) => {
-    setFilters((prev) => ({
-      ...prev,
-      category: categoryName,
-      rating: 0,
-      sortBy: "",
-      search: "",
-    }));
+    const name = categoryName.toLowerCase();
 
+    if (name === "all") {
+      setFilters((prev) => ({ ...prev, category: "All" }));
+      navigate("/product");
+      return;
+    }
+
+    if (name === "men") {
+      navigate("/men");
+      return;
+    }
+
+    if (name === "women") {
+      navigate("/women");
+      return;
+    }
+
+    if (name === "kids") {
+      navigate("/kids");
+      return;
+    }
+
+    if (name === "electronics") {
+      navigate("/electronics");
+      return;
+    }
+
+    // fallback for any future category
+    setFilters((prev) => ({ ...prev, category: categoryName }));
     navigate("/product");
   };
 
@@ -50,14 +72,14 @@ export default function FrontPage() {
      IMAGE HELPERS
      ========================= */
   const getAllCategoryImage = () => {
-    if (products?.length > 0) {
+    if (products.length > 0) {
       return products[Math.floor(Math.random() * products.length)].imageUrl;
     }
     return "https://via.placeholder.com/300x400?text=All+Products";
   };
 
   const getCategoryImage = (categoryName) => {
-    if (products?.length > 0) {
+    if (products.length > 0) {
       const match = products.find((p) => {
         const cat =
           typeof p.category === "object" ? p.category.name : p.category;
@@ -88,7 +110,7 @@ export default function FrontPage() {
           onClick={() => handleCategoryClick("All")}
         >
           <div className="category-img">
-            <img src={getAllCategoryImage()} alt="All" />
+            <img src={getAllCategoryImage()} alt="All Products" />
           </div>
           <p className="category-label">All</p>
         </div>
