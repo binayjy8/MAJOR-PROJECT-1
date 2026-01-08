@@ -47,7 +47,7 @@ export default function FrontPage() {
           <span>All Products</span>
         </div>
 
-        {/* OTHER CATEGORIE */}
+        {/* OTHER CATEGORI */}
         {categories.map((cat) => (
           <div
             key={cat._id}
