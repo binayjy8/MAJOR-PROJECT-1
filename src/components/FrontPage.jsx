@@ -42,7 +42,7 @@ export default function FrontPage() {
     <div className="home-page-container">
       {/* CATEGORY STRIP */}
       <div className="category-strip">
-        {/* ALL PRODUCTS CARD */}
+        {/* ALL PRODUCTS CAR */}
         <div className="category-tile all-tile" onClick={handleAllProducts}>
           <span>All Products</span>
         </div>
