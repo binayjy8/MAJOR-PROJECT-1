@@ -3,15 +3,33 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 
+const FALLBACK_CATEGORIES = [
+  { _id: "1", name: "Men" },
+  { _id: "2", name: "Women" },
+  { _id: "3", name: "Kids" },
+  { _id: "4", name: "Electronics" },
+  { _id: "5", name: "Home" },
+];
+
 export default function FrontPage() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
   const { setFilters } = useProduct();
   const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://project-backend-eta-pink.vercel.app/api/categories")
       .then((res) => res.json())
-      .then((data) => setCategories(data?.data?.categories || []));
+      .then((data) => {
+        const cats =
+          data?.data?.categories ||
+          data?.categories ||
+          [];
+
+        if (Array.isArray(cats) && cats.length > 0) {
+          setCategories(cats);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const categoryImages = {
@@ -32,7 +50,7 @@ export default function FrontPage() {
     if (key === "home") navigate("/");
     else if (key === "men") navigate("/men");
     else if (key === "women") navigate("/women");
-    else if (key === "kids" || key === "kid") navigate("/kids");
+    else if (key === "kids") navigate("/kids");
     else if (key === "electronics") navigate("/electronics");
     else navigate("/product");
   };
@@ -42,17 +60,13 @@ export default function FrontPage() {
       <div className="home-categories">
         {categories.map((cat) => {
           const key = normalizeCategory(cat.name);
-          const imageSrc =
-            categoryImages[key] ||
-            "https://images.unsplash.com/photo-1503457574465-1f2a4f6a6d43";
-
           return (
             <div
               key={cat._id}
               className="category-box"
               onClick={() => goToCategory(cat.name)}
             >
-              <img src={imageSrc} alt={cat.name} />
+              <img src={categoryImages[key]} alt={cat.name} />
               <span>{cat.name}</span>
             </div>
           );
