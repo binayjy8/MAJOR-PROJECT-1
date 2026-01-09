@@ -5,15 +5,9 @@ import { AddressProvider } from "./context/AddressContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-/* =========================
-   LAYOUT COMPONENTS
-========================= */
 import Navbar from "./components/Navbar";
 import Footer from "./pages/Footer";
 
-/* =========================
-   PAGES
-========================= */
 import FrontPage from "./components/FrontPage";
 import ProductPage from "./pages/ProductPage";
 import ProductDetails from "./pages/ProductDetails";
@@ -33,46 +27,28 @@ function App() {
     <ProductProvider>
       <CartProvider>
         <AddressProvider>
-          {/* ✅ FULL WIDTH NAVBAR */}
           <Navbar />
 
-          {/* ✅ PAGE CONTENT ONLY */}
           <main>
             <Routes>
-              {/* HOME */}
               <Route path="/" element={<FrontPage />} />
-
-              {/* PRODUCT LISTING */}
               <Route path="/product" element={<ProductPage />} />
               <Route path="/men" element={<Men />} />
               <Route path="/women" element={<Women />} />
               <Route path="/kids" element={<Kids />} />
               <Route path="/electronics" element={<Electronics />} />
-
-              {/* PRODUCT DETAILS */}
               <Route path="/detail/:id" element={<ProductDetails />} />
-
-              {/* CART & WISHLIST */}
               <Route path="/cart" element={<CartPage />} />
               <Route path="/wishlist" element={<Wishlist />} />
-
-              {/* CHECKOUT */}
               <Route path="/checkout" element={<CheckoutPage />} />
-              <Route
-                path="/order-success"
-                element={<OrderSuccessPage />}
-              />
-
-              {/* USER */}
+              <Route path="/order-success" element={<OrderSuccessPage />} />
               <Route path="/address" element={<AddressPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Routes>
           </main>
 
-          {/* ✅ FULL WIDTH FOOTER */}
           <Footer />
 
-          {/* ✅ GLOBAL TOAST */}
           <ToastContainer
             position="top-right"
             autoClose={2000}

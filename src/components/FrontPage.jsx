@@ -1,6 +1,6 @@
 import "../style/style.css";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useProduct } from "../context/ProductContext";
 
 export default function FrontPage() {
@@ -14,60 +14,79 @@ export default function FrontPage() {
       .then((data) => setCategories(data?.data?.categories || []));
   }, []);
 
-  const handleAllProducts = () => {
-    setFilters({
-      category: "All",
-      rating: 0,
-      price: 5000,
-      sortBy: "",
-      search: "",
-    });
-    navigate("/product");
+  const categoryImages = {
+    men: "https://images.unsplash.com/photo-1520975867597-0af37a22e31e",
+    women: "https://images.unsplash.com/photo-1483985988355-763728e1935b",
+    kids: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+    electronics: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+    home: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
   };
 
-  const handleCategoryClick = (name) => {
-    const key = name.toLowerCase();
+  const normalizeCategory = (name) =>
+    name.toLowerCase().trim().split(" ")[0];
 
-    if (key === "men") navigate("/men");
+  const goToCategory = (name) => {
+    setFilters((p) => ({ ...p, category: name }));
+    const key = normalizeCategory(name);
+
+    if (key === "home") navigate("/");
+    else if (key === "men") navigate("/men");
     else if (key === "women") navigate("/women");
-    else if (key === "kids") navigate("/kids");
+    else if (key === "kids" || key === "kid") navigate("/kids");
     else if (key === "electronics") navigate("/electronics");
-    else {
-      setFilters((p) => ({ ...p, category: name }));
-      navigate("/product");
-    }
+    else navigate("/product");
   };
 
   return (
-    <div className="home-page-container">
-      <div className="category-strip">
-        <div className="category-tile all-tile" onClick={handleAllProducts}>
-          <span>All Products</span>
-        </div>
+    <div className="home-page">
+      <div className="home-categories">
+        {categories.map((cat) => {
+          const key = normalizeCategory(cat.name);
+          const imageSrc =
+            categoryImages[key] ||
+            "https://images.unsplash.com/photo-1503457574465-1f2a4f6a6d43";
 
-        {categories.map((cat) => (
-          <div
-            key={cat._id}
-            className="category-tile"
-            onClick={() => handleCategoryClick(cat.name)}
-          >
-            <img src={cat.imageUrl} alt={cat.name} />
-            <span>{cat.name}</span>
-          </div>
-        ))}
+          return (
+            <div
+              key={cat._id}
+              className="category-box"
+              onClick={() => goToCategory(cat.name)}
+            >
+              <img src={imageSrc} alt={cat.name} />
+              <span>{cat.name}</span>
+            </div>
+          );
+        })}
       </div>
-      <div className="hero-banner"></div>
 
-      {/*  */}
-      <div className="collection-row">
+      <div className="home-banner">
+        <img
+          src="https://images.unsplash.com/photo-1521334884684-d80222895322"
+          alt="Main Banner"
+        />
+      </div>
+
+      <div className="home-collections">
         <div className="collection-card">
-          <span className="tag">NEW ARRIVALS</span>
-          <h2>Summer Collection</h2>
+          <img
+            src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f"
+            alt="Summer Collection"
+          />
+          <div className="collection-text">
+            <span>NEW ARRIVALS</span>
+            <h3>Summer Collection</h3>
+          </div>
         </div>
 
         <div className="collection-card">
-          <span className="tag">NEW ARRIVALS</span>
-          <h2>Summer Collection</h2>
+          <img
+            src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
+            alt="Electronics Collection"
+          />
+          <div className="collection-text">
+            <span>NEW ARRIVALS</span>
+            <h3>Electronics Collection</h3>
+          </div>
         </div>
       </div>
     </div>

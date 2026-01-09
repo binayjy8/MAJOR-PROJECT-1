@@ -12,13 +12,12 @@ export default function ProductPage() {
     error,
     setFilters,
     filters,
-    categories, // ✅ REQUIRED FOR CATEGORY FILTER
+    categories,
   } = useProduct();
 
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ RESET FILTERS ON PAGE LOAD (SAFE)
   useEffect(() => {
     setFilters({
       category: "All",
@@ -36,7 +35,6 @@ export default function ProductPage() {
 
   return (
     <div className="product-page">
-      {/* ================= FILTER ================= */}
       <aside className="filter">
         <div className="filter-header">
           <h3>Filters</h3>
@@ -55,7 +53,6 @@ export default function ProductPage() {
           </span>
         </div>
 
-        {/* ✅ CATEGORY FILTER (MENTOR REQUIREMENT) */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
 
@@ -84,7 +81,6 @@ export default function ProductPage() {
           ))}
         </div>
 
-        {/* PRICE */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <input
@@ -102,7 +98,6 @@ export default function ProductPage() {
           <p className="price-value">₹{filters.price}</p>
         </div>
 
-        {/* RATING */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
           {[4, 3, 2, 0].map((r) => (
@@ -117,7 +112,6 @@ export default function ProductPage() {
           ))}
         </div>
 
-        {/* SORT */}
         <div className="filter-section">
           <p className="filter-title">Sort By</p>
 
@@ -145,7 +139,6 @@ export default function ProductPage() {
         </div>
       </aside>
 
-      {/* ================= PRODUCTS ================= */}
       <section className="products-area">
         <h2 className="title">
           {filters.category === "All" ? "All Products" : filters.category}{" "}

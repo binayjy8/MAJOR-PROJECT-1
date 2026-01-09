@@ -41,7 +41,6 @@ export default function ProductDetails() {
 
   return (
     <div className="product-details-container">
-      {/* LEFT */}
       <div className="left-section">
         <div className="image-box">
           <img src={product.imageUrl} alt={product.name} />
@@ -75,7 +74,6 @@ export default function ProductDetails() {
         </button>
       </div>
 
-      {/* RIGHT (MAIN CONTENT) */}
       <div className="middle-section">
         <h2>{product.name}</h2>
 
@@ -86,7 +84,6 @@ export default function ProductDetails() {
           <span className="discount">50% off</span>
         </div>
 
-        {/* QUANTITY */}
         <div className="quantity-section">
           <p>Quantity</p>
           <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>
@@ -96,7 +93,6 @@ export default function ProductDetails() {
           <button onClick={() => setQuantity((q) => q + 1)}>+</button>
         </div>
 
-        {/* SIZE */}
         <div className="sizes">
           <p>Size</p>
           {["S", "M", "L", "XL"].map((size) => (
@@ -110,14 +106,12 @@ export default function ProductDetails() {
           ))}
         </div>
 
-        {/* FEATURES */}
         <div className="features">
           <p>✔ 10 Days Return</p>
           <p>✔ Pay on Delivery</p>
           <p>✔ Secure Payment</p>
         </div>
 
-        {/*   */}
         <div className="description-section">
           <h3>Description</h3>
           <p>
