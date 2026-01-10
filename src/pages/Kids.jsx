@@ -54,7 +54,7 @@ export default function Kids() {
           {categories.map((cat) => (
             <label key={cat._id} className="filter-option">
               <input
-                type="radio"
+                type="checkbox"
                 checked={filters.category === cat.name}
                 onChange={() =>
                   setFilters((p) => ({ ...p, category: cat.name }))
@@ -84,7 +84,7 @@ export default function Kids() {
           {[4, 3, 2, 0].map((r) => (
             <label key={r} className="filter-option">
               <input
-                type="radio"
+                type="checkbox"
                 checked={filters.rating === r}
                 onChange={() => setFilters((p) => ({ ...p, rating: r }))}
               />
@@ -97,7 +97,7 @@ export default function Kids() {
           <p className="filter-title">Sort By</p>
           <label className="filter-option">
             <input
-              type="radio"
+              type="checkbox"
               checked={filters.sortBy === "lowToHigh"}
               onChange={() =>
                 setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))

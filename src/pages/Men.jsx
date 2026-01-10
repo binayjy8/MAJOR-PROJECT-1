@@ -55,7 +55,7 @@ export default function Men() {
           {categories.map((cat) => (
             <label key={cat._id} className="filter-option">
               <input
-                type="radio"
+                type="checkbox"
                 checked={filters.category === cat.name}
                 onChange={() =>
                   setFilters((p) => ({ ...p, category: cat.name }))
@@ -87,7 +87,7 @@ export default function Men() {
           {[4, 3, 2, 0].map((r) => (
             <label key={r} className="filter-option">
               <input
-                type="radio"
+                type="checkbox"
                 checked={filters.rating === r}
                 onChange={() => setFilters((p) => ({ ...p, rating: r }))}
               />
@@ -101,7 +101,7 @@ export default function Men() {
           <p className="filter-title">Sort By</p>
           <label className="filter-option">
             <input
-              type="radio"
+              type="checkbox"
               checked={filters.sortBy === "lowToHigh"}
               onChange={() =>
                 setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))
@@ -111,7 +111,7 @@ export default function Men() {
           </label>
           <label className="filter-option">
             <input
-              type="radio"
+              type="checkbox"
               checked={filters.sortBy === "highToLow"}
               onChange={() =>
                 setFilters((p) => ({ ...p, sortBy: "highToLow" }))
