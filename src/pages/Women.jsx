@@ -66,7 +66,7 @@ export default function Women() {
           ))}
         </div>
 
-        {/* PRIC */}
+        {/* PRI */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <input
