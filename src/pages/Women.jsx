@@ -80,7 +80,7 @@ export default function Women() {
           <p className="price-value">₹{filters.price}</p>
         </div>
 
-        {/* ⭐ RA */}
+        {/* ⭐ R */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
           {[4, 3, 2, 0].map((r) => (
