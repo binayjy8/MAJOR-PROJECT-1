@@ -94,7 +94,7 @@ export default function Women() {
           ))}
         </div>
 
-        {/* SOR */}
+        {/* SO */}
         <div className="filter-section">
           <p className="filter-title">Sort By</p>
           <label className="filter-option">
