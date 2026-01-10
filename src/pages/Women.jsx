@@ -66,7 +66,6 @@ export default function Women() {
           ))}
         </div>
 
-        {/*  */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <input
