@@ -49,7 +49,7 @@ export default function Women() {
           </span>
         </div>
 
-        {/* C */}
+        {/*  */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
           {categories.map((cat) => (
