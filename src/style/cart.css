@@ -168,7 +168,6 @@
   cursor: pointer;
 }
 
-/* */
 @media (max-width: 900px) {
   .fk-cart-page {
     flex-direction: column;
