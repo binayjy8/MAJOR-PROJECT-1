@@ -9,20 +9,14 @@ export function ProductProvider({ children }) {
   const [error, setError] = useState(null);
   const fetchedRef = useRef(false);
 
-  /* =========================
-     FILTER STATE
-     ========================= */
   const [filters, setFilters] = useState({
-    category: "All",
+    category: [],
     rating: 0,
     price: 5000,
     sortBy: "",
     search: "",
   });
 
-  /* =========================
-     FETCH ONCE
-     ========================= */
   useEffect(() => {
     if (!fetchedRef.current) {
       fetchProducts();
@@ -31,9 +25,6 @@ export function ProductProvider({ children }) {
     }
   }, []);
 
-  /* =========================
-     FETCH PRODUCTS
-     ========================= */
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -64,9 +55,6 @@ export function ProductProvider({ children }) {
     }
   };
 
-  /* =========================
-     FETCH CATEGORIES
-     ========================= */
   const fetchCategories = async () => {
     try {
       const response = await fetch(
@@ -79,21 +67,23 @@ export function ProductProvider({ children }) {
     }
   };
 
-  /* =========================
-     FILTER LOGIC
-     ========================= */
   const filteredProducts = products
     .filter((product) => {
-      if (filters.category === "All") return true;
+      const selectedCategories = Array.isArray(filters.category)
+        ? filters.category
+        : [];
+
+      if (selectedCategories.length === 0) return true;
 
       const productCategory =
         typeof product.category === "object"
-          ? product.category.name
+          ? product.category?.name
           : product.category;
 
-      return (
-        productCategory &&
-        productCategory.toLowerCase() === filters.category.toLowerCase()
+      if (!productCategory) return false;
+
+      return selectedCategories.some(
+        (c) => c.toLowerCase() === productCategory.toLowerCase()
       );
     })
     .filter((product) => {
