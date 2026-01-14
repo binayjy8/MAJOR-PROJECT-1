@@ -1,4 +1,3 @@
-/* PAGE */
 .fk-cart-page {
   max-width: 1250px;
   margin: 15px auto;
@@ -7,7 +6,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* LEFT */
 .fk-cart-left {
   flex: 3;
   background: #fff;
@@ -21,7 +19,6 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-/* CART ITEM */
 .fk-cart-card {
   display: flex;
   gap: 16px;
@@ -29,10 +26,23 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
+.fk-img {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
 .fk-img img {
-  width: 110px;
-  height: 110px;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .fk-details {

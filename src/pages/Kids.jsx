@@ -6,20 +6,14 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function Kids() {
-  const {
-    filteredProducts,
-    loading,
-    error,
-    setFilters,
-    filters,
-    categories,
-  } = useProduct();
+  const { filteredProducts, loading, error, setFilters, filters, categories } =
+    useProduct();
 
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setFilters((prev) => ({ ...prev, category: "Kids" }));
+    setFilters((prev) => ({ ...prev, category: ["Kids"] }));
   }, [setFilters]);
 
   const isInCart = (id) => cart.some((i) => i._id === id);
@@ -33,11 +27,13 @@ export default function Kids() {
       <aside className="filter">
         <div className="filter-header">
           <h3>Filters</h3>
+
           <span
             className="clear-filter"
             onClick={() =>
               setFilters((p) => ({
                 ...p,
+                category: [],
                 rating: 0,
                 price: 5000,
                 sortBy: "",
@@ -49,15 +45,24 @@ export default function Kids() {
           </span>
         </div>
 
+        {/* CATEGORY MULTI SELECT */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
           {categories.map((cat) => (
             <label key={cat._id} className="filter-option">
               <input
                 type="checkbox"
-                checked={filters.category === cat.name}
+                checked={filters.category.includes(cat.name)}
                 onChange={() =>
-                  setFilters((p) => ({ ...p, category: cat.name }))
+                  setFilters((prev) => {
+                    const alreadySelected = prev.category.includes(cat.name);
+                    return {
+                      ...prev,
+                      category: alreadySelected
+                        ? prev.category.filter((c) => c !== cat.name)
+                        : [...prev.category, cat.name],
+                    };
+                  })
                 }
               />
               {cat.name}
@@ -65,6 +70,7 @@ export default function Kids() {
           ))}
         </div>
 
+        {/* PRICE */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <input
@@ -79,12 +85,14 @@ export default function Kids() {
           <p className="price-value">₹{filters.price}</p>
         </div>
 
+        {/* RATING */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
           {[4, 3, 2, 0].map((r) => (
             <label key={r} className="filter-option">
               <input
-                type="checkbox"
+                type="radio"
+                name="rating"
                 checked={filters.rating === r}
                 onChange={() => setFilters((p) => ({ ...p, rating: r }))}
               />
@@ -93,11 +101,14 @@ export default function Kids() {
           ))}
         </div>
 
+        {/* SORT */}
         <div className="filter-section">
           <p className="filter-title">Sort By</p>
+
           <label className="filter-option">
             <input
-              type="checkbox"
+              type="radio"
+              name="sort"
               checked={filters.sortBy === "lowToHigh"}
               onChange={() =>
                 setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))
@@ -105,9 +116,11 @@ export default function Kids() {
             />
             Price — Low to High
           </label>
+
           <label className="filter-option">
             <input
               type="radio"
+              name="sort"
               checked={filters.sortBy === "highToLow"}
               onChange={() =>
                 setFilters((p) => ({ ...p, sortBy: "highToLow" }))
@@ -131,10 +144,9 @@ export default function Kids() {
                 onClick={() => navigate(`/detail/${p._id}`)}
               >
                 <img src={p.imageUrl} alt={p.name} className="product-image" />
+
                 <span
-                  className={`wishlist ${
-                    isInWishlist(p._id) ? "active" : ""
-                  }`}
+                  className={`wishlist ${isInWishlist(p._id) ? "active" : ""}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     isInWishlist(p._id)
@@ -153,11 +165,7 @@ export default function Kids() {
 
                 <button
                   className="main-action-btn"
-                  onClick={() =>
-                    isInCart(p._id)
-                      ? navigate("/cart")
-                      : addToCart(p)
-                  }
+                  onClick={() => (isInCart(p._id) ? navigate("/cart") : addToCart(p))}
                 >
                   {isInCart(p._id) ? "Go to Cart" : "Add to Cart"}
                 </button>

@@ -10,7 +10,7 @@ export function ProductProvider({ children }) {
   const fetchedRef = useRef(false);
 
   const [filters, setFilters] = useState({
-    category: [],
+    category: [],      // ✅ always array
     rating: 0,
     price: 5000,
     sortBy: "",
@@ -69,8 +69,9 @@ export function ProductProvider({ children }) {
 
   const filteredProducts = products
     .filter((product) => {
+      // ✅ safe array
       const selectedCategories = Array.isArray(filters.category)
-        ? filters.category
+        ? filters.category.map((c) => c.toLowerCase().trim())
         : [];
 
       if (selectedCategories.length === 0) return true;
@@ -82,9 +83,7 @@ export function ProductProvider({ children }) {
 
       if (!productCategory) return false;
 
-      return selectedCategories.some(
-        (c) => c.toLowerCase() === productCategory.toLowerCase()
-      );
+      return selectedCategories.includes(productCategory.toLowerCase().trim());
     })
     .filter((product) => {
       if (product.price > filters.price) return false;

@@ -101,6 +101,15 @@
   cursor: pointer;
 }
 
+.cart-icon {
+  color: #ff3f6c;
+}
+
+.cart-icon:hover {
+  color: #ff1f5a;
+}
+
+
 /* =========================
    MOBILE POLISH
 ========================= */

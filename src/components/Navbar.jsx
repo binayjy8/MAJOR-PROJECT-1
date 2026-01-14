@@ -34,7 +34,7 @@ export default function Navbar() {
               )}
             </Link>
 
-            <Link to="/cart" className="nav-icon">
+            <Link to="/cart" className="nav-icon cart-icon">
               🛒
               {totalCartItems > 0 && (
                 <span className="badge cart-badge">
