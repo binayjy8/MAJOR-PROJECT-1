@@ -109,10 +109,6 @@
   color: #ff1f5a;
 }
 
-
-/* =
-   
-= */
 @media (max-width: 480px) {
   .navbar-logo {
     font-size: 20px;
