@@ -42,14 +42,17 @@ export default function CartPage() {
     <div className="fk-cart-page">
       {/* LEFT */}
       <div className="fk-cart-left">
-        <div className="fk-cart-header">
-          My Cart ({totalItems})
-        </div>
+        <div className="fk-cart-header">My Cart ({totalItems})</div>
 
         {cart.map((item) => (
           <div className="fk-cart-card" key={item._id}>
             <div className="fk-img">
-              <img src={item.imageUrl || "/photo.jpg"} alt={item.name} />
+              <img
+                className="fk-cart-product-img"
+                src={item.imageUrl || "/photo.jpg"}
+                alt={item.name}
+                loading="lazy"
+              />
             </div>
 
             <div className="fk-details">
@@ -63,9 +66,8 @@ export default function CartPage() {
               </div>
 
               <div className="fk-actions">
-                <button onClick={() => removeFromCart(item._id)}>
-                  REMOVE
-                </button>
+                <button onClick={() => removeFromCart(item._id)}>REMOVE</button>
+
                 <button
                   onClick={() => {
                     addToWishlist(item);
@@ -112,9 +114,7 @@ export default function CartPage() {
           PLACE ORDER
         </button>
 
-        <p className="fk-save">
-          You will save ₹{discount} on this order
-        </p>
+        <p className="fk-save">You will save ₹{discount} on this order</p>
       </div>
     </div>
   );

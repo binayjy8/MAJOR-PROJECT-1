@@ -60,9 +60,7 @@ export default function ProductPage() {
             <input
               type="checkbox"
               checked={filters.category === "All"}
-              onChange={() =>
-                setFilters((p) => ({ ...p, category: "All" }))
-              }
+              onChange={() => setFilters((p) => ({ ...p, category: "All" }))}
             />
             All
           </label>
@@ -72,9 +70,7 @@ export default function ProductPage() {
               <input
                 type="checkbox"
                 checked={filters.category === cat.name}
-                onChange={() =>
-                  setFilters((p) => ({ ...p, category: cat.name }))
-                }
+                onChange={() => setFilters((p) => ({ ...p, category: cat.name }))}
               />
               {cat.name}
             </label>
@@ -119,9 +115,7 @@ export default function ProductPage() {
             <input
               type="checkbox"
               checked={filters.sortBy === "lowToHigh"}
-              onChange={() =>
-                setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))
-              }
+              onChange={() => setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))}
             />
             Price — Low to High
           </label>
@@ -130,9 +124,7 @@ export default function ProductPage() {
             <input
               type="checkbox"
               checked={filters.sortBy === "highToLow"}
-              onChange={() =>
-                setFilters((p) => ({ ...p, sortBy: "highToLow" }))
-              }
+              onChange={() => setFilters((p) => ({ ...p, sortBy: "highToLow" }))}
             />
             Price — High to Low
           </label>
@@ -146,54 +138,58 @@ export default function ProductPage() {
         </h2>
 
         <div className="product-grid">
-          {filteredProducts.map((product) => (
-            <div className="product-card" key={product._id}>
-              <div
-                className="image-wrapper"
-                onClick={() => navigate(`/detail/${product._id}`)}
-              >
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="product-image"
-                />
+          {filteredProducts.length === 0 ? (
+            <p className="no-products">No products found</p>
+          ) : (
+            filteredProducts.map((product) => (
+              <div className="product-card" key={product._id}>
+                <div
+                  className="image-wrapper"
+                  onClick={() => navigate(`/detail/${product._id}`)}
+                >
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="product-image"
+                  />
 
-                <span
-                  className={`wishlist ${
-                    isInWishlist(product._id) ? "active" : ""
-                  }`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (isInWishlist(product._id)) {
-                      toast.info("Already in wishlist");
-                    } else {
-                      addToWishlist(product);
-                      toast.success("Added to wishlist");
+                  <span
+                    className={`wishlist ${
+                      isInWishlist(product._id) ? "active" : ""
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isInWishlist(product._id)) {
+                        toast.info("Already in wishlist");
+                      } else {
+                        addToWishlist(product);
+                        toast.success("Added to wishlist");
+                      }
+                    }}
+                  >
+                    ❤
+                  </span>
+                </div>
+
+                <div className="product-details">
+                  <p className="product-name">{product.name}</p>
+                  <p className="product-rating">⭐ {product.rating}</p>
+                  <p className="current-price">₹{product.price}</p>
+
+                  <button
+                    className="main-action-btn"
+                    onClick={() =>
+                      isInCart(product._id)
+                        ? navigate("/cart")
+                        : addToCart(product)
                     }
-                  }}
-                >
-                  ❤
-                </span>
+                  >
+                    {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
+                  </button>
+                </div>
               </div>
-
-              <div className="product-details">
-                <p className="product-name">{product.name}</p>
-                <p className="product-rating">⭐ {product.rating}</p>
-                <p className="current-price">₹{product.price}</p>
-
-                <button
-                  className="main-action-btn"
-                  onClick={() =>
-                    isInCart(product._id)
-                      ? navigate("/cart")
-                      : addToCart(product)
-                  }
-                >
-                  {isInCart(product._id) ? "Go to Cart" : "Add to Cart"}
-                </button>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
     </div>

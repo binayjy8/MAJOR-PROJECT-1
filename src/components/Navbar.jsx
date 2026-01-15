@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useProduct } from "../context/ProductContext";
 import "../style/navbar.css";
+import { FaHeart, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 
 export default function Navbar() {
   const { cart, wishlist } = useCart();
@@ -13,39 +14,33 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* TOP ROW */}
         <div className="navbar-top">
           <Link to="/" className="navbar-logo">
             ShopEasy
           </Link>
 
           <div className="navbar-right">
-            <button
-              className="login-btn"
-              onClick={() => navigate("/profile")}
-            >
-              Profile
+            <button className="login-btn" onClick={() => navigate("/profile")}>
+              <FaUserCircle className="profile-icon" />
+              <span className="profile-text">Profile</span>
             </button>
 
             <Link to="/wishlist" className="nav-icon">
-              ❤
+              <FaHeart className="nav-svg-icon" />
               {wishlist.length > 0 && (
                 <span className="badge">{wishlist.length}</span>
               )}
             </Link>
 
-            <Link to="/cart" className="nav-icon cart-icon">
-              🛒
+            <Link to="/cart" className="nav-icon">
+              <FaShoppingCart className="nav-svg-icon" />
               {totalCartItems > 0 && (
-                <span className="badge cart-badge">
-                  {totalCartItems}
-                </span>
+                <span className="badge cart-badge">{totalCartItems}</span>
               )}
             </Link>
           </div>
         </div>
 
-        {/* SEARCH ROW */}
         <div className="navbar-search">
           <input
             type="text"
@@ -64,4 +59,3 @@ export default function Navbar() {
     </nav>
   );
 }
-

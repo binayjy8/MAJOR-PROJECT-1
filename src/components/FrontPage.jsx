@@ -20,14 +20,8 @@ export default function FrontPage() {
     fetch("https://project-backend-eta-pink.vercel.app/api/categories")
       .then((res) => res.json())
       .then((data) => {
-        const cats =
-          data?.data?.categories ||
-          data?.categories ||
-          [];
-
-        if (Array.isArray(cats) && cats.length > 0) {
-          setCategories(cats);
-        }
+        const cats = data?.data?.categories || data?.categories || [];
+        if (Array.isArray(cats) && cats.length > 0) setCategories(cats);
       })
       .catch(() => {});
   }, []);
@@ -40,15 +34,34 @@ export default function FrontPage() {
     home: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85",
   };
 
-  const normalizeCategory = (name) =>
-    name.toLowerCase().trim().split(" ")[0];
+  const normalizeCategory = (name) => name.toLowerCase().trim().split(" ")[0];
 
   const goToCategory = (name) => {
-    setFilters((p) => ({ ...p, category: name }));
     const key = normalizeCategory(name);
 
-    if (key === "home") navigate("/");
-    else if (key === "men") navigate("/men");
+    if (key === "home") {
+      setFilters((p) => ({
+        ...p,
+        category: ["Home"],
+        rating: 0,
+        price: 5000,
+        sortBy: "",
+        search: "",
+      }));
+      navigate("/product");
+      return;
+    }
+
+    setFilters((p) => ({
+      ...p,
+      category: [name],
+      rating: 0,
+      price: 5000,
+      sortBy: "",
+      search: "",
+    }));
+
+    if (key === "men") navigate("/men");
     else if (key === "women") navigate("/women");
     else if (key === "kids") navigate("/kids");
     else if (key === "electronics") navigate("/electronics");

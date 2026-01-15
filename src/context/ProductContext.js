@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const ProductContext = createContext();
 
@@ -10,7 +10,7 @@ export function ProductProvider({ children }) {
   const fetchedRef = useRef(false);
 
   const [filters, setFilters] = useState({
-    category: [],      // ✅ always array
+    category: [],
     rating: 0,
     price: 5000,
     sortBy: "",
@@ -34,16 +34,12 @@ export function ProductProvider({ children }) {
         "https://project-backend-eta-pink.vercel.app/api/products"
       );
 
-      if (!response.ok) {
-        throw new Error("Products service unavailable");
-      }
+      if (!response.ok) throw new Error("Products service unavailable");
 
       const result = await response.json();
       const productList = result?.data?.products;
 
-      if (!Array.isArray(productList)) {
-        throw new Error("Invalid product data");
-      }
+      if (!Array.isArray(productList)) throw new Error("Invalid product data");
 
       setProducts(productList);
     } catch (err) {
@@ -69,9 +65,10 @@ export function ProductProvider({ children }) {
 
   const filteredProducts = products
     .filter((product) => {
-      // ✅ safe array
       const selectedCategories = Array.isArray(filters.category)
         ? filters.category.map((c) => c.toLowerCase().trim())
+        : filters.category
+        ? [filters.category.toLowerCase().trim()]
         : [];
 
       if (selectedCategories.length === 0) return true;
@@ -83,7 +80,11 @@ export function ProductProvider({ children }) {
 
       if (!productCategory) return false;
 
-      return selectedCategories.includes(productCategory.toLowerCase().trim());
+      const normalizedProductCategory = productCategory.toLowerCase().trim();
+
+      return selectedCategories.some((cat) =>
+        normalizedProductCategory.includes(cat)
+      );
     })
     .filter((product) => {
       if (product.price > filters.price) return false;
@@ -104,6 +105,30 @@ export function ProductProvider({ children }) {
       return 0;
     });
 
+  const safeSetFilters = (updater) => {
+    setFilters((prev) => {
+      const safePrev = {
+        ...prev,
+        category: Array.isArray(prev.category)
+          ? prev.category
+          : prev.category
+          ? [prev.category]
+          : [],
+      };
+
+      const next = typeof updater === "function" ? updater(safePrev) : updater;
+
+      return {
+        ...next,
+        category: Array.isArray(next.category)
+          ? next.category
+          : next.category
+          ? [next.category]
+          : [],
+      };
+    });
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -113,7 +138,7 @@ export function ProductProvider({ children }) {
         loading,
         error,
         filters,
-        setFilters,
+        setFilters: safeSetFilters,
         fetchProducts,
       }}
     >
