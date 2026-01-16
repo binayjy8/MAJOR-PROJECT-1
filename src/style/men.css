@@ -5,6 +5,8 @@
   background-color: #f1f3f6;
   min-height: 100vh;
   font-family: Roboto, Arial, sans-serif;
+  position: relative;
+  z-index: 1;
 }
 
 .filter {
@@ -13,6 +15,11 @@
   padding: 16px;
   border-radius: 6px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+
+  /* ✅ IMPORTANT: ensure sidebar always clickable */
+  position: relative;
+  z-index: 9999;
+  pointer-events: auto;
 }
 
 .filter-header {
@@ -30,6 +37,7 @@
   font-size: 13px;
   color: #2874f0;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .filter-section {
@@ -49,23 +57,38 @@
   margin-top: 8px;
 }
 
+/* ✅ Filter option clickable fix */
 .filter-option {
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 14px;
   margin-bottom: 10px;
-  cursor: pointer;
   white-space: nowrap;
 }
 
-.filter-option input[type="radio"] {
+.filter-option input[type="checkbox"] {
   margin: 0;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.filter-option label {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ✅ Slider fix */
+.filter input[type="range"] {
+  width: 100%;
   cursor: pointer;
 }
 
 .products-area {
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .title {

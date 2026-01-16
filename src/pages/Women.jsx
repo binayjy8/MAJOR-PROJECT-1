@@ -11,14 +11,15 @@ export default function Women() {
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
+  // ✅ DO NOT RESET search here
   useEffect(() => {
     setFilters((prev) => ({
       ...prev,
-      category: ["Women"],
-      rating: 0,
-      price: 5000,
-      sortBy: "",
-      search: "",
+      category: prev.category?.length ? prev.category : ["Women"],
+      rating: prev.rating ?? 0,
+      price: prev.price ?? 5000,
+      sortBy: prev.sortBy ?? "",
+      // ✅ keep search
     }));
   }, [setFilters]);
 
@@ -59,7 +60,7 @@ export default function Women() {
                 rating: 0,
                 price: 5000,
                 sortBy: "",
-                search: "",
+                // ✅ keep search
               }))
             }
             role="button"
@@ -72,14 +73,15 @@ export default function Women() {
           <p className="filter-title">Category</p>
 
           {categories.map((cat) => (
-            <label key={cat._id} className="filter-option">
+            <div key={cat._id} className="filter-option">
               <input
+                id={`cat-${cat._id}`}
                 type="checkbox"
                 checked={selectedCategory.includes(cat.name)}
                 onChange={() => toggleCategory(cat.name)}
               />
-              {cat.name}
-            </label>
+              <label htmlFor={`cat-${cat._id}`}>{cat.name}</label>
+            </div>
           ))}
         </div>
 
@@ -89,6 +91,7 @@ export default function Women() {
             type="range"
             min="50"
             max="5000"
+            step="50"
             value={filters.price}
             onChange={(e) =>
               setFilters((p) => ({ ...p, price: Number(e.target.value) }))
@@ -101,22 +104,26 @@ export default function Women() {
           <p className="filter-title">Rating</p>
 
           {[4, 3, 2, 0].map((r) => (
-            <label key={r} className="filter-option">
+            <div key={r} className="filter-option">
               <input
+                id={`rate-${r}`}
                 type="checkbox"
                 checked={filters.rating === r}
                 onChange={() => setFilters((p) => ({ ...p, rating: r }))}
               />
-              {r === 0 ? "All" : `${r}★ & above`}
-            </label>
+              <label htmlFor={`rate-${r}`}>
+                {r === 0 ? "All" : `${r}★ & above`}
+              </label>
+            </div>
           ))}
         </div>
 
         <div className="filter-section">
           <p className="filter-title">Sort By</p>
 
-          <label className="filter-option">
+          <div className="filter-option">
             <input
+              id="sort-low"
               type="checkbox"
               checked={filters.sortBy === "lowToHigh"}
               onChange={() =>
@@ -126,11 +133,12 @@ export default function Women() {
                 }))
               }
             />
-            Price — Low to High
-          </label>
+            <label htmlFor="sort-low">Price — Low to High</label>
+          </div>
 
-          <label className="filter-option">
+          <div className="filter-option">
             <input
+              id="sort-high"
               type="checkbox"
               checked={filters.sortBy === "highToLow"}
               onChange={() =>
@@ -140,8 +148,8 @@ export default function Women() {
                 }))
               }
             />
-            Price — High to Low
-          </label>
+            <label htmlFor="sort-high">Price — High to Low</label>
+          </div>
         </div>
       </aside>
 

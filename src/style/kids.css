@@ -1,5 +1,3 @@
-
-
 .product-page {
   display: flex;
   gap: 16px;
@@ -7,6 +5,8 @@
   background: #f1f3f6;
   min-height: 100vh;
   font-family: Roboto, Arial, sans-serif;
+  position: relative;
+  z-index: 1;
 }
 
 .filter {
@@ -15,6 +15,11 @@
   padding: 16px;
   border-radius: 6px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+
+  /* ✅ clickable fix */
+  position: relative;
+  z-index: 9999;
+  pointer-events: auto;
 }
 
 .filter-header {
@@ -27,6 +32,7 @@
   font-size: 13px;
   color: #2874f0;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .filter-section {
@@ -46,22 +52,38 @@
   margin-top: 8px;
 }
 
+/* ✅ checkbox + label click support */
 .filter-option {
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 14px;
   margin-bottom: 10px;
-  cursor: pointer;
   white-space: nowrap;
 }
 
-/* =========================
-   PRODUCTS A
-========================= */
+.filter-option input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.filter-option label {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ✅ slider must be full width */
+.filter input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
 
 .products-area {
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .title {
@@ -75,34 +97,31 @@
   color: #777;
 }
 
-/* =========================
-   PRODUCT GRID
-========================= */
-
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
 }
 
-/* =========================
-   PRODUCT CARD
-========================= */
+.no-products {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 18px;
+  color: #777;
+  padding: 40px 0;
+}
 
 .product-card {
   background: #ffffff;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
+  overflow: hidden;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
 }
-
-/* =========================
-   IMAGE (NO CROPPING)
-========================= */
 
 .image-wrapper {
   position: relative;
@@ -110,17 +129,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .product-image {
   width: 100%;
   height: 220px;
-  object-fit: contain; /* ✅ FIXED: no face cropping */
+  object-fit: contain; /* ✅ no cropping */
 }
-
-/* =========================
-   WISHLIST (SAME AS MEN)
-========================= */
 
 .wishlist {
   position: absolute;
@@ -137,10 +153,6 @@
 .wishlist.active {
   color: red;
 }
-
-/* =========================
-   PRODUCT DETAILS
-========================= */
 
 .product-details {
   padding: 12px;
@@ -164,10 +176,6 @@
   margin: 6px 0 10px;
 }
 
-/* =========================
-   ACTION BUTTON
-========================= */
-
 .main-action-btn {
   width: 100%;
   padding: 10px;
@@ -182,20 +190,12 @@
   background: #0b5ed7;
 }
 
-/* =========================
-   STATES
-========================= */
-
 .loading,
 .error {
   padding: 40px;
   text-align: center;
   font-size: 18px;
 }
-
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media (max-width: 768px) {
   .product-page {
