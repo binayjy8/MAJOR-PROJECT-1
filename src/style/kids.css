@@ -135,7 +135,7 @@
 .product-image {
   width: 100%;
   height: 220px;
-  object-fit: contain; /* ✅ n cp */
+  object-fit: contain; /* ✅  cp */
 }
 
 .wishlist {
