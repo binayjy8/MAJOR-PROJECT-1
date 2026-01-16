@@ -10,7 +10,7 @@ export function ProductProvider({ children }) {
   const fetchedRef = useRef(false);
 
   const [filters, setFilters] = useState({
-    category: [],
+    category: [], // ✅ MUST stay array for multi-select
     rating: 0,
     price: 5000,
     sortBy: "",
@@ -63,33 +63,42 @@ export function ProductProvider({ children }) {
     }
   };
 
+  // ✅ Helper: always return clean product category string
+  const getProductCategory = (product) => {
+    const productCategory =
+      typeof product.category === "object"
+        ? product.category?.name
+        : product.category;
+
+    return (productCategory || "").toLowerCase().trim();
+  };
+
   const filteredProducts = products
     .filter((product) => {
+      // ✅ selected categories always normalized array
       const selectedCategories = Array.isArray(filters.category)
         ? filters.category.map((c) => c.toLowerCase().trim())
-        : filters.category
-        ? [filters.category.toLowerCase().trim()]
         : [];
 
+      // ✅ If no category selected, show all
       if (selectedCategories.length === 0) return true;
 
-      const productCategory =
-        typeof product.category === "object"
-          ? product.category?.name
-          : product.category;
+      const normalizedProductCategory = getProductCategory(product);
 
-      if (!productCategory) return false;
+      if (!normalizedProductCategory) return false;
 
-      const normalizedProductCategory = productCategory.toLowerCase().trim();
-
-      return selectedCategories.some((cat) =>
-        normalizedProductCategory.includes(cat)
-      );
+      // ✅ IMPORTANT FIX: exact match for multi-category selection
+      return selectedCategories.includes(normalizedProductCategory);
     })
     .filter((product) => {
-      if (product.price > filters.price) return false;
-      if (filters.rating > 0 && product.rating < filters.rating) return false;
+      // ✅ Price filter
+      if (Number(product.price) > Number(filters.price)) return false;
 
+      // ✅ Rating filter
+      if (filters.rating > 0 && Number(product.rating) < Number(filters.rating))
+        return false;
+
+      // ✅ Search filter
       if (
         filters.search &&
         !product.name.toLowerCase().includes(filters.search.toLowerCase())
@@ -105,26 +114,19 @@ export function ProductProvider({ children }) {
       return 0;
     });
 
+  // ✅ Safe setter ensures category is always array
   const safeSetFilters = (updater) => {
     setFilters((prev) => {
       const safePrev = {
         ...prev,
-        category: Array.isArray(prev.category)
-          ? prev.category
-          : prev.category
-          ? [prev.category]
-          : [],
+        category: Array.isArray(prev.category) ? prev.category : [],
       };
 
       const next = typeof updater === "function" ? updater(safePrev) : updater;
 
       return {
         ...next,
-        category: Array.isArray(next.category)
-          ? next.category
-          : next.category
-          ? [next.category]
-          : [],
+        category: Array.isArray(next.category) ? next.category : [],
       };
     });
   };
