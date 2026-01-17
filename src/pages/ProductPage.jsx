@@ -6,22 +6,15 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 export default function ProductPage() {
-  const {
-    filteredProducts,
-    loading,
-    error,
-    setFilters,
-    filters,
-    categories,
-  } = useProduct();
+  const { filteredProducts, loading, error, setFilters, filters, categories } =
+    useProduct();
 
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ Reset filters on page mount
   useEffect(() => {
     setFilters({
-      category: [], // ✅ array (multi-select)
+      category: [],
       rating: 0,
       price: 5000,
       sortBy: "",
@@ -32,7 +25,6 @@ export default function ProductPage() {
   const isInCart = (id) => cart.some((item) => item._id === id);
   const isInWishlist = (id) => wishlist.some((item) => item._id === id);
 
-  // ✅ Category toggle (multi-select)
   const toggleCategory = (catName) => {
     setFilters((prev) => {
       const selected = Array.isArray(prev.category) ? prev.category : [];
@@ -41,13 +33,12 @@ export default function ProductPage() {
       return {
         ...prev,
         category: exists
-          ? selected.filter((c) => c !== catName) // remove
-          : [...selected, catName], // add
+          ? selected.filter((c) => c !== catName)
+          : [...selected, catName],
       };
     });
   };
 
-  // ✅ Rating toggle (single select with uncheck)
   const toggleRating = (ratingValue) => {
     setFilters((prev) => ({
       ...prev,
@@ -55,7 +46,6 @@ export default function ProductPage() {
     }));
   };
 
-  // ✅ Sort toggle (single select with uncheck)
   const toggleSort = (sortValue) => {
     setFilters((prev) => ({
       ...prev,
@@ -78,7 +68,6 @@ export default function ProductPage() {
 
   return (
     <div className="product-page">
-      {/* FILTERS */}
       <aside className="filter">
         <div className="filter-header">
           <h3>Filters</h3>
@@ -87,11 +76,9 @@ export default function ProductPage() {
           </span>
         </div>
 
-        {/* CATEGORY */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
 
-          {/* ✅ All = empty array */}
           <label className="filter-option">
             <input
               type="checkbox"
@@ -124,7 +111,6 @@ export default function ProductPage() {
           })}
         </div>
 
-        {/* PRICE */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <input
@@ -142,7 +128,6 @@ export default function ProductPage() {
           <p className="price-value">₹{filters.price}</p>
         </div>
 
-        {/* RATING */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
 
@@ -157,7 +142,6 @@ export default function ProductPage() {
             </label>
           ))}
 
-          {/* ✅ All rating */}
           <label className="filter-option">
             <input
               type="checkbox"
@@ -168,7 +152,6 @@ export default function ProductPage() {
           </label>
         </div>
 
-        {/* SORT */}
         <div className="filter-section">
           <p className="filter-title">Sort By</p>
 
@@ -192,7 +175,6 @@ export default function ProductPage() {
         </div>
       </aside>
 
-      {/* PRODUCTS */}
       <section className="products-area">
         <h2 className="title">
           {filters.category?.length === 0
