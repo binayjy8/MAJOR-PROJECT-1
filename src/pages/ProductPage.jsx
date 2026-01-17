@@ -18,65 +18,113 @@ export default function ProductPage() {
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
+  // ✅ Reset filters on page mount
   useEffect(() => {
     setFilters({
-      category: "All",
+      category: [], // ✅ array (multi-select)
       rating: 0,
       price: 5000,
       sortBy: "",
+      search: "",
     });
   }, [setFilters]);
 
   const isInCart = (id) => cart.some((item) => item._id === id);
   const isInWishlist = (id) => wishlist.some((item) => item._id === id);
 
+  // ✅ Category toggle (multi-select)
+  const toggleCategory = (catName) => {
+    setFilters((prev) => {
+      const selected = Array.isArray(prev.category) ? prev.category : [];
+      const exists = selected.includes(catName);
+
+      return {
+        ...prev,
+        category: exists
+          ? selected.filter((c) => c !== catName) // remove
+          : [...selected, catName], // add
+      };
+    });
+  };
+
+  // ✅ Rating toggle (single select with uncheck)
+  const toggleRating = (ratingValue) => {
+    setFilters((prev) => ({
+      ...prev,
+      rating: prev.rating === ratingValue ? 0 : ratingValue,
+    }));
+  };
+
+  // ✅ Sort toggle (single select with uncheck)
+  const toggleSort = (sortValue) => {
+    setFilters((prev) => ({
+      ...prev,
+      sortBy: prev.sortBy === sortValue ? "" : sortValue,
+    }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      category: [],
+      rating: 0,
+      price: 5000,
+      sortBy: "",
+      search: "",
+    });
+  };
+
   if (loading) return <div className="loading">Loading products...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="product-page">
+      {/* FILTERS */}
       <aside className="filter">
         <div className="filter-header">
           <h3>Filters</h3>
-          <span
-            className="clear-filter"
-            onClick={() =>
-              setFilters({
-                category: "All",
-                rating: 0,
-                price: 5000,
-                sortBy: "",
-              })
-            }
-          >
+          <span className="clear-filter" onClick={clearFilters}>
             Clear
           </span>
         </div>
 
+        {/* CATEGORY */}
         <div className="filter-section">
           <p className="filter-title">Category</p>
 
+          {/* ✅ All = empty array */}
           <label className="filter-option">
             <input
               type="checkbox"
-              checked={filters.category === "All"}
-              onChange={() => setFilters((p) => ({ ...p, category: "All" }))}
+              checked={filters.category?.length === 0}
+              onChange={() =>
+                setFilters((p) => ({
+                  ...p,
+                  category: [],
+                }))
+              }
             />
             All
           </label>
 
-          {categories?.map((cat) => (
-            <label key={cat._id} className="filter-option">
-              <input
-                type="checkbox"
-                checked={filters.category === cat.name}
-                onChange={() => setFilters((p) => ({ ...p, category: cat.name }))}
-              />
-              {cat.name}
-            </label>
-          ))}
+          {categories?.map((cat) => {
+            const checked =
+              Array.isArray(filters.category) &&
+              filters.category.includes(cat.name);
+
+            return (
+              <label key={cat._id} className="filter-option">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => toggleCategory(cat.name)}
+                />
+                {cat.name}
+              </label>
+            );
+          })}
         </div>
 
+        {/* PRICE */}
         <div className="filter-section">
           <p className="filter-title">Price</p>
           <input
@@ -94,20 +142,33 @@ export default function ProductPage() {
           <p className="price-value">₹{filters.price}</p>
         </div>
 
+        {/* RATING */}
         <div className="filter-section">
           <p className="filter-title">Rating</p>
-          {[4, 3, 2, 0].map((r) => (
+
+          {[4, 3, 2].map((r) => (
             <label key={r} className="filter-option">
               <input
                 type="checkbox"
                 checked={filters.rating === r}
-                onChange={() => setFilters((p) => ({ ...p, rating: r }))}
+                onChange={() => toggleRating(r)}
               />
-              {r === 0 ? "All" : `${r}★ & above`}
+              {`${r}★ & above`}
             </label>
           ))}
+
+          {/* ✅ All rating */}
+          <label className="filter-option">
+            <input
+              type="checkbox"
+              checked={filters.rating === 0}
+              onChange={() => setFilters((p) => ({ ...p, rating: 0 }))}
+            />
+            All
+          </label>
         </div>
 
+        {/* SORT */}
         <div className="filter-section">
           <p className="filter-title">Sort By</p>
 
@@ -115,7 +176,7 @@ export default function ProductPage() {
             <input
               type="checkbox"
               checked={filters.sortBy === "lowToHigh"}
-              onChange={() => setFilters((p) => ({ ...p, sortBy: "lowToHigh" }))}
+              onChange={() => toggleSort("lowToHigh")}
             />
             Price — Low to High
           </label>
@@ -124,16 +185,19 @@ export default function ProductPage() {
             <input
               type="checkbox"
               checked={filters.sortBy === "highToLow"}
-              onChange={() => setFilters((p) => ({ ...p, sortBy: "highToLow" }))}
+              onChange={() => toggleSort("highToLow")}
             />
             Price — High to Low
           </label>
         </div>
       </aside>
 
+      {/* PRODUCTS */}
       <section className="products-area">
         <h2 className="title">
-          {filters.category === "All" ? "All Products" : filters.category}{" "}
+          {filters.category?.length === 0
+            ? "All Products"
+            : filters.category.join(", ")}{" "}
           <span>({filteredProducts.length})</span>
         </h2>
 
