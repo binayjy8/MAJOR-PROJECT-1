@@ -40,7 +40,7 @@ export default function CartPage() {
 
   return (
     <div className="fk-cart-page">
-      {/* LEFT */}
+      
       <div className="fk-cart-left">
         <div className="fk-cart-header">My Cart ({totalItems})</div>
 
@@ -83,7 +83,7 @@ export default function CartPage() {
         ))}
       </div>
 
-      {/* RIGHT */}
+     
       <div className="fk-price-box">
         <h4>PRICE DETAILS</h4>
 

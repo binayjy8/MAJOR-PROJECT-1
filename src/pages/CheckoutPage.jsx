@@ -73,9 +73,9 @@ export default function CheckoutPage() {
       <h1 className="checkout-title">Checkout</h1>
 
       <div className="checkout-grid">
-        {/* LEFT */}
+     
         <div className="checkout-left">
-          {/* ADDRESS */}
+          
           <div className="checkout-card">
             <h2>Delivery Address</h2>
 
@@ -111,7 +111,7 @@ export default function CheckoutPage() {
             </button>
           </div>
 
-          {/* PAYMENT */}
+       
           <div className="checkout-card">
             <h2>Payment Method</h2>
 
@@ -139,7 +139,7 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        {/* RIGHT */}
+     
         <div className="checkout-right">
           <div className="order-summary">
             <h2>Order Summary</h2>

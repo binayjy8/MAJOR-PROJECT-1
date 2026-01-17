@@ -34,7 +34,6 @@ export default function ProfilePage() {
       const result = await response.json();
 
       if (result?.data?.orders) {
-        // ✅ ALWAYS show latest order first
         const sortedOrders = [...result.data.orders].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
@@ -55,14 +54,11 @@ export default function ProfilePage() {
   return (
     <div className="profile-container">
       <h1 className="profile-main-title">My Account</h1>
-
-      {/* ================= WELCOME ================= */}
       <div className="welcome-section">
         <h2>Welcome back, {user.name}!</h2>
         <p>Member since {user.joinDate}</p>
       </div>
 
-      {/* ================= PERSONAL INFO ================= */}
       <div className="profile-section">
         <h2>Personal Information</h2>
 
@@ -84,7 +80,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ================= QUICK ACTIONS ================= */}
       <div className="profile-section">
         <h2>Quick Actions</h2>
 
@@ -115,7 +110,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ================= ORDERS ================= */}
       <div className="profile-section">
         <h2>Recent Orders</h2>
 

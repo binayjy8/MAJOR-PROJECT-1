@@ -1,4 +1,4 @@
-/* Footer Styles */
+
 .footer {
   background: #2c3e50;
   color: white;
@@ -112,7 +112,7 @@
   color: #7f8c8d;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .footer-container {
     grid-template-columns: repeat(2, 1fr);

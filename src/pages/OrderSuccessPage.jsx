@@ -9,17 +9,16 @@ export default function OrderSuccessPage() {
   const navigate = useNavigate();
   const clearedRef = useRef(false);
 
-  // 🔹 Get real orderId from checkout page
+ 
   const orderId = location.state?.orderId;
 
-  // 🔹 Redirect if accessed directly
+ 
   useEffect(() => {
     if (!orderId) {
       navigate("/product");
     }
   }, [orderId, navigate]);
 
-  // 🔹 Clear cart only once
   useEffect(() => {
     if (!clearedRef.current) {
       clearCart();

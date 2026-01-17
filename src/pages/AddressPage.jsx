@@ -22,12 +22,12 @@ export default function AddressPage() {
     e.preventDefault();
     
     if (editingId) {
-      // Update existing address
+     
       updateAddress(editingId, formData);
       toast.success("Address updated successfully!");
       setEditingId(null);
     } else {
-      // Add new address
+      
       addAddress(formData);
       toast.success("Address added successfully!");
     }

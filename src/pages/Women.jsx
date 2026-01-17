@@ -11,7 +11,7 @@ export default function Women() {
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ DO NOT RESET search here
+
   useEffect(() => {
     setFilters((prev) => ({
       ...prev,
@@ -19,7 +19,7 @@ export default function Women() {
       rating: prev.rating ?? 0,
       price: prev.price ?? 5000,
       sortBy: prev.sortBy ?? "",
-      // ✅ keep search
+     
     }));
   }, [setFilters]);
 
@@ -60,7 +60,7 @@ export default function Women() {
                 rating: 0,
                 price: 5000,
                 sortBy: "",
-                // ✅ keep search
+               
               }))
             }
             role="button"

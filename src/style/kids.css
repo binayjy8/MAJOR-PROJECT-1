@@ -16,7 +16,7 @@
   border-radius: 6px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
 
-  /* ✅ clickable fix */
+
   position: relative;
   z-index: 9999;
   pointer-events: auto;
@@ -52,7 +52,7 @@
   margin-top: 8px;
 }
 
-/* ✅ checkbox + label click support */
+
 .filter-option {
   display: flex;
   align-items: center;
@@ -74,7 +74,7 @@
   user-select: none;
 }
 
-/* ✅ slider must be full width */
+
 .filter input[type="range"] {
   width: 100%;
   cursor: pointer;
