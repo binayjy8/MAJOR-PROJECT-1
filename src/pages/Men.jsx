@@ -60,7 +60,7 @@ export default function Men() {
                 rating: 0,
                 price: 5000,
                 sortBy: "",
-                // ✅ keep search
+               
               }))
             }
             role="button"
