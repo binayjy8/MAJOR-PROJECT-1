@@ -11,15 +11,13 @@ export default function Men() {
   const { addToCart, addToWishlist, cart, wishlist } = useCart();
   const navigate = useNavigate();
 
-  // ✅ DO NOT RESET search HERE
   useEffect(() => {
     setFilters((prev) => ({
       ...prev,
-      category: prev.category?.length ? prev.category : ["Men"], // ✅ default category
+      category: prev.category?.length ? prev.category : ["Men"],
       rating: prev.rating ?? 0,
       price: prev.price ?? 5000,
       sortBy: prev.sortBy ?? "",
-      // search: prev.search  ✅ keep existing search
     }));
   }, [setFilters]);
 
