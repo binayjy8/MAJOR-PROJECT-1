@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="footer-container">
         <div className="footer-section">
           <h3>ShopEasy</h3>
-          <p>Your one-stop shop for fashion and electronics. Quality products at affordable prices.</p>
+          <p>Your one-stop shop for fashion and electronics. Quality products at affordable price.</p>
           <div className="social-links">
             <a href="#" aria-label="Facebook">📘</a>
             <a href="#" aria-label="Twitter">🐦</a>
