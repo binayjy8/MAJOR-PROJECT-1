@@ -7,34 +7,66 @@ export default function Footer() {
       <div className="footer-container">
         <div className="footer-section">
           <h3>ShopEasy</h3>
-          <p>Your one-stop shop for fashion and electronics. Quality products at affordable prices.</p>
+          <p>
+            Your one-stop shop for fashion and electronics. Quality products at
+            affordable prices.
+          </p>
+
           <div className="social-links">
-            <a href="#" aria-label="Facebook">📘</a>
-            <a href="#" aria-label="Twitter">🐦</a>
-            <a href="#" aria-label="Instagram">📷</a>
-            <a href="#" aria-label="LinkedIn">💼</a>
+            <a href="#" aria-label="Facebook">
+              📘
+            </a>
+            <a href="#" aria-label="Twitter">
+              🐦
+            </a>
+            <a href="#" aria-label="Instagram">
+              📷
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              💼
+            </a>
           </div>
         </div>
 
         <div className="footer-section">
           <h4>Quick Links</h4>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/product">All Products</Link></li>
-            <li><Link to="/men">Men</Link></li>
-            <li><Link to="/women">Women</Link></li>
-            <li><Link to="/kids">Kids</Link></li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/product">All Products</Link>
+            </li>
+            <li>
+              <Link to="/men">Men</Link>
+            </li>
+            <li>
+              <Link to="/women">Women</Link>
+            </li>
+            <li>
+              <Link to="/kids">Kids</Link>
+            </li>
           </ul>
         </div>
 
         <div className="footer-section">
           <h4>Customer Service</h4>
           <ul>
-            <li><Link to="/profile">My Account</Link></li>
-            <li><Link to="/cart">Shopping Cart</Link></li>
-            <li><Link to="/wishlist">Wishlist</Link></li>
-            <li><Link to="/address">Manage Addresses</Link></li>
-            <li><a href="#">Track Order</a></li>
+            <li>
+              <Link to="/profile">My Account</Link>
+            </li>
+            <li>
+              <Link to="/cart">Shopping Cart</Link>
+            </li>
+            <li>
+              <Link to="/wishlist">Wishlist</Link>
+            </li>
+            <li>
+              <Link to="/address">Manage Addresses</Link>
+            </li>
+            <li>
+              <a href="#">Track Order</a>
+            </li>
           </ul>
         </div>
 
@@ -51,6 +83,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p>&copy; 2024 ShopEasy. All rights reserved.</p>
+
         <div className="footer-bottom-links">
           <a href="#">Privacy Policy</a>
           <span>|</span>
