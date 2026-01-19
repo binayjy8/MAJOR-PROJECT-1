@@ -1,4 +1,3 @@
-
 .footer {
   background: #2c3e50;
   color: white;
@@ -111,7 +110,6 @@
 .footer-bottom-links span {
   color: #7f8c8d;
 }
-
 
 @media (max-width: 768px) {
   .footer-container {
