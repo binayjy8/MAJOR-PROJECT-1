@@ -113,11 +113,11 @@
   .success-card {
     padding: 30px 20px;
   }
-  
+
   .success-actions {
     flex-direction: column;
   }
-  
+
   .primary-btn,
   .secondary-btn {
     width: 100%;
