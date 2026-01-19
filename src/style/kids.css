@@ -16,7 +16,6 @@
   border-radius: 6px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
 
-
   position: relative;
   z-index: 9999;
   pointer-events: auto;
@@ -52,7 +51,6 @@
   margin-top: 8px;
 }
 
-
 .filter-option {
   display: flex;
   align-items: center;
@@ -73,7 +71,6 @@
   cursor: pointer;
   user-select: none;
 }
-
 
 .filter input[type="range"] {
   width: 100%;
