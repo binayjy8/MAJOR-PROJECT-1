@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import "../style/footer.css";
 
 export default function Footer() {
+  const handleDummyLink = (e) => e.preventDefault();
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -13,16 +15,32 @@ export default function Footer() {
           </p>
 
           <div className="social-links">
-            <a href="#" aria-label="Facebook">
+            <a
+              href="/"
+              onClick={handleDummyLink}
+              aria-label="Facebook"
+            >
               📘
             </a>
-            <a href="#" aria-label="Twitter">
+            <a
+              href="/"
+              onClick={handleDummyLink}
+              aria-label="Twitter"
+            >
               🐦
             </a>
-            <a href="#" aria-label="Instagram">
+            <a
+              href="/"
+              onClick={handleDummyLink}
+              aria-label="Instagram"
+            >
               📷
             </a>
-            <a href="#" aria-label="LinkedIn">
+            <a
+              href="/"
+              onClick={handleDummyLink}
+              aria-label="LinkedIn"
+            >
               💼
             </a>
           </div>
@@ -65,7 +83,9 @@ export default function Footer() {
               <Link to="/address">Manage Addresses</Link>
             </li>
             <li>
-              <a href="#">Track Order</a>
+              <a href="/" onClick={handleDummyLink}>
+                Track Order
+              </a>
             </li>
           </ul>
         </div>
@@ -85,11 +105,17 @@ export default function Footer() {
         <p>&copy; 2024 ShopEasy. All rights reserved.</p>
 
         <div className="footer-bottom-links">
-          <a href="#">Privacy Policy</a>
+          <a href="/" onClick={handleDummyLink}>
+            Privacy Policy
+          </a>
           <span>|</span>
-          <a href="#">Terms of Service</a>
+          <a href="/" onClick={handleDummyLink}>
+            Terms of Service
+          </a>
           <span>|</span>
-          <a href="#">Refund Policy</a>
+          <a href="/" onClick={handleDummyLink}>
+            Refund Policy
+          </a>
         </div>
       </div>
     </footer>
