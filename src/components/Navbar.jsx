@@ -1,15 +1,39 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useProduct } from "../context/ProductContext";
 import "../style/navbar.css";
 import { FaHeart, FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const { cart, wishlist } = useCart();
   const { filters, setFilters } = useProduct();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const totalCartItems = cart.reduce((sum, item) => sum + item.qty, 0);
+
+  const [query, setQuery] = useState(filters.search || "");
+
+  useEffect(() => {
+    setQuery(filters.search || "");
+  }, [filters.search]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const trimmed = query.trim();
+
+    setFilters((prev) => ({
+      ...prev,
+      search: trimmed,
+    }));
+
+    if (location.pathname !== "/product") {
+      navigate("/product");
+    }
+
+    setQuery("");
+  };
 
   return (
     <nav className="navbar">
@@ -41,20 +65,17 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="navbar-search">
+        <form className="navbar-search" onSubmit={handleSearch}>
           <input
             type="text"
             placeholder="Search for products, brands and more"
-            value={filters.search}
-            onChange={(e) =>
-              setFilters((prev) => ({
-                ...prev,
-                search: e.target.value,
-              }))
-            }
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
-          <button className="search-btn">🔍</button>
-        </div>
+          <button className="search-btn" type="submit">
+            🔍
+          </button>
+        </form>
       </div>
     </nav>
   );

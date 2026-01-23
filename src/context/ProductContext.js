@@ -98,7 +98,10 @@ export function ProductProvider({ children }) {
       .filter((product) => {
         if (Number(product.price) > Number(filters.price)) return false;
 
-        if (filters.rating > 0 && Number(product.rating) < Number(filters.rating))
+        if (
+          filters.rating > 0 &&
+          Number(product.rating) < Number(filters.rating)
+        )
           return false;
 
         if (
@@ -111,8 +114,10 @@ export function ProductProvider({ children }) {
         return true;
       })
       .sort((a, b) => {
-        if (filters.sortBy === "lowToHigh") return Number(a.price) - Number(b.price);
-        if (filters.sortBy === "highToLow") return Number(b.price) - Number(a.price);
+        if (filters.sortBy === "lowToHigh")
+          return Number(a.price) - Number(b.price);
+        if (filters.sortBy === "highToLow")
+          return Number(b.price) - Number(a.price);
         return 0;
       });
   }, [products, filters]);

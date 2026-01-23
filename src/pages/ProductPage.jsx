@@ -13,13 +13,14 @@ export default function ProductPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setFilters({
+    setFilters((prev) => ({
+      ...prev,
       category: [],
       rating: 0,
       price: 5000,
       sortBy: "",
-      search: "",
-    });
+      search: prev.search ?? "",
+    }));
   }, [setFilters]);
 
   const isInCart = (id) => cart.some((item) => item._id === id);
@@ -54,13 +55,14 @@ export default function ProductPage() {
   };
 
   const clearFilters = () => {
-    setFilters({
+    setFilters((prev) => ({
+      ...prev,
       category: [],
       rating: 0,
       price: 5000,
       sortBy: "",
       search: "",
-    });
+    }));
   };
 
   if (loading) return <div className="loading">Loading products...</div>;
@@ -201,7 +203,7 @@ export default function ProductPage() {
 
                   <span
                     className={`wishlist ${
-                      isInWishlist(product._id) ? "active" : ""
+                      wishlist.some((w) => w._id === product._id) ? "active" : ""
                     }`}
                     onClick={(e) => {
                       e.stopPropagation();
