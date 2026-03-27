@@ -96,3 +96,7 @@ Sample Request: <br>
 ```
 [{items, totalAmount, address}]
 ```
+
+## Contact
+
+For bugs and feature request, please reach out to mohantabinaybhusan@gmail.com
