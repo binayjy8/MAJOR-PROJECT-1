@@ -17,3 +17,16 @@ cd my-app
 npm install
 npm run dev
 ```
+
+---
+
+## Technologies
+
+- React JS
+- Bootstrap
+- React Router
+- Context API / State Management
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
