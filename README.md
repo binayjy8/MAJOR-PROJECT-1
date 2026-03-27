@@ -4,3 +4,4 @@ A full-featured E-Commerce Web Application built using React JS (Frontend) and N
 This project implements real-world e-commerce functionalities including product browsing, cart management, wishlist, checkout, and order management.
 
 ## Demo Link
+[Live Demo] (https://major-project-1-dun.vercel.app/)
