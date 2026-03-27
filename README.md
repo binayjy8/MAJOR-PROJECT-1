@@ -36,3 +36,12 @@ npm run dev
 ## Demo Video
 
 Watch a walk through
+
+---
+
+## Features
+
+- Displays featured product categories
+- Clicking a category redirects to Product Listing page with applied filter
+- Displays all products with filters and sorting
+- Filters: Category (Checkbox), Ratings (Slider), Clear Filters button
