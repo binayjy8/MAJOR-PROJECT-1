@@ -11,3 +11,9 @@ This project implements real-world e-commerce functionalities including product 
 ---
 
 ## Quick Start
+```
+git clone https://github.com/binayjy8/MAJOR-PROJECT-1.git
+cd my-app
+npm install
+npm run dev
+```
