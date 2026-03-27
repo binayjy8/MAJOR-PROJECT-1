@@ -69,3 +69,12 @@ Sample Response: <br>
 ```
 [{_id, name, description, price, rating, image, category}]
 ```
+
+## **/categories** <br>
+
+GET – List all categories <br>
+Sample Response: <br>
+
+```
+[{_id, name}]
+```
