@@ -53,7 +53,7 @@ Watch a walk through
 
 ## API Reference
 
-##**/products** <br>
+## **/products** <br>
 
 GET – List all products<br>
 Sample Response:<br>
