@@ -35,7 +35,8 @@ npm run dev
 
 ## Demo Video
 
-Watch a walk through
+Watch a walk through (4 minutes) of all the major features of this app:
+[Demo Video] (https://drive.google.com/file/d/1IdFyts5Hn1OoB3tGKi7alf2gRKl4xSLU/view?usp=sharing)
 
 ---
 
