@@ -78,3 +78,21 @@ Sample Response: <br>
 ```
 [{_id, name}]
 ```
+
+## **/categories/:categoryId** <br>
+
+GET – Get category by ID <br>
+Sample Response: <br>
+
+```
+[{_id, name}]
+```
+
+## **/orders** <br>
+
+POST – Create Order <br>
+Sample Request: <br>
+
+```
+[{items, totalAmount, address}]
+```
