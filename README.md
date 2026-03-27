@@ -45,3 +45,4 @@ Watch a walk through
 - Clicking a category redirects to Product Listing page with applied filter
 - Displays all products with filters and sorting
 - Filters: Category (Checkbox), Ratings (Slider), Clear Filters button
+- Sorting: Price: Low → High, Price: High → Low
