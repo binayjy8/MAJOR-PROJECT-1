@@ -46,3 +46,5 @@ Watch a walk through
 - Displays all products with filters and sorting
 - Filters: Category (Checkbox), Ratings (Slider), Clear Filters button
 - Sorting: Price: Low → High, Price: High → Low
+- Wishlist Management
+- Loading & Alerts
