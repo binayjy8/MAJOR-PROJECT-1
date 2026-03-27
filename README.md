@@ -48,3 +48,24 @@ Watch a walk through
 - Sorting: Price: Low → High, Price: High → Low
 - Wishlist Management
 - Loading & Alerts
+
+---
+
+## API Reference
+
+##**/products** <br>
+
+GET – List all products<br>
+Sample Response:<br>
+```
+[{_id, name, price, rating, image, category}]
+```
+
+## **/products/:productId** <br>
+
+GET – Get product by ID <br>
+Sample Response: <br>
+
+```
+[{_id, name, description, price, rating, image, category}]
+```
