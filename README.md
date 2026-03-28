@@ -42,13 +42,15 @@ Watch a walk through (4 minutes) of all the major features of this app:
 
 ## Features
 
-- Displays featured product categories
-- Clicking a category redirects to Product Listing page with applied filter
-- Displays all products with filters and sorting
-- Filters: Category (Checkbox), Ratings (Slider), Clear Filters button
-- Sorting: Price: Low → High, Price: High → Low
-- Wishlist Management
-- Loading & Alerts
+- Displays featured product categories on the homepage.
+- Redirects users to the Product Listing page with applied filters when a    category is selected.
+- Displays all products with filtering and sorting options.
+- Allows users to filter products by category using checkboxes.
+- Enables users to filter products based on ratings using a slider.
+- Provides an option to clear all applied filters.
+- Allows users to sort products by price (Low to High and High to Low).
+- Enables users to manage wishlist items.
+- Displays loading states and alert messages for better user feedback.
 
 ---
 
