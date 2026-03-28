@@ -56,9 +56,9 @@ Watch a walk through (4 minutes) of all the major features of this app:
 
 ## API Reference
 
-## **/products** <br>
+## **GET/products** <br>
 
-GET – List all products<br>
+Retrieves all products.<br>
 Sample Response:<br>
 ```
 [{_id, name, price, rating, image, category}]
