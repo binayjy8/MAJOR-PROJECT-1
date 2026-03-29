@@ -93,7 +93,7 @@ Sample Response: <br>
 
 ## **POST/orders** <br>
 
-Create Order <br>
+Creates a new order <br>
 Sample Request: <br>
 
 ```
