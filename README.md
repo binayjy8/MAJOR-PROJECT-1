@@ -66,11 +66,24 @@ Sample Response:<br>
 
 ## **GET/products/:productId** <br>
 
-Get product by ID <br>
+Retrieves a single product by ID. <br>
 Sample Response: <br>
 
 ```
-[{_id, name, description, price, rating, image, category}]
+[{{
+  "data": {
+    "product": {
+      "name": "Men's Casual Hoodie",
+      "description": "Warm fleece hoodie",
+      "price": 1199,
+      "category": {
+        "name": "Men"
+      },
+      "rating": 4.4,
+      "inStock": true
+    }
+  }
+}}]
 ```
 
 ## **GET/categories** <br>
