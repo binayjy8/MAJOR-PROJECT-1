@@ -70,38 +70,25 @@ Retrieves a single product by ID. <br>
 Sample Response: <br>
 
 ```
-[{{
-  "data": {
-    "product": {
-      "name": "Men's Casual Hoodie",
-      "description": "Warm fleece hoodie",
-      "price": 1199,
-      "category": {
-        "name": "Men"
-      },
-      "rating": 4.4,
-      "inStock": true
-    }
-  }
-}}]
+[{"product": "name", "description", "price", "category"}]
 ```
 
 ## **GET/categories** <br>
 
-List all categories <br>
+Retrieves all categories. <br>
 Sample Response: <br>
 
 ```
-[{_id, name}]
+[{"category": "name", "description"}]
 ```
 
 ## **GET/categories/:categoryId** <br>
 
-Get category by ID <br>
+Retrieves a category by ID <br>
 Sample Response: <br>
 
 ```
-[{_id, name}]
+[{"data": "category", "name", "description"}]
 ```
 
 ## **POST/orders** <br>
