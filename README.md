@@ -64,36 +64,36 @@ Sample Response:<br>
 [{_id, name, price, rating, image, category}]
 ```
 
-## **/products/:productId** <br>
+## **GET/products/:productId** <br>
 
-GET – Get product by ID <br>
+Get product by ID <br>
 Sample Response: <br>
 
 ```
 [{_id, name, description, price, rating, image, category}]
 ```
 
-## **/categories** <br>
+## **GET/categories** <br>
 
-GET – List all categories <br>
+List all categories <br>
 Sample Response: <br>
 
 ```
 [{_id, name}]
 ```
 
-## **/categories/:categoryId** <br>
+## **GET/categories/:categoryId** <br>
 
-GET – Get category by ID <br>
+Get category by ID <br>
 Sample Response: <br>
 
 ```
 [{_id, name}]
 ```
 
-## **/orders** <br>
+## **POST/orders** <br>
 
-POST – Create Order <br>
+Create Order <br>
 Sample Request: <br>
 
 ```
