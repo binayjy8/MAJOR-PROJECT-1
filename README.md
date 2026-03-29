@@ -61,7 +61,7 @@ Watch a walk through (4 minutes) of all the major features of this app:
 Retrieves all products.<br>
 Sample Response:<br>
 ```
-[{_id, name, price, rating, image, category}]
+[{"name", "product", "price": 1000}]
 ```
 
 ## **GET/products/:productId** <br>
