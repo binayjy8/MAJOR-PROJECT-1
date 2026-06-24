@@ -1,4 +1,4 @@
-# ShopEa App
+# ShopEas App
 
 ---
 A full-featured E-Commerce Web Application built using React JS (Frontend) and Node.js + Express + MongoDB (Backend).
